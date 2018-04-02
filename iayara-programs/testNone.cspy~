@@ -1,0 +1,6 @@
+
+def printsth():
+    print("Hi")
+
+def printsth():
+    print("hello")

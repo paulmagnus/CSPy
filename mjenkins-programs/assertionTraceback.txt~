@@ -1,0 +1,66 @@
+Traceback (most recent call last):
+  File "cspy_master.py", line 176, in <module>
+    main()
+  File "cspy_master.py", line 169, in main
+    parsetree = importgenerate(filename)
+  File "cspy_master.py", line 92, in importgenerate
+    translate(parsetree, filename)              # translate to Python
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 47, in translate
+    toPython(parsetree, the_file)            # translate parse tree
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 64, in toPython
+    functions[child.label](child, file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 122, in c_FILE
+    toPython(child[2], file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 64, in toPython
+    functions[child.label](child, file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 145, in c_DECLARATION_SUITE
+    toPython(child[2], file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 64, in toPython
+    functions[child.label](child, file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 289, in c_METHODBLOCK
+    toPython(child[0], file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 64, in toPython
+    functions[child.label](child, file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 434, in c_PROCEDURE_DEFINITION
+    toPython(child[2], file, tabs+"\t")
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 64, in toPython
+    functions[child.label](child, file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 253, in c_SUITE_BLOCK
+    toPython(child[1], file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 64, in toPython
+    functions[child.label](child, file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 246, in c_BLOCK_WITH_ENVIRONMENT
+    toPython(child[1], file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 64, in toPython
+    functions[child.label](child, file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 238, in c_BLOCK
+    toPython(child[0], file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 64, in toPython
+    functions[child.label](child, file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 964, in c_TRY_EXCEPT
+    toPython(child[i], file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 64, in toPython
+    functions[child.label](child, file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 1007, in c_EXCEPT_FINALLY
+    toPython(child[0], file, tabs+"\t")
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 64, in toPython
+    functions[child.label](child, file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 253, in c_SUITE_BLOCK
+    toPython(child[1], file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 64, in toPython
+    functions[child.label](child, file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 246, in c_BLOCK_WITH_ENVIRONMENT
+    toPython(child[1], file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 64, in toPython
+    functions[child.label](child, file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 238, in c_BLOCK
+    toPython(child[0], file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 64, in toPython
+    functions[child.label](child, file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 745, in c_STATEMENT_SINGLE
+    toPython(child[0], file, tabs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_translate.py", line 64, in toPython
+    functions[child.label](child, file, tabs)
+KeyError: (6,115:0:'LITERAL_BOOL',
+ 'False'
+)

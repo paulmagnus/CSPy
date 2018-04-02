@@ -1,0 +1,2130 @@
+Node: (2,18:0:'VARIABLEBLOCK_SINGLE',
+ (2,18:1:'DECLARATION_SIMPLE',
+  'x',
+  (2,22:2:'TYPE',
+   'int'
+  )
+ )
+)
+Node: (2,18:0:'DECLARATION_SIMPLE',
+ 'x',
+ (2,22:1:'TYPE',
+  'int'
+ )
+)
+Node: (2,22:0:'TYPE',
+ 'int'
+)
+int
+Node: (3,42:0:'ARGUMENTLIST',
+ (3,42:1:'EMPTY'
+ ),
+ (3,42:1:'EMPTY'
+ )
+)
+Node: (3,42:0:'EMPTY'
+)
+Node: (3,42:0:'EMPTY'
+)
+Node: (2,22:0:'TYPE':int,
+ 'int'
+)
+int
+Node: (3,42:0:'ARGUMENTLIST':(),
+ (3,42:1:'EMPTY'
+ ),
+ (3,42:1:'EMPTY'
+ )
+)
+Node: (3,42:0:'EMPTY'
+)
+Node: (3,42:0:'EMPTY'
+)
+Node: (6,80:0:'ARGUMENTLIST',
+ (6,80:1:'EMPTY'
+ ),
+ (6,80:1:'EMPTY'
+ )
+)
+Node: (6,80:0:'EMPTY'
+)
+Node: (6,80:0:'EMPTY'
+)
+Node: (7,93:0:'TYPE',
+ 'M'
+)
+M
+Node: (1,5:0:'FILE':{'a': proc (), 'M': M},
+ (1,5:1:'DOCSTRING',
+  (1,5:2:'EMPTY'
+  )
+ ),
+ (1,5:1:'EMPTY'
+ ),
+ (1,5:1:'DECLARATION_SUITE',
+  (1,5:2:'EMPTY'
+  ),
+  (1,0:2:'CLASSBLOCK',
+   (1,0:3:'CLASS_DEFINITION':{'x': int, 'M': proc ()},
+    'M',
+    (1,8:4:'EMPTY'
+    ),
+    (1,8:4:'EMPTY'
+    ),
+    (2,17:4:'CLASS_SUITE',
+     (2,17:5:'DOCSTRING',
+      (2,17:6:'EMPTY'
+      )
+     ),
+     (2,15:5:'DECLARATION_SUITE',
+      (2,18:6:'VARIABLEBLOCK_SINGLE',
+       (2,18:7:'DECLARATION_SIMPLE',
+        'x',
+        (2,22:8:'TYPE':int,
+         'int'
+        )
+       )
+      ),
+      (3,38:6:'EMPTY'
+      ),
+      (3,35:6:'METHODBLOCK',
+       (3,35:7:'PROCEDURE_DEFINITION',
+        'M',
+        (3,42:8:'ARGUMENTLIST':(),
+         (3,42:9:'EMPTY'
+         ),
+         (3,42:9:'EMPTY'
+         )
+        ),
+        (3,43:8:'SUITE_BLOCK',
+         (4,59:9:'DOCSTRING',
+          (4,59:10:'EMPTY'
+          )
+         ),
+         (4,59:9:'BLOCK_WITH_ENVIRONMENT':{},
+          (4,59:10:'EMPTY'
+          ),
+          (4,54:10:'BLOCK',
+           (4,54:11:'STATEMENT_SINGLE',
+            (4,54:12:'PROCEDURE_CALL',
+             (4,54:13:'VARIABLE',
+              'print'
+             ),
+             (4,60:13:'EXPRESSIONLIST_SINGLE',
+              (4,60:14:'LITERAL_STRING',
+               '"hi"'
+              )
+             )
+            )
+           ),
+           (6,72:11:'EMPTY'
+           )
+          )
+         )
+        )
+       ),
+       (6,72:7:'EMPTY'
+       )
+      )
+     )
+    )
+   ),
+   (6,76:3:'EMPTY'
+   )
+  ),
+  (6,73:2:'METHODBLOCK',
+   (6,73:3:'PROCEDURE_DEFINITION',
+    'a',
+    (6,80:4:'ARGUMENTLIST':(),
+     (6,80:5:'EMPTY'
+     ),
+     (6,80:5:'EMPTY'
+     )
+    ),
+    (6,81:4:'SUITE_BLOCK',
+     (7,88:5:'DOCSTRING',
+      (7,88:6:'EMPTY'
+      )
+     ),
+     (7,86:5:'BLOCK_WITH_ENVIRONMENT':{'m': M},
+      (7,89:6:'VARIABLEBLOCK_SINGLE',
+       (7,89:7:'DECLARATION_SIMPLE',
+        'm',
+        (7,93:8:'TYPE':M,
+         'M'
+        )
+       )
+      ),
+      (8,102:6:'BLOCK',
+       (8,102:7:'STATEMENT_SINGLE',
+        (8,102:8:'PROCEDURE_CALL',
+         (8,102:9:'MEMBER',
+          (8,102:10:'VARIABLE',
+           'm'
+          ),
+          'M'
+         ),
+         (8,107:9:'EMPTY'
+         )
+        )
+       ),
+       (11,109:7:'EMPTY'
+       )
+      )
+     )
+    )
+   ),
+   (11,111:3:'EMPTY'
+   )
+  )
+ ),
+ (11,110:1:'BLOCK',
+  (11,110:2:'STATEMENT_SINGLE',
+   (11,110:3:'PROCEDURE_CALL',
+    (11,110:4:'VARIABLE',
+     'a'
+    ),
+    (11,113:4:'EMPTY'
+    )
+   )
+  ),
+  (13,116:2:'EMPTY'
+  )
+ )
+)
+Environment: {'a': proc (), 'M': M}
+Node: (1,5:0:'DOCSTRING',
+ (1,5:1:'EMPTY'
+ )
+)
+Node: (1,5:0:'EMPTY'
+)
+Node: (1,5:0:'EMPTY'
+)
+Node: (1,5:0:'DECLARATION_SUITE',
+ (1,5:1:'EMPTY'
+ ),
+ (1,0:1:'CLASSBLOCK',
+  (1,0:2:'CLASS_DEFINITION':{'x': int, 'M': proc ()},
+   'M',
+   (1,8:3:'EMPTY'
+   ),
+   (1,8:3:'EMPTY'
+   ),
+   (2,17:3:'CLASS_SUITE',
+    (2,17:4:'DOCSTRING',
+     (2,17:5:'EMPTY'
+     )
+    ),
+    (2,15:4:'DECLARATION_SUITE',
+     (2,18:5:'VARIABLEBLOCK_SINGLE',
+      (2,18:6:'DECLARATION_SIMPLE',
+       'x',
+       (2,22:7:'TYPE':int,
+        'int'
+       )
+      )
+     ),
+     (3,38:5:'EMPTY'
+     ),
+     (3,35:5:'METHODBLOCK',
+      (3,35:6:'PROCEDURE_DEFINITION',
+       'M',
+       (3,42:7:'ARGUMENTLIST':(),
+        (3,42:8:'EMPTY'
+        ),
+        (3,42:8:'EMPTY'
+        )
+       ),
+       (3,43:7:'SUITE_BLOCK',
+        (4,59:8:'DOCSTRING',
+         (4,59:9:'EMPTY'
+         )
+        ),
+        (4,59:8:'BLOCK_WITH_ENVIRONMENT':{},
+         (4,59:9:'EMPTY'
+         ),
+         (4,54:9:'BLOCK',
+          (4,54:10:'STATEMENT_SINGLE',
+           (4,54:11:'PROCEDURE_CALL',
+            (4,54:12:'VARIABLE',
+             'print'
+            ),
+            (4,60:12:'EXPRESSIONLIST_SINGLE',
+             (4,60:13:'LITERAL_STRING',
+              '"hi"'
+             )
+            )
+           )
+          ),
+          (6,72:10:'EMPTY'
+          )
+         )
+        )
+       )
+      ),
+      (6,72:6:'EMPTY'
+      )
+     )
+    )
+   )
+  ),
+  (6,76:2:'EMPTY'
+  )
+ ),
+ (6,73:1:'METHODBLOCK',
+  (6,73:2:'PROCEDURE_DEFINITION',
+   'a',
+   (6,80:3:'ARGUMENTLIST':(),
+    (6,80:4:'EMPTY'
+    ),
+    (6,80:4:'EMPTY'
+    )
+   ),
+   (6,81:3:'SUITE_BLOCK',
+    (7,88:4:'DOCSTRING',
+     (7,88:5:'EMPTY'
+     )
+    ),
+    (7,86:4:'BLOCK_WITH_ENVIRONMENT':{'m': M},
+     (7,89:5:'VARIABLEBLOCK_SINGLE',
+      (7,89:6:'DECLARATION_SIMPLE',
+       'm',
+       (7,93:7:'TYPE':M,
+        'M'
+       )
+      )
+     ),
+     (8,102:5:'BLOCK',
+      (8,102:6:'STATEMENT_SINGLE',
+       (8,102:7:'PROCEDURE_CALL',
+        (8,102:8:'MEMBER',
+         (8,102:9:'VARIABLE',
+          'm'
+         ),
+         'M'
+        ),
+        (8,107:8:'EMPTY'
+        )
+       )
+      ),
+      (11,109:6:'EMPTY'
+      )
+     )
+    )
+   )
+  ),
+  (11,111:2:'EMPTY'
+  )
+ )
+)
+Node: (1,5:0:'EMPTY'
+)
+Node: (1,0:0:'CLASSBLOCK',
+ (1,0:1:'CLASS_DEFINITION':{'x': int, 'M': proc ()},
+  'M',
+  (1,8:2:'EMPTY'
+  ),
+  (1,8:2:'EMPTY'
+  ),
+  (2,17:2:'CLASS_SUITE',
+   (2,17:3:'DOCSTRING',
+    (2,17:4:'EMPTY'
+    )
+   ),
+   (2,15:3:'DECLARATION_SUITE',
+    (2,18:4:'VARIABLEBLOCK_SINGLE',
+     (2,18:5:'DECLARATION_SIMPLE',
+      'x',
+      (2,22:6:'TYPE':int,
+       'int'
+      )
+     )
+    ),
+    (3,38:4:'EMPTY'
+    ),
+    (3,35:4:'METHODBLOCK',
+     (3,35:5:'PROCEDURE_DEFINITION',
+      'M',
+      (3,42:6:'ARGUMENTLIST':(),
+       (3,42:7:'EMPTY'
+       ),
+       (3,42:7:'EMPTY'
+       )
+      ),
+      (3,43:6:'SUITE_BLOCK',
+       (4,59:7:'DOCSTRING',
+        (4,59:8:'EMPTY'
+        )
+       ),
+       (4,59:7:'BLOCK_WITH_ENVIRONMENT':{},
+        (4,59:8:'EMPTY'
+        ),
+        (4,54:8:'BLOCK',
+         (4,54:9:'STATEMENT_SINGLE',
+          (4,54:10:'PROCEDURE_CALL',
+           (4,54:11:'VARIABLE',
+            'print'
+           ),
+           (4,60:11:'EXPRESSIONLIST_SINGLE',
+            (4,60:12:'LITERAL_STRING',
+             '"hi"'
+            )
+           )
+          )
+         ),
+         (6,72:9:'EMPTY'
+         )
+        )
+       )
+      )
+     ),
+     (6,72:5:'EMPTY'
+     )
+    )
+   )
+  )
+ ),
+ (6,76:1:'EMPTY'
+ )
+)
+Node: (1,0:0:'CLASS_DEFINITION':{'x': int, 'M': proc ()},
+ 'M',
+ (1,8:1:'EMPTY'
+ ),
+ (1,8:1:'EMPTY'
+ ),
+ (2,17:1:'CLASS_SUITE',
+  (2,17:2:'DOCSTRING',
+   (2,17:3:'EMPTY'
+   )
+  ),
+  (2,15:2:'DECLARATION_SUITE',
+   (2,18:3:'VARIABLEBLOCK_SINGLE',
+    (2,18:4:'DECLARATION_SIMPLE',
+     'x',
+     (2,22:5:'TYPE':int,
+      'int'
+     )
+    )
+   ),
+   (3,38:3:'EMPTY'
+   ),
+   (3,35:3:'METHODBLOCK',
+    (3,35:4:'PROCEDURE_DEFINITION',
+     'M',
+     (3,42:5:'ARGUMENTLIST':(),
+      (3,42:6:'EMPTY'
+      ),
+      (3,42:6:'EMPTY'
+      )
+     ),
+     (3,43:5:'SUITE_BLOCK',
+      (4,59:6:'DOCSTRING',
+       (4,59:7:'EMPTY'
+       )
+      ),
+      (4,59:6:'BLOCK_WITH_ENVIRONMENT':{},
+       (4,59:7:'EMPTY'
+       ),
+       (4,54:7:'BLOCK',
+        (4,54:8:'STATEMENT_SINGLE',
+         (4,54:9:'PROCEDURE_CALL',
+          (4,54:10:'VARIABLE',
+           'print'
+          ),
+          (4,60:10:'EXPRESSIONLIST_SINGLE',
+           (4,60:11:'LITERAL_STRING',
+            '"hi"'
+           )
+          )
+         )
+        ),
+        (6,72:8:'EMPTY'
+        )
+       )
+      )
+     )
+    ),
+    (6,72:4:'EMPTY'
+    )
+   )
+  )
+ )
+)
+Environment: {'x': int, 'M': proc ()}
+Node: (1,8:0:'EMPTY'
+)
+Node: (1,8:0:'EMPTY'
+)
+Node: (2,17:0:'CLASS_SUITE',
+ (2,17:1:'DOCSTRING',
+  (2,17:2:'EMPTY'
+  )
+ ),
+ (2,15:1:'DECLARATION_SUITE',
+  (2,18:2:'VARIABLEBLOCK_SINGLE',
+   (2,18:3:'DECLARATION_SIMPLE',
+    'x',
+    (2,22:4:'TYPE':int,
+     'int'
+    )
+   )
+  ),
+  (3,38:2:'EMPTY'
+  ),
+  (3,35:2:'METHODBLOCK',
+   (3,35:3:'PROCEDURE_DEFINITION',
+    'M',
+    (3,42:4:'ARGUMENTLIST':(),
+     (3,42:5:'EMPTY'
+     ),
+     (3,42:5:'EMPTY'
+     )
+    ),
+    (3,43:4:'SUITE_BLOCK',
+     (4,59:5:'DOCSTRING',
+      (4,59:6:'EMPTY'
+      )
+     ),
+     (4,59:5:'BLOCK_WITH_ENVIRONMENT':{},
+      (4,59:6:'EMPTY'
+      ),
+      (4,54:6:'BLOCK',
+       (4,54:7:'STATEMENT_SINGLE',
+        (4,54:8:'PROCEDURE_CALL',
+         (4,54:9:'VARIABLE',
+          'print'
+         ),
+         (4,60:9:'EXPRESSIONLIST_SINGLE',
+          (4,60:10:'LITERAL_STRING',
+           '"hi"'
+          )
+         )
+        )
+       ),
+       (6,72:7:'EMPTY'
+       )
+      )
+     )
+    )
+   ),
+   (6,72:3:'EMPTY'
+   )
+  )
+ )
+)
+Node: (2,17:0:'DOCSTRING',
+ (2,17:1:'EMPTY'
+ )
+)
+Node: (2,17:0:'EMPTY'
+)
+Node: (2,15:0:'DECLARATION_SUITE',
+ (2,18:1:'VARIABLEBLOCK_SINGLE',
+  (2,18:2:'DECLARATION_SIMPLE',
+   'x',
+   (2,22:3:'TYPE':int,
+    'int'
+   )
+  )
+ ),
+ (3,38:1:'EMPTY'
+ ),
+ (3,35:1:'METHODBLOCK',
+  (3,35:2:'PROCEDURE_DEFINITION',
+   'M',
+   (3,42:3:'ARGUMENTLIST':(),
+    (3,42:4:'EMPTY'
+    ),
+    (3,42:4:'EMPTY'
+    )
+   ),
+   (3,43:3:'SUITE_BLOCK',
+    (4,59:4:'DOCSTRING',
+     (4,59:5:'EMPTY'
+     )
+    ),
+    (4,59:4:'BLOCK_WITH_ENVIRONMENT':{},
+     (4,59:5:'EMPTY'
+     ),
+     (4,54:5:'BLOCK',
+      (4,54:6:'STATEMENT_SINGLE',
+       (4,54:7:'PROCEDURE_CALL',
+        (4,54:8:'VARIABLE',
+         'print'
+        ),
+        (4,60:8:'EXPRESSIONLIST_SINGLE',
+         (4,60:9:'LITERAL_STRING',
+          '"hi"'
+         )
+        )
+       )
+      ),
+      (6,72:6:'EMPTY'
+      )
+     )
+    )
+   )
+  ),
+  (6,72:2:'EMPTY'
+  )
+ )
+)
+Node: (2,18:0:'VARIABLEBLOCK_SINGLE',
+ (2,18:1:'DECLARATION_SIMPLE',
+  'x',
+  (2,22:2:'TYPE':int,
+   'int'
+  )
+ )
+)
+Node: (2,18:0:'DECLARATION_SIMPLE',
+ 'x',
+ (2,22:1:'TYPE':int,
+  'int'
+ )
+)
+Node: (2,22:0:'TYPE':int,
+ 'int'
+)
+int
+Node: (3,38:0:'EMPTY'
+)
+Node: (3,35:0:'METHODBLOCK',
+ (3,35:1:'PROCEDURE_DEFINITION',
+  'M',
+  (3,42:2:'ARGUMENTLIST':(),
+   (3,42:3:'EMPTY'
+   ),
+   (3,42:3:'EMPTY'
+   )
+  ),
+  (3,43:2:'SUITE_BLOCK',
+   (4,59:3:'DOCSTRING',
+    (4,59:4:'EMPTY'
+    )
+   ),
+   (4,59:3:'BLOCK_WITH_ENVIRONMENT':{},
+    (4,59:4:'EMPTY'
+    ),
+    (4,54:4:'BLOCK',
+     (4,54:5:'STATEMENT_SINGLE',
+      (4,54:6:'PROCEDURE_CALL',
+       (4,54:7:'VARIABLE',
+        'print'
+       ),
+       (4,60:7:'EXPRESSIONLIST_SINGLE',
+        (4,60:8:'LITERAL_STRING',
+         '"hi"'
+        )
+       )
+      )
+     ),
+     (6,72:5:'EMPTY'
+     )
+    )
+   )
+  )
+ ),
+ (6,72:1:'EMPTY'
+ )
+)
+Node: (3,35:0:'PROCEDURE_DEFINITION',
+ 'M',
+ (3,42:1:'ARGUMENTLIST':(),
+  (3,42:2:'EMPTY'
+  ),
+  (3,42:2:'EMPTY'
+  )
+ ),
+ (3,43:1:'SUITE_BLOCK',
+  (4,59:2:'DOCSTRING',
+   (4,59:3:'EMPTY'
+   )
+  ),
+  (4,59:2:'BLOCK_WITH_ENVIRONMENT':{},
+   (4,59:3:'EMPTY'
+   ),
+   (4,54:3:'BLOCK',
+    (4,54:4:'STATEMENT_SINGLE',
+     (4,54:5:'PROCEDURE_CALL',
+      (4,54:6:'VARIABLE',
+       'print'
+      ),
+      (4,60:6:'EXPRESSIONLIST_SINGLE',
+       (4,60:7:'LITERAL_STRING',
+        '"hi"'
+       )
+      )
+     )
+    ),
+    (6,72:4:'EMPTY'
+    )
+   )
+  )
+ )
+)
+Node: (3,42:0:'ARGUMENTLIST':(),
+ (3,42:1:'EMPTY'
+ ),
+ (3,42:1:'EMPTY'
+ )
+)
+Node: (3,42:0:'EMPTY'
+)
+Node: (3,42:0:'EMPTY'
+)
+Node: (3,43:0:'SUITE_BLOCK',
+ (4,59:1:'DOCSTRING',
+  (4,59:2:'EMPTY'
+  )
+ ),
+ (4,59:1:'BLOCK_WITH_ENVIRONMENT':{},
+  (4,59:2:'EMPTY'
+  ),
+  (4,54:2:'BLOCK',
+   (4,54:3:'STATEMENT_SINGLE',
+    (4,54:4:'PROCEDURE_CALL',
+     (4,54:5:'VARIABLE',
+      'print'
+     ),
+     (4,60:5:'EXPRESSIONLIST_SINGLE',
+      (4,60:6:'LITERAL_STRING',
+       '"hi"'
+      )
+     )
+    )
+   ),
+   (6,72:3:'EMPTY'
+   )
+  )
+ )
+)
+Node: (4,59:0:'DOCSTRING',
+ (4,59:1:'EMPTY'
+ )
+)
+Node: (4,59:0:'EMPTY'
+)
+Node: (4,59:0:'BLOCK_WITH_ENVIRONMENT':{},
+ (4,59:1:'EMPTY'
+ ),
+ (4,54:1:'BLOCK',
+  (4,54:2:'STATEMENT_SINGLE',
+   (4,54:3:'PROCEDURE_CALL',
+    (4,54:4:'VARIABLE',
+     'print'
+    ),
+    (4,60:4:'EXPRESSIONLIST_SINGLE',
+     (4,60:5:'LITERAL_STRING',
+      '"hi"'
+     )
+    )
+   )
+  ),
+  (6,72:2:'EMPTY'
+  )
+ )
+)
+Environment: {}
+Node: (4,59:0:'EMPTY'
+)
+Node: (4,54:0:'BLOCK',
+ (4,54:1:'STATEMENT_SINGLE',
+  (4,54:2:'PROCEDURE_CALL',
+   (4,54:3:'VARIABLE',
+    'print'
+   ),
+   (4,60:3:'EXPRESSIONLIST_SINGLE',
+    (4,60:4:'LITERAL_STRING',
+     '"hi"'
+    )
+   )
+  )
+ ),
+ (6,72:1:'EMPTY'
+ )
+)
+Node: (4,54:0:'STATEMENT_SINGLE',
+ (4,54:1:'PROCEDURE_CALL',
+  (4,54:2:'VARIABLE',
+   'print'
+  ),
+  (4,60:2:'EXPRESSIONLIST_SINGLE',
+   (4,60:3:'LITERAL_STRING',
+    '"hi"'
+   )
+  )
+ )
+)
+Node: (4,54:0:'PROCEDURE_CALL',
+ (4,54:1:'VARIABLE',
+  'print'
+ ),
+ (4,60:1:'EXPRESSIONLIST_SINGLE',
+  (4,60:2:'LITERAL_STRING',
+   '"hi"'
+  )
+ )
+)
+Node: (4,54:0:'VARIABLE',
+ 'print'
+)
+Node: (4,60:0:'EXPRESSIONLIST_SINGLE',
+ (4,60:1:'LITERAL_STRING',
+  '"hi"'
+ )
+)
+Node: (4,60:0:'LITERAL_STRING',
+ '"hi"'
+)
+Node: (6,72:0:'EMPTY'
+)
+Node: (6,72:0:'EMPTY'
+)
+Node: (6,76:0:'EMPTY'
+)
+Node: (6,73:0:'METHODBLOCK',
+ (6,73:1:'PROCEDURE_DEFINITION',
+  'a',
+  (6,80:2:'ARGUMENTLIST':(),
+   (6,80:3:'EMPTY'
+   ),
+   (6,80:3:'EMPTY'
+   )
+  ),
+  (6,81:2:'SUITE_BLOCK',
+   (7,88:3:'DOCSTRING',
+    (7,88:4:'EMPTY'
+    )
+   ),
+   (7,86:3:'BLOCK_WITH_ENVIRONMENT':{'m': M},
+    (7,89:4:'VARIABLEBLOCK_SINGLE',
+     (7,89:5:'DECLARATION_SIMPLE',
+      'm',
+      (7,93:6:'TYPE':M,
+       'M'
+      )
+     )
+    ),
+    (8,102:4:'BLOCK',
+     (8,102:5:'STATEMENT_SINGLE',
+      (8,102:6:'PROCEDURE_CALL',
+       (8,102:7:'MEMBER',
+        (8,102:8:'VARIABLE',
+         'm'
+        ),
+        'M'
+       ),
+       (8,107:7:'EMPTY'
+       )
+      )
+     ),
+     (11,109:5:'EMPTY'
+     )
+    )
+   )
+  )
+ ),
+ (11,111:1:'EMPTY'
+ )
+)
+Node: (6,73:0:'PROCEDURE_DEFINITION',
+ 'a',
+ (6,80:1:'ARGUMENTLIST':(),
+  (6,80:2:'EMPTY'
+  ),
+  (6,80:2:'EMPTY'
+  )
+ ),
+ (6,81:1:'SUITE_BLOCK',
+  (7,88:2:'DOCSTRING',
+   (7,88:3:'EMPTY'
+   )
+  ),
+  (7,86:2:'BLOCK_WITH_ENVIRONMENT':{'m': M},
+   (7,89:3:'VARIABLEBLOCK_SINGLE',
+    (7,89:4:'DECLARATION_SIMPLE',
+     'm',
+     (7,93:5:'TYPE':M,
+      'M'
+     )
+    )
+   ),
+   (8,102:3:'BLOCK',
+    (8,102:4:'STATEMENT_SINGLE',
+     (8,102:5:'PROCEDURE_CALL',
+      (8,102:6:'MEMBER',
+       (8,102:7:'VARIABLE',
+        'm'
+       ),
+       'M'
+      ),
+      (8,107:6:'EMPTY'
+      )
+     )
+    ),
+    (11,109:4:'EMPTY'
+    )
+   )
+  )
+ )
+)
+Node: (6,80:0:'ARGUMENTLIST':(),
+ (6,80:1:'EMPTY'
+ ),
+ (6,80:1:'EMPTY'
+ )
+)
+Node: (6,80:0:'EMPTY'
+)
+Node: (6,80:0:'EMPTY'
+)
+Node: (6,81:0:'SUITE_BLOCK',
+ (7,88:1:'DOCSTRING',
+  (7,88:2:'EMPTY'
+  )
+ ),
+ (7,86:1:'BLOCK_WITH_ENVIRONMENT':{'m': M},
+  (7,89:2:'VARIABLEBLOCK_SINGLE',
+   (7,89:3:'DECLARATION_SIMPLE',
+    'm',
+    (7,93:4:'TYPE':M,
+     'M'
+    )
+   )
+  ),
+  (8,102:2:'BLOCK',
+   (8,102:3:'STATEMENT_SINGLE',
+    (8,102:4:'PROCEDURE_CALL',
+     (8,102:5:'MEMBER',
+      (8,102:6:'VARIABLE',
+       'm'
+      ),
+      'M'
+     ),
+     (8,107:5:'EMPTY'
+     )
+    )
+   ),
+   (11,109:3:'EMPTY'
+   )
+  )
+ )
+)
+Node: (7,88:0:'DOCSTRING',
+ (7,88:1:'EMPTY'
+ )
+)
+Node: (7,88:0:'EMPTY'
+)
+Node: (7,86:0:'BLOCK_WITH_ENVIRONMENT':{'m': M},
+ (7,89:1:'VARIABLEBLOCK_SINGLE',
+  (7,89:2:'DECLARATION_SIMPLE',
+   'm',
+   (7,93:3:'TYPE':M,
+    'M'
+   )
+  )
+ ),
+ (8,102:1:'BLOCK',
+  (8,102:2:'STATEMENT_SINGLE',
+   (8,102:3:'PROCEDURE_CALL',
+    (8,102:4:'MEMBER',
+     (8,102:5:'VARIABLE',
+      'm'
+     ),
+     'M'
+    ),
+    (8,107:4:'EMPTY'
+    )
+   )
+  ),
+  (11,109:2:'EMPTY'
+  )
+ )
+)
+Environment: {'m': M}
+Node: (7,89:0:'VARIABLEBLOCK_SINGLE',
+ (7,89:1:'DECLARATION_SIMPLE',
+  'm',
+  (7,93:2:'TYPE':M,
+   'M'
+  )
+ )
+)
+Node: (7,89:0:'DECLARATION_SIMPLE',
+ 'm',
+ (7,93:1:'TYPE':M,
+  'M'
+ )
+)
+Node: (7,93:0:'TYPE':M,
+ 'M'
+)
+M
+Node: (8,102:0:'BLOCK',
+ (8,102:1:'STATEMENT_SINGLE',
+  (8,102:2:'PROCEDURE_CALL',
+   (8,102:3:'MEMBER',
+    (8,102:4:'VARIABLE',
+     'm'
+    ),
+    'M'
+   ),
+   (8,107:3:'EMPTY'
+   )
+  )
+ ),
+ (11,109:1:'EMPTY'
+ )
+)
+Node: (8,102:0:'STATEMENT_SINGLE',
+ (8,102:1:'PROCEDURE_CALL',
+  (8,102:2:'MEMBER',
+   (8,102:3:'VARIABLE',
+    'm'
+   ),
+   'M'
+  ),
+  (8,107:2:'EMPTY'
+  )
+ )
+)
+Node: (8,102:0:'PROCEDURE_CALL',
+ (8,102:1:'MEMBER',
+  (8,102:2:'VARIABLE',
+   'm'
+  ),
+  'M'
+ ),
+ (8,107:1:'EMPTY'
+ )
+)
+Node: (8,102:0:'MEMBER',
+ (8,102:1:'VARIABLE',
+  'm'
+ ),
+ 'M'
+)
+Node: (8,102:0:'VARIABLE',
+ 'm'
+)
+Node: (8,107:0:'EMPTY'
+)
+Node: (11,109:0:'EMPTY'
+)
+Node: (11,111:0:'EMPTY'
+)
+Node: (11,110:0:'BLOCK',
+ (11,110:1:'STATEMENT_SINGLE',
+  (11,110:2:'PROCEDURE_CALL',
+   (11,110:3:'VARIABLE',
+    'a'
+   ),
+   (11,113:3:'EMPTY'
+   )
+  )
+ ),
+ (13,116:1:'EMPTY'
+ )
+)
+Node: (11,110:0:'STATEMENT_SINGLE',
+ (11,110:1:'PROCEDURE_CALL',
+  (11,110:2:'VARIABLE',
+   'a'
+  ),
+  (11,113:2:'EMPTY'
+  )
+ )
+)
+Node: (11,110:0:'PROCEDURE_CALL',
+ (11,110:1:'VARIABLE',
+  'a'
+ ),
+ (11,113:1:'EMPTY'
+ )
+)
+Node: (11,110:0:'VARIABLE',
+ 'a'
+)
+Node: (11,113:0:'EMPTY'
+)
+Node: (13,116:0:'EMPTY'
+)
+FILE
+{'a': proc (), 'M': M}
+[(1,5:0:'DOCSTRING',
+ (1,5:1:'EMPTY'
+ )
+), (1,5:0:'EMPTY'
+), (1,5:0:'DECLARATION_SUITE',
+ (1,5:1:'EMPTY'
+ ),
+ (1,0:1:'CLASSBLOCK',
+  (1,0:2:'CLASS_DEFINITION':{'x': int, 'M': proc ()},
+   'M',
+   (1,8:3:'EMPTY'
+   ),
+   (1,8:3:'EMPTY'
+   ),
+   (2,17:3:'CLASS_SUITE',
+    (2,17:4:'DOCSTRING',
+     (2,17:5:'EMPTY'
+     )
+    ),
+    (2,15:4:'DECLARATION_SUITE',
+     (2,18:5:'VARIABLEBLOCK_SINGLE',
+      (2,18:6:'DECLARATION_SIMPLE',
+       'x',
+       (2,22:7:'TYPE':int,
+        'int'
+       )
+      )
+     ),
+     (3,38:5:'EMPTY'
+     ),
+     (3,35:5:'METHODBLOCK',
+      (3,35:6:'PROCEDURE_DEFINITION',
+       'M',
+       (3,42:7:'ARGUMENTLIST':(),
+        (3,42:8:'EMPTY'
+        ),
+        (3,42:8:'EMPTY'
+        )
+       ),
+       (3,43:7:'SUITE_BLOCK',
+        (4,59:8:'DOCSTRING',
+         (4,59:9:'EMPTY'
+         )
+        ),
+        (4,59:8:'BLOCK_WITH_ENVIRONMENT':{},
+         (4,59:9:'EMPTY'
+         ),
+         (4,54:9:'BLOCK',
+          (4,54:10:'STATEMENT_SINGLE',
+           (4,54:11:'PROCEDURE_CALL',
+            (4,54:12:'VARIABLE':proc (string),
+             'print'
+            ),
+            (4,60:12:'EXPRESSIONLIST_SINGLE':proc (string),
+             (4,60:13:'LITERAL_STRING':string,
+              '"hi"'
+             )
+            )
+           )
+          ),
+          (6,72:10:'EMPTY'
+          )
+         )
+        )
+       )
+      ),
+      (6,72:6:'EMPTY'
+      )
+     )
+    )
+   )
+  ),
+  (6,76:2:'EMPTY'
+  )
+ ),
+ (6,73:1:'METHODBLOCK',
+  (6,73:2:'PROCEDURE_DEFINITION',
+   'a',
+   (6,80:3:'ARGUMENTLIST':(),
+    (6,80:4:'EMPTY'
+    ),
+    (6,80:4:'EMPTY'
+    )
+   ),
+   (6,81:3:'SUITE_BLOCK',
+    (7,88:4:'DOCSTRING',
+     (7,88:5:'EMPTY'
+     )
+    ),
+    (7,86:4:'BLOCK_WITH_ENVIRONMENT':{'m': M},
+     (7,89:5:'VARIABLEBLOCK_SINGLE',
+      (7,89:6:'DECLARATION_SIMPLE',
+       'm',
+       (7,93:7:'TYPE':M,
+        'M'
+       )
+      )
+     ),
+     (8,102:5:'BLOCK',
+      (8,102:6:'STATEMENT_SINGLE',
+       (8,102:7:'PROCEDURE_CALL',
+        (8,102:8:'MEMBER':proc (),
+         (8,102:9:'VARIABLE':M,
+          'm'
+         ),
+         'M'
+        ),
+        (8,107:8:'EMPTY':proc ()
+        )
+       )
+      ),
+      (11,109:6:'EMPTY'
+      )
+     )
+    )
+   )
+  ),
+  (11,111:2:'EMPTY'
+  )
+ )
+), (11,110:0:'BLOCK',
+ (11,110:1:'STATEMENT_SINGLE',
+  (11,110:2:'PROCEDURE_CALL',
+   (11,110:3:'VARIABLE':proc (),
+    'a'
+   ),
+   (11,113:3:'EMPTY':proc ()
+   )
+  )
+ ),
+ (13,116:1:'EMPTY'
+ )
+)]
+class M:
+      :: x : int ::
+      def M():
+          print("hi")
+      
+def a():
+    :: m : M ::
+    m.M()
+
+
+a()
+
+
+
+DOCSTRING
+[(1,5:0:'EMPTY'
+)]
+class M:
+
+EMPTY
+[]
+class M:
+
+DECLARATION_SUITE
+[(1,5:0:'EMPTY'
+), (1,0:0:'CLASSBLOCK',
+ (1,0:1:'CLASS_DEFINITION':{'x': int, 'M': proc ()},
+  'M',
+  (1,8:2:'EMPTY'
+  ),
+  (1,8:2:'EMPTY'
+  ),
+  (2,17:2:'CLASS_SUITE',
+   (2,17:3:'DOCSTRING',
+    (2,17:4:'EMPTY'
+    )
+   ),
+   (2,15:3:'DECLARATION_SUITE',
+    (2,18:4:'VARIABLEBLOCK_SINGLE',
+     (2,18:5:'DECLARATION_SIMPLE',
+      'x',
+      (2,22:6:'TYPE':int,
+       'int'
+      )
+     )
+    ),
+    (3,38:4:'EMPTY'
+    ),
+    (3,35:4:'METHODBLOCK',
+     (3,35:5:'PROCEDURE_DEFINITION',
+      'M',
+      (3,42:6:'ARGUMENTLIST':(),
+       (3,42:7:'EMPTY'
+       ),
+       (3,42:7:'EMPTY'
+       )
+      ),
+      (3,43:6:'SUITE_BLOCK',
+       (4,59:7:'DOCSTRING',
+        (4,59:8:'EMPTY'
+        )
+       ),
+       (4,59:7:'BLOCK_WITH_ENVIRONMENT':{},
+        (4,59:8:'EMPTY'
+        ),
+        (4,54:8:'BLOCK',
+         (4,54:9:'STATEMENT_SINGLE',
+          (4,54:10:'PROCEDURE_CALL',
+           (4,54:11:'VARIABLE':proc (string),
+            'print'
+           ),
+           (4,60:11:'EXPRESSIONLIST_SINGLE':proc (string),
+            (4,60:12:'LITERAL_STRING':string,
+             '"hi"'
+            )
+           )
+          )
+         ),
+         (6,72:9:'EMPTY'
+         )
+        )
+       )
+      )
+     ),
+     (6,72:5:'EMPTY'
+     )
+    )
+   )
+  )
+ ),
+ (6,76:1:'EMPTY'
+ )
+), (6,73:0:'METHODBLOCK',
+ (6,73:1:'PROCEDURE_DEFINITION',
+  'a',
+  (6,80:2:'ARGUMENTLIST':(),
+   (6,80:3:'EMPTY'
+   ),
+   (6,80:3:'EMPTY'
+   )
+  ),
+  (6,81:2:'SUITE_BLOCK',
+   (7,88:3:'DOCSTRING',
+    (7,88:4:'EMPTY'
+    )
+   ),
+   (7,86:3:'BLOCK_WITH_ENVIRONMENT':{'m': M},
+    (7,89:4:'VARIABLEBLOCK_SINGLE',
+     (7,89:5:'DECLARATION_SIMPLE',
+      'm',
+      (7,93:6:'TYPE':M,
+       'M'
+      )
+     )
+    ),
+    (8,102:4:'BLOCK',
+     (8,102:5:'STATEMENT_SINGLE',
+      (8,102:6:'PROCEDURE_CALL',
+       (8,102:7:'MEMBER':proc (),
+        (8,102:8:'VARIABLE':M,
+         'm'
+        ),
+        'M'
+       ),
+       (8,107:7:'EMPTY':proc ()
+       )
+      )
+     ),
+     (11,109:5:'EMPTY'
+     )
+    )
+   )
+  )
+ ),
+ (11,111:1:'EMPTY'
+ )
+)]
+class M:
+      :: x : int ::
+      def M():
+          print("hi")
+      
+def a():
+    :: m : M ::
+    m.M()
+
+
+a()
+
+EMPTY
+[]
+class M:
+
+CLASSBLOCK
+[(1,0:0:'CLASS_DEFINITION':{'x': int, 'M': proc ()},
+ 'M',
+ (1,8:1:'EMPTY'
+ ),
+ (1,8:1:'EMPTY'
+ ),
+ (2,17:1:'CLASS_SUITE',
+  (2,17:2:'DOCSTRING',
+   (2,17:3:'EMPTY'
+   )
+  ),
+  (2,15:2:'DECLARATION_SUITE',
+   (2,18:3:'VARIABLEBLOCK_SINGLE',
+    (2,18:4:'DECLARATION_SIMPLE',
+     'x',
+     (2,22:5:'TYPE':int,
+      'int'
+     )
+    )
+   ),
+   (3,38:3:'EMPTY'
+   ),
+   (3,35:3:'METHODBLOCK',
+    (3,35:4:'PROCEDURE_DEFINITION',
+     'M',
+     (3,42:5:'ARGUMENTLIST':(),
+      (3,42:6:'EMPTY'
+      ),
+      (3,42:6:'EMPTY'
+      )
+     ),
+     (3,43:5:'SUITE_BLOCK',
+      (4,59:6:'DOCSTRING',
+       (4,59:7:'EMPTY'
+       )
+      ),
+      (4,59:6:'BLOCK_WITH_ENVIRONMENT':{},
+       (4,59:7:'EMPTY'
+       ),
+       (4,54:7:'BLOCK',
+        (4,54:8:'STATEMENT_SINGLE',
+         (4,54:9:'PROCEDURE_CALL',
+          (4,54:10:'VARIABLE':proc (string),
+           'print'
+          ),
+          (4,60:10:'EXPRESSIONLIST_SINGLE':proc (string),
+           (4,60:11:'LITERAL_STRING':string,
+            '"hi"'
+           )
+          )
+         )
+        ),
+        (6,72:8:'EMPTY'
+        )
+       )
+      )
+     )
+    ),
+    (6,72:4:'EMPTY'
+    )
+   )
+  )
+ )
+), (6,76:0:'EMPTY'
+)]
+class M:
+      :: x : int ::
+      def M():
+          print("hi")
+      
+def a():
+
+CLASS_DEFINITION
+{'x': int, 'M': proc ()}
+['M', (1,8:0:'EMPTY'
+), (1,8:0:'EMPTY'
+), (2,17:0:'CLASS_SUITE',
+ (2,17:1:'DOCSTRING',
+  (2,17:2:'EMPTY'
+  )
+ ),
+ (2,15:1:'DECLARATION_SUITE',
+  (2,18:2:'VARIABLEBLOCK_SINGLE',
+   (2,18:3:'DECLARATION_SIMPLE',
+    'x',
+    (2,22:4:'TYPE':int,
+     'int'
+    )
+   )
+  ),
+  (3,38:2:'EMPTY'
+  ),
+  (3,35:2:'METHODBLOCK',
+   (3,35:3:'PROCEDURE_DEFINITION',
+    'M',
+    (3,42:4:'ARGUMENTLIST':(),
+     (3,42:5:'EMPTY'
+     ),
+     (3,42:5:'EMPTY'
+     )
+    ),
+    (3,43:4:'SUITE_BLOCK',
+     (4,59:5:'DOCSTRING',
+      (4,59:6:'EMPTY'
+      )
+     ),
+     (4,59:5:'BLOCK_WITH_ENVIRONMENT':{},
+      (4,59:6:'EMPTY'
+      ),
+      (4,54:6:'BLOCK',
+       (4,54:7:'STATEMENT_SINGLE',
+        (4,54:8:'PROCEDURE_CALL',
+         (4,54:9:'VARIABLE':proc (string),
+          'print'
+         ),
+         (4,60:9:'EXPRESSIONLIST_SINGLE':proc (string),
+          (4,60:10:'LITERAL_STRING':string,
+           '"hi"'
+          )
+         )
+        )
+       ),
+       (6,72:7:'EMPTY'
+       )
+      )
+     )
+    )
+   ),
+   (6,72:3:'EMPTY'
+   )
+  )
+ )
+)]
+class M:
+      :: x : int ::
+      def M():
+          print("hi")
+      
+
+CLASS_SUITE
+[(2,17:0:'DOCSTRING',
+ (2,17:1:'EMPTY'
+ )
+), (2,15:0:'DECLARATION_SUITE',
+ (2,18:1:'VARIABLEBLOCK_SINGLE',
+  (2,18:2:'DECLARATION_SIMPLE',
+   'x',
+   (2,22:3:'TYPE':int,
+    'int'
+   )
+  )
+ ),
+ (3,38:1:'EMPTY'
+ ),
+ (3,35:1:'METHODBLOCK',
+  (3,35:2:'PROCEDURE_DEFINITION',
+   'M',
+   (3,42:3:'ARGUMENTLIST':(),
+    (3,42:4:'EMPTY'
+    ),
+    (3,42:4:'EMPTY'
+    )
+   ),
+   (3,43:3:'SUITE_BLOCK',
+    (4,59:4:'DOCSTRING',
+     (4,59:5:'EMPTY'
+     )
+    ),
+    (4,59:4:'BLOCK_WITH_ENVIRONMENT':{},
+     (4,59:5:'EMPTY'
+     ),
+     (4,54:5:'BLOCK',
+      (4,54:6:'STATEMENT_SINGLE',
+       (4,54:7:'PROCEDURE_CALL',
+        (4,54:8:'VARIABLE':proc (string),
+         'print'
+        ),
+        (4,60:8:'EXPRESSIONLIST_SINGLE':proc (string),
+         (4,60:9:'LITERAL_STRING':string,
+          '"hi"'
+         )
+        )
+       )
+      ),
+      (6,72:6:'EMPTY'
+      )
+     )
+    )
+   )
+  ),
+  (6,72:2:'EMPTY'
+  )
+ )
+)]
+      :: x : int ::
+      def M():
+          print("hi")
+      
+
+DOCSTRING
+[(2,17:0:'EMPTY'
+)]
+      :: x : int ::
+
+DECLARATION_SUITE
+[(2,18:0:'VARIABLEBLOCK_SINGLE',
+ (2,18:1:'DECLARATION_SIMPLE',
+  'x',
+  (2,22:2:'TYPE':int,
+   'int'
+  )
+ )
+), (3,38:0:'EMPTY'
+), (3,35:0:'METHODBLOCK',
+ (3,35:1:'PROCEDURE_DEFINITION',
+  'M',
+  (3,42:2:'ARGUMENTLIST':(),
+   (3,42:3:'EMPTY'
+   ),
+   (3,42:3:'EMPTY'
+   )
+  ),
+  (3,43:2:'SUITE_BLOCK',
+   (4,59:3:'DOCSTRING',
+    (4,59:4:'EMPTY'
+    )
+   ),
+   (4,59:3:'BLOCK_WITH_ENVIRONMENT':{},
+    (4,59:4:'EMPTY'
+    ),
+    (4,54:4:'BLOCK',
+     (4,54:5:'STATEMENT_SINGLE',
+      (4,54:6:'PROCEDURE_CALL',
+       (4,54:7:'VARIABLE':proc (string),
+        'print'
+       ),
+       (4,60:7:'EXPRESSIONLIST_SINGLE':proc (string),
+        (4,60:8:'LITERAL_STRING':string,
+         '"hi"'
+        )
+       )
+      )
+     ),
+     (6,72:5:'EMPTY'
+     )
+    )
+   )
+  )
+ ),
+ (6,72:1:'EMPTY'
+ )
+)]
+      :: x : int ::
+      def M():
+          print("hi")
+      
+
+VARIABLEBLOCK_SINGLE
+[(2,18:0:'DECLARATION_SIMPLE',
+ 'x',
+ (2,22:1:'TYPE':int,
+  'int'
+ )
+)]
+      :: x : int ::
+
+DECLARATION_SIMPLE
+['x', (2,22:0:'TYPE':int,
+ 'int'
+)]
+      :: x : int ::
+
+EMPTY
+[]
+      def M():
+
+METHODBLOCK
+[(3,35:0:'PROCEDURE_DEFINITION',
+ 'M',
+ (3,42:1:'ARGUMENTLIST':(),
+  (3,42:2:'EMPTY'
+  ),
+  (3,42:2:'EMPTY'
+  )
+ ),
+ (3,43:1:'SUITE_BLOCK',
+  (4,59:2:'DOCSTRING',
+   (4,59:3:'EMPTY'
+   )
+  ),
+  (4,59:2:'BLOCK_WITH_ENVIRONMENT':{},
+   (4,59:3:'EMPTY'
+   ),
+   (4,54:3:'BLOCK',
+    (4,54:4:'STATEMENT_SINGLE',
+     (4,54:5:'PROCEDURE_CALL',
+      (4,54:6:'VARIABLE':proc (string),
+       'print'
+      ),
+      (4,60:6:'EXPRESSIONLIST_SINGLE':proc (string),
+       (4,60:7:'LITERAL_STRING':string,
+        '"hi"'
+       )
+      )
+     )
+    ),
+    (6,72:4:'EMPTY'
+    )
+   )
+  )
+ )
+), (6,72:0:'EMPTY'
+)]
+      def M():
+          print("hi")
+      
+
+PROCEDURE_DEFINITION
+['M', (3,42:0:'ARGUMENTLIST':(),
+ (3,42:1:'EMPTY'
+ ),
+ (3,42:1:'EMPTY'
+ )
+), (3,43:0:'SUITE_BLOCK',
+ (4,59:1:'DOCSTRING',
+  (4,59:2:'EMPTY'
+  )
+ ),
+ (4,59:1:'BLOCK_WITH_ENVIRONMENT':{},
+  (4,59:2:'EMPTY'
+  ),
+  (4,54:2:'BLOCK',
+   (4,54:3:'STATEMENT_SINGLE',
+    (4,54:4:'PROCEDURE_CALL',
+     (4,54:5:'VARIABLE':proc (string),
+      'print'
+     ),
+     (4,60:5:'EXPRESSIONLIST_SINGLE':proc (string),
+      (4,60:6:'LITERAL_STRING':string,
+       '"hi"'
+      )
+     )
+    )
+   ),
+   (6,72:3:'EMPTY'
+   )
+  )
+ )
+)]
+      def M():
+          print("hi")
+      
+
+ARGUMENTLIST
+[(3,42:0:'EMPTY'
+), (3,42:0:'EMPTY'
+)]
+      def M():
+
+EMPTY
+[]
+      def M():
+
+SUITE_BLOCK
+[(4,59:0:'DOCSTRING',
+ (4,59:1:'EMPTY'
+ )
+), (4,59:0:'BLOCK_WITH_ENVIRONMENT':{},
+ (4,59:1:'EMPTY'
+ ),
+ (4,54:1:'BLOCK',
+  (4,54:2:'STATEMENT_SINGLE',
+   (4,54:3:'PROCEDURE_CALL',
+    (4,54:4:'VARIABLE':proc (string),
+     'print'
+    ),
+    (4,60:4:'EXPRESSIONLIST_SINGLE':proc (string),
+     (4,60:5:'LITERAL_STRING':string,
+      '"hi"'
+     )
+    )
+   )
+  ),
+  (6,72:2:'EMPTY'
+  )
+ )
+)]
+      def M():
+          print("hi")
+      
+
+DOCSTRING
+[(4,59:0:'EMPTY'
+)]
+          print("hi")
+
+BLOCK_WITH_ENVIRONMENT
+{}
+[(4,59:0:'EMPTY'
+), (4,54:0:'BLOCK',
+ (4,54:1:'STATEMENT_SINGLE',
+  (4,54:2:'PROCEDURE_CALL',
+   (4,54:3:'VARIABLE':proc (string),
+    'print'
+   ),
+   (4,60:3:'EXPRESSIONLIST_SINGLE':proc (string),
+    (4,60:4:'LITERAL_STRING':string,
+     '"hi"'
+    )
+   )
+  )
+ ),
+ (6,72:1:'EMPTY'
+ )
+)]
+          print("hi")
+      
+
+EMPTY
+[]
+          print("hi")
+
+BLOCK
+[(4,54:0:'STATEMENT_SINGLE',
+ (4,54:1:'PROCEDURE_CALL',
+  (4,54:2:'VARIABLE':proc (string),
+   'print'
+  ),
+  (4,60:2:'EXPRESSIONLIST_SINGLE':proc (string),
+   (4,60:3:'LITERAL_STRING':string,
+    '"hi"'
+   )
+  )
+ )
+), (6,72:0:'EMPTY'
+)]
+          print("hi")
+      
+
+STATEMENT_SINGLE
+[(4,54:0:'PROCEDURE_CALL',
+ (4,54:1:'VARIABLE':proc (string),
+  'print'
+ ),
+ (4,60:1:'EXPRESSIONLIST_SINGLE':proc (string),
+  (4,60:2:'LITERAL_STRING':string,
+   '"hi"'
+  )
+ )
+)]
+          print("hi")
+
+PROCEDURE_CALL
+[(4,54:0:'VARIABLE':proc (string),
+ 'print'
+), (4,60:0:'EXPRESSIONLIST_SINGLE':proc (string),
+ (4,60:1:'LITERAL_STRING':string,
+  '"hi"'
+ )
+)]
+          print("hi")
+
+VARIABLE
+['print']
+          print("hi")
+
+EXPRESSIONLIST_SINGLE
+[(4,60:0:'LITERAL_STRING':string,
+ '"hi"'
+)]
+          print("hi")
+
+LITERAL_STRING
+['"hi"']
+          print("hi")
+
+EMPTY
+[]
+      
+
+EMPTY
+[]
+      
+
+EMPTY
+[]
+def a():
+
+METHODBLOCK
+[(6,73:0:'PROCEDURE_DEFINITION',
+ 'a',
+ (6,80:1:'ARGUMENTLIST':(),
+  (6,80:2:'EMPTY'
+  ),
+  (6,80:2:'EMPTY'
+  )
+ ),
+ (6,81:1:'SUITE_BLOCK',
+  (7,88:2:'DOCSTRING',
+   (7,88:3:'EMPTY'
+   )
+  ),
+  (7,86:2:'BLOCK_WITH_ENVIRONMENT':{'m': M},
+   (7,89:3:'VARIABLEBLOCK_SINGLE',
+    (7,89:4:'DECLARATION_SIMPLE',
+     'm',
+     (7,93:5:'TYPE':M,
+      'M'
+     )
+    )
+   ),
+   (8,102:3:'BLOCK',
+    (8,102:4:'STATEMENT_SINGLE',
+     (8,102:5:'PROCEDURE_CALL',
+      (8,102:6:'MEMBER':proc (),
+       (8,102:7:'VARIABLE':M,
+        'm'
+       ),
+       'M'
+      ),
+      (8,107:6:'EMPTY':proc ()
+      )
+     )
+    ),
+    (11,109:4:'EMPTY'
+    )
+   )
+  )
+ )
+), (11,111:0:'EMPTY'
+)]
+def a():
+    :: m : M ::
+    m.M()
+
+
+a()
+
+PROCEDURE_DEFINITION
+['a', (6,80:0:'ARGUMENTLIST':(),
+ (6,80:1:'EMPTY'
+ ),
+ (6,80:1:'EMPTY'
+ )
+), (6,81:0:'SUITE_BLOCK',
+ (7,88:1:'DOCSTRING',
+  (7,88:2:'EMPTY'
+  )
+ ),
+ (7,86:1:'BLOCK_WITH_ENVIRONMENT':{'m': M},
+  (7,89:2:'VARIABLEBLOCK_SINGLE',
+   (7,89:3:'DECLARATION_SIMPLE',
+    'm',
+    (7,93:4:'TYPE':M,
+     'M'
+    )
+   )
+  ),
+  (8,102:2:'BLOCK',
+   (8,102:3:'STATEMENT_SINGLE',
+    (8,102:4:'PROCEDURE_CALL',
+     (8,102:5:'MEMBER':proc (),
+      (8,102:6:'VARIABLE':M,
+       'm'
+      ),
+      'M'
+     ),
+     (8,107:5:'EMPTY':proc ()
+     )
+    )
+   ),
+   (11,109:3:'EMPTY'
+   )
+  )
+ )
+)]
+def a():
+    :: m : M ::
+    m.M()
+
+
+
+ARGUMENTLIST
+[(6,80:0:'EMPTY'
+), (6,80:0:'EMPTY'
+)]
+def a():
+
+EMPTY
+[]
+def a():
+
+SUITE_BLOCK
+[(7,88:0:'DOCSTRING',
+ (7,88:1:'EMPTY'
+ )
+), (7,86:0:'BLOCK_WITH_ENVIRONMENT':{'m': M},
+ (7,89:1:'VARIABLEBLOCK_SINGLE',
+  (7,89:2:'DECLARATION_SIMPLE',
+   'm',
+   (7,93:3:'TYPE':M,
+    'M'
+   )
+  )
+ ),
+ (8,102:1:'BLOCK',
+  (8,102:2:'STATEMENT_SINGLE',
+   (8,102:3:'PROCEDURE_CALL',
+    (8,102:4:'MEMBER':proc (),
+     (8,102:5:'VARIABLE':M,
+      'm'
+     ),
+     'M'
+    ),
+    (8,107:4:'EMPTY':proc ()
+    )
+   )
+  ),
+  (11,109:2:'EMPTY'
+  )
+ )
+)]
+def a():
+    :: m : M ::
+    m.M()
+
+
+
+DOCSTRING
+[(7,88:0:'EMPTY'
+)]
+    :: m : M ::
+
+BLOCK_WITH_ENVIRONMENT
+{'m': M}
+[(7,89:0:'VARIABLEBLOCK_SINGLE',
+ (7,89:1:'DECLARATION_SIMPLE',
+  'm',
+  (7,93:2:'TYPE':M,
+   'M'
+  )
+ )
+), (8,102:0:'BLOCK',
+ (8,102:1:'STATEMENT_SINGLE',
+  (8,102:2:'PROCEDURE_CALL',
+   (8,102:3:'MEMBER':proc (),
+    (8,102:4:'VARIABLE':M,
+     'm'
+    ),
+    'M'
+   ),
+   (8,107:3:'EMPTY':proc ()
+   )
+  )
+ ),
+ (11,109:1:'EMPTY'
+ )
+)]
+    :: m : M ::
+    m.M()
+
+
+
+VARIABLEBLOCK_SINGLE
+[(7,89:0:'DECLARATION_SIMPLE',
+ 'm',
+ (7,93:1:'TYPE':M,
+  'M'
+ )
+)]
+    :: m : M ::
+
+DECLARATION_SIMPLE
+['m', (7,93:0:'TYPE':M,
+ 'M'
+)]
+    :: m : M ::
+
+BLOCK
+[(8,102:0:'STATEMENT_SINGLE',
+ (8,102:1:'PROCEDURE_CALL',
+  (8,102:2:'MEMBER':proc (),
+   (8,102:3:'VARIABLE':M,
+    'm'
+   ),
+   'M'
+  ),
+  (8,107:2:'EMPTY':proc ()
+  )
+ )
+), (11,109:0:'EMPTY'
+)]
+    m.M()
+
+
+
+STATEMENT_SINGLE
+[(8,102:0:'PROCEDURE_CALL',
+ (8,102:1:'MEMBER':proc (),
+  (8,102:2:'VARIABLE':M,
+   'm'
+  ),
+  'M'
+ ),
+ (8,107:1:'EMPTY':proc ()
+ )
+)]
+    m.M()
+
+PROCEDURE_CALL
+[(8,102:0:'MEMBER':proc (),
+ (8,102:1:'VARIABLE':M,
+  'm'
+ ),
+ 'M'
+), (8,107:0:'EMPTY':proc ()
+)]
+    m.M()
+
+MEMBER
+[(8,102:0:'VARIABLE':M,
+ 'm'
+), 'M']
+    m.M()
+
+VARIABLE
+['m']
+    m.M()
+
+EMPTY
+[]
+    m.M()
+
+EMPTY
+[]
+
+
+EMPTY
+[]
+a()
+
+BLOCK
+[(11,110:0:'STATEMENT_SINGLE',
+ (11,110:1:'PROCEDURE_CALL',
+  (11,110:2:'VARIABLE':proc (),
+   'a'
+  ),
+  (11,113:2:'EMPTY':proc ()
+  )
+ )
+), (13,116:0:'EMPTY'
+)]
+a()
+
+
+
+STATEMENT_SINGLE
+[([?1034hhi
+11,110:0:'PROCEDURE_CALL',
+ (11,110:1:'VARIABLE':proc (),
+  'a'
+ ),
+ (11,113:1:'EMPTY':proc ()
+ )
+)]
+a()
+
+PROCEDURE_CALL
+[(11,110:0:'VARIABLE':proc (),
+ 'a'
+), (11,113:0:'EMPTY':proc ()
+)]
+a()
+
+VARIABLE
+['a']
+a()
+
+EMPTY
+[]
+a()
+
+EMPTY
+[]
+
+

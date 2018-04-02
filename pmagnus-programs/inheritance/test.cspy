@@ -1,0 +1,19 @@
+class A:
+    :: a : int ::
+    def A():
+        a = 4
+
+class B extends A:
+    :: b : int ::
+    def B():
+        A.A()
+        b = 3
+
+def f(alpha : A):
+    print('hi')
+
+def main():
+    :: a : B = B()::
+    f(a)
+
+main()

@@ -1,0 +1,8 @@
+def pr(s:string):
+    print(s)
+
+def main():
+    :: p: proc (int) ::
+    p = pr
+    
+    

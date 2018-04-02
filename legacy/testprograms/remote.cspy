@@ -1,0 +1,197 @@
+'''remote.cspy'''
+
+:: global_me : string = "Can you hear me now?" ::
+
+
+class Remote:
+    :: channel : int = 1, 
+    volume : int = 25,
+    power : string = "off",
+    unmuted : int = 25,
+    previous : int = 1 ::
+
+    def Remote():
+        print("You have picked up the TV remote!\n")
+
+    def change_channel(new_channel : string):
+        if new_channel == "up":
+            previous = channel
+            channel += 1
+            if channel > 100:
+                print("You only have 100 channels.")
+                channel = 100
+            print("You are now on channel " + tostring(channel) + ".")
+
+        elif new_channel == "down":
+            previous = channel
+            channel -= 1
+            if channel < 1:
+                print("You can't go lower than channel 1.")
+                channel = 1
+            print("You are now on channel " + tostring(channel) + ".")
+
+        elif new_channel == "previous":
+            :: new_prev : int = channel ::
+            channel = previous
+            previous = new_prev
+            print("You are now on channel " + tostring(channel) + ".")
+
+        elif new_channel == "select":
+            :: new_channel : int = ask_number(1,100) ::
+            previous = channel
+            channel = new_channel
+            print("You are now on channel " + tostring(channel) + ".")
+
+        else:
+            print("Sorry, something weird happened.")
+            print("You are currently on channel " + tostring(channel) + ".")
+
+    def change_volume(direction : string):
+        if volume != 0:
+            
+            if direction == "up":
+                volume += 1
+                if volume > 50:
+                    print("Maximum volume is 50.")
+                    volume = 50
+                print("The volume is now " + tostring(volume) + ".")
+
+            elif direction == "down":
+                volume -= 1
+                if volume < 1:
+                    print("Minimum volume is 1.")
+                    volume = 1
+                print("The volume is now " + tostring(volume) + ".")
+
+            elif direction == "mute":
+                unmuted = volume
+                volume = 0
+                print("Okay. The volume is now muted.")
+
+        elif volume == 0:
+            :: answer : string ::
+            print("The volume is currently muted.")
+            answer = ask_yes_no("Do you want to unmute the volume? ")
+            
+            if answer == "y":
+                volume = unmuted
+                print("Okay, the volume is back to " + tostring(volume) + ".")
+
+            elif answer == "n":
+                print("Okay. Volume is still muted.")
+
+
+def ask_number(low:int, high:int) -> int:
+    '''Gets number from user within certain range.'''
+    :: response : int = -1 ::
+    while response not in range(low, high + 1):
+        try:
+            response = toint(input("\nChoose a number between " +\
+                             tostring(low) + " and " + tostring(high) + ": "))
+        except ValueError:
+            print("You have to enter a number.")
+    return response
+
+def ask_yes_no(question:string) -> string:
+    '''Ask a yes or no question and return the response.'''
+    :: response : string ::
+    while response not in ("y", "n"):
+        response = input(question + "Answer \"y\" or \"n\": ")
+    return response
+
+def menu():
+    '''Displays the menu options.'''
+    print("""
+
+0 - Turn TV off
+1 - Channel up
+2 - Channel down
+3 - Choose channel
+4 - Display current channel
+5 - Go to previous channel
+6 - Volume up
+7 - Volume down
+8 - Mute / unmute
+9 - Display current volume
+
+""")
+
+def watch_more() -> bool:
+    '''Checks if user wants to watch more TV.'''
+    :: response : string = ask_yes_no("Do you still want to watch TV? ") ::
+    if response == "y":
+        print("Picking up the remote...")
+        return True
+    else:
+        print("\nGoodbye.")
+        return False
+
+
+def main():
+    :: still_watching : bool = True, remote : Remote = Remote() ::
+
+    while still_watching == True:
+        :: power : string ::
+
+        power = ask_yes_no("Do you want to turn on the TV? ")
+
+        if power == "y":
+            remote.power = "on"
+        else:
+            print("Okay. The TV is still off.")
+            print("Putting down remote...\n")
+
+        while remote.power == "on":
+            :: choice : int ::
+            menu()
+            print(global_me)
+
+            print("What do you want to do?")
+            choice = ask_number(0,9)
+
+            if choice == 0:
+                print("Turning TV off...\n")
+                remote.power = "off"
+
+            elif choice == 1:
+                remote.change_channel("up")
+                
+            elif choice == 2:
+                remote.change_channel("down")
+                
+            elif choice == 3:
+                remote.change_channel("select")
+                
+            elif choice == 4:
+                print("You're currently watching channel " +\
+                      tostring(remote.channel) + ".")
+            
+            elif choice == 5:
+                remote.change_channel("previous")
+
+            elif choice == 6:
+                remote.change_volume("up")
+
+            elif choice == 7:
+                remote.change_volume("down")
+
+            elif choice == 8:
+                remote.change_volume("mute")
+
+            elif choice == 9:
+                if remote.volume == 0:
+                    print("The volume is currently muted.")
+                else:
+                    print("The volume is currently " +\
+                              tostring(remote.volume) + ".")
+
+            else:
+                print("Something has gone wrong; that's not a button.")
+
+        print(global_me)
+        still_watching = watch_more()
+
+
+main()
+print(global_me)
+input("\nPress enter to exit. ")

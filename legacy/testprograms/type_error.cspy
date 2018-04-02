@@ -1,0 +1,55 @@
+'''type_error.cspy'''
+# Uncomment one-by-one for example type errors. 
+# Note: highlight and hit Alt + ; to mass comment / uncomment :)
+
+# # 1: bad type initialization
+# :: Z : int = "Hi!" ::
+
+# # 2: bad type assignment
+# :: Z : int ::
+# Z = 3.0
+
+# # 3: not matching signature
+# :: Z : int ::
+# def add(x:int, y:int) -> int:
+#     return x + y
+# Z = add(3, 5.0)
+
+# # 4: while boolean
+# while 2:
+#     print("This shouldn't work.")
+
+# # 5: if boolean
+# if "True":
+#     print("This shouldn't work either.")
+
+# # 6: undeclared variable
+# print(Y)
+
+# # 7: bad membership type
+# if 2 in 123:
+#     print("No.")
+
+# # 8: not a declared type
+# :: Z : notatype ::
+
+# # 9: heterogeneous list
+# :: the_list : list of int ::
+# the_list = [1,"2"]
+
+# # 10: non matching lambda return type
+# :: B : fn (int) -> float = lambda (x:int) -> int : (x * 2) ::
+
+# # 11: procedure returning value
+# def b(x:int):
+#     return x
+
+# # 12: function not returning value
+# def c(x:int) -> int:
+#     return
+
+# # 13: noncallable
+# 2()
+
+# # 14: binop
+# print("a" + 3)

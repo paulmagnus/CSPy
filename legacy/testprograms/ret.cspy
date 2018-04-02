@@ -1,0 +1,6 @@
+def output(x:string):
+    print(x)
+
+def main():
+    :: x:int = 1 ::
+    x = output("Hola")

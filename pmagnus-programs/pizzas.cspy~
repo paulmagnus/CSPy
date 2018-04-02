@@ -1,0 +1,17 @@
+def main():
+    '''
+    This function computes the number of pizzas of a given size that will need to be bought in
+    order to have an equivalent amount of pizza to a given number of standard size slices.
+    '''
+
+    :: stdDiameter : float, slices : int, stdSlices : int, diameter : float,
+    numStdPies : float, ::
+    stdDiameter = tofloat(input('What is the diameter of a "standard" size pie? '))
+    slices = toint(input('How many slices are in a standard size pie? '))
+    stdSlices = toint(input('How mahy standard size slices do you want? '))
+    diameter = tofloat(input('What is the diameter of the pies you will buy? ')
+    
+    numStdPies = tofloat(slices) / tofloat(stdSlices)
+    numStdPies = numStdPies * stdDiameter * stdDiameter / (diameter * diameter)
+
+main()

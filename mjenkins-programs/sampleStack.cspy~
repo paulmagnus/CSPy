@@ -1,0 +1,28 @@
+class Stack:
+    :: Contents:[Stack], Size:int ::
+
+    def Stack():
+        Contents = []
+        Size = 0
+
+    def push(item:int):
+        Contents.append(item)
+        Size += 1
+
+    def peek() -> int:
+        assert not empty()
+        return Contents[Size - 1]
+
+    def pop():
+        assert not empty()
+        else:
+            del Contents[-1]
+            Size -= 1
+
+    def empty() -> bool:
+        return Size == 0
+
+    def printstack():
+        
+        for i in range(0, Size):
+            print(Contents[i])

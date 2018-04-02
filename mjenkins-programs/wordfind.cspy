@@ -1,0 +1,71 @@
+def printGrid(grid:[[string]]):
+    ::rows:int::
+    rows = len(grid)
+    for row in range(rows):
+        print(grid[row])
+
+def inBounds(grid:[[string]], direction:(int * int), start:(int * int), 
+             word:string) -> bool:
+    ::endX:int, endY:int::
+    endX = start[0] + len(word) * direction[0]
+    endY = start[1] + len(word) * direction[1]
+    if endX > len(grid):
+        return False
+    if endX < 0:
+        return False
+    if endY > len(grid[0]):
+        return False
+    if endY < 0:
+        return False
+    return True
+
+def getString(grid:[[string]], direction:(int * int), start:(int * int), 
+              word:string) -> string:
+    ::foundString:string::
+    if inBounds(grid, direction, start, word):
+        for i in range(len(word)):
+            foundString = foundString + tostring(grid[start[0] + \
+            (direction[0] * i)][start[1] + (direction[1] * i)])
+    return foundString
+
+def wordFind(grid:[[string]], words:[string]) -> int:
+    ::foundWord:string = '', count:int = 0::
+    for word in words:
+        for x in range(len(grid)):
+            for y in range(len(grid[0])):
+                for rowDir in range(3):
+                    for colDir in range(3):
+                        foundWord = getString(grid, (rowDir - 1, colDir - 1),
+                                              (x, y), word)
+                        if foundWord.lower() == word.lower():
+                           count += 1
+                           capitalize(grid, (rowDir - 1, colDir - 1), 
+                                      (x, y), word)
+    return count                        
+
+def capitalize(grid:[[string]], direction:(int * int), start:(int * int), 
+               word:string):
+    for i in range(len(word)):
+        grid[start[0] + direction[0] * i][start[1] + direction[1] * i] = \
+        grid[start[0] + direction[0] * i][start[1] + direction[1] * i].upper()
+
+def sandbox():
+    ::myGrid:[[string]], words:[string], count:int::
+    myGrid = [['j', 'm', 'w', 'e'],
+              ['e', 'e', 'p', 'p'],
+              ['q', 'o', 'x', 'u'],
+              ['w', 'w', 'e', 'd'],
+              ['w', 'g', 'j', 'o']]
+    words = ['meow', 'wed', 'do', 'justice']
+    count = wordFind(myGrid, words)
+    printGrid(myGrid)
+    print(count)
+
+sandbox()
+
+
+
+
+
+
+

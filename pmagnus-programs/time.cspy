@@ -1,0 +1,24 @@
+def floor(x : float) -> float:
+    return x // 1.0
+
+def main():
+    :: intime : list of string,
+       days : float,
+       mhours : float,
+       mmin : float,
+       msec : float ::
+    
+    intime = input("Enter the time of day in military time (HH:MM:SS): ").split(":")
+    
+    days = (tofloat(intime[2]) / 60.0 + tofloat(intime[1])) / \
+    	 60.0 + tofloat(intime[0]) / 24.0
+
+    mhours = floor(days * 100.0)
+    mmin = floor((days * 100.0 - mhours) * 10.0)
+    msec = floor(((days * 100.0 - mhours) * 10.0 - mmin) * 100.0)
+    
+    print('The "metric" time is:')
+    print(tostring(toint(mhours)) + ":" + tostring(toint(mmin)) + ":" + \
+    			   tostring(msec).rjust(5, "0"))
+
+main()

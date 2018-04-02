@@ -1,0 +1,33 @@
+def floor(x : float) -> int:
+    :: num : int ::
+    return toint(x // 1.0)
+
+def ceil(x : float) -> int:
+    :: num : int ::
+    num = toint(x // 1.0)
+    if x == tofloat(num):
+       return num
+    return num + 1
+
+def main():
+    '''
+    This function computes the number of pizzas of a given size that will need to be bought in
+    order to have an equivalent amount of pizza to a given number of standard size slices.
+    '''
+
+    :: stdDiameter : int, slices : int, stdSlices : int, diameter : int,
+    numStdPies : float, numSuperPies : int ::
+
+    stdDiameter = toint(input('What is the diameter of a "standard" size pie? '))
+    slices = toint(input('How many slices are in a standard size pie? '))
+    stdSlices = toint(input('How mahy standard size slices do you want? '))
+    diameter = toint(input('What is the diameter of the pies you will buy? '))
+    
+    numStdPies = tofloat(stdSlices) / tofloat(slices)
+    numSuperPies = ceil(numStdPies * tofloat(stdDiameter) ** 2.0 \
+    		 / (tofloat(diameter) ** 2.0))
+    print("You will need to buy " + tostring(numSuperPies) + " " + \
+    	       tostring(toint(diameter)) + "-inch diameter pies.")
+
+main()
+

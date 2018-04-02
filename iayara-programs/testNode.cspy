@@ -1,0 +1,12 @@
+class vars:
+      :: X : int, Y : int ::
+      def vars(x : int, y : int):
+          X = x
+          Y = y
+
+
+def main():
+    vars = vars(1, 2)
+
+
+main()

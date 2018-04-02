@@ -1,0 +1,5 @@
+def pyimportgenerate(hfile):
+    
+    # LEX AND PARSE THE FILE
+    filename = hfile
+    hfile = open(hfile).read() + "\n"

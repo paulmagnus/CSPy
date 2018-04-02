@@ -1,0 +1,20 @@
+'''test_if.cspy'''
+::  age:int = 15, height:float = 1.5, clothing:string = "tuxedo", msg:string  ::
+
+if (age < 18) && !(age < 12):
+    print("A teenager!")
+elif age < 12:
+    print("A preteen!")
+elif age == 18:
+    print("Congrats!")
+elif age > 100 || (clothing == "tuxedo"):
+    print("I'm impressed.")
+else:
+    print("You're poorly dressed and between 19 and 100.")
+
+
+if clothing != "swimsuit":
+    print("Are you swimming in that?")
+elif clothing == "swimsuit":
+    print("Excellent.")
+

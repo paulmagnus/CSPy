@@ -1,0 +1,29 @@
+'''pie'''
+
+def ceil(x:float) -> int:
+    if tofloat(toint(x)) < x:
+       return toint(x) + 1
+    else:
+       return toint(x)        
+    
+def main():
+
+    :: spd : int, numslistan : int, numslicew : int, dpb : int, 
+    surfstandslice : int, surfneeded : int, piesneeded : int ::
+
+    spd = toint(input("Diameter of standard size pie?:"))
+    numslistan = toint(input("How many slices are in a standard size pie:"))
+    numslicew = toint(input("How many standard slices do you want?"))   
+    dpb = toint(input("What is the diameter of the pies you will buy?"))
+
+
+    surfstandslice = ceil((3.14 * tofloat((spd / 2)**2)) / tofloat(numslistan))
+    surfneeded = (surfstandslice * numslicew)
+    piesneeded = ceil(tofloat(surfneeded) /(3.14 * tofloat((dpb / 2)**2)))
+
+    print("You will need to buy " + tostring(piesneeded) + " " + tostring(dpb) + "-inch diameter pies")
+
+main()
+
+
+

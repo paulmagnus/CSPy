@@ -1,0 +1,106 @@
+\hypertarget{classcs110graphics_1_1Window}{
+\section{cs110graphics.Window Class Reference}
+\label{classcs110graphics_1_1Window}\index{cs110graphics::Window@{cs110graphics::Window}}
+}
+
+
+This window acts as a canvas which other objects can be put onto.  
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classcs110graphics_1_1Window_af926549e3d731847886302fa390f2863}{
+def {\bfseries \_\-\_\-init\_\-\_\-}}
+\label{classcs110graphics_1_1Window_af926549e3d731847886302fa390f2863}
+
+\item 
+def \hyperlink{classcs110graphics_1_1Window_a34064de02d5149841a23764e78085d18}{add}
+\begin{DoxyCompactList}\small\item\em Adds an object of type \hyperlink{classcs110graphics_1_1GraphicalObject}{GraphicalObject} to the \hyperlink{classcs110graphics_1_1Window}{Window} object. \item\end{DoxyCompactList}\item 
+def \hyperlink{classcs110graphics_1_1Window_a14aba875d32f8a70a0c5a80ac3f18a92}{remove}
+\begin{DoxyCompactList}\small\item\em Removes an object of type \hyperlink{classcs110graphics_1_1GraphicalObject}{GraphicalObject} to the \hyperlink{classcs110graphics_1_1Window}{Window} object, assuming the object being deleted exists. \item\end{DoxyCompactList}\item 
+def \hyperlink{classcs110graphics_1_1Window_a981a3115f1f22099549117313f38333c}{set\_\-background}
+\begin{DoxyCompactList}\small\item\em Sets the background color of the canvas. \item\end{DoxyCompactList}\item 
+def \hyperlink{classcs110graphics_1_1Window_a9b548549f8f09ca3f29e6e80483e21d2}{set\_\-height}
+\begin{DoxyCompactList}\small\item\em Sets the height of the canvas. \item\end{DoxyCompactList}\item 
+def \hyperlink{classcs110graphics_1_1Window_a227c806c2acbcaca9958ba3b610a85f6}{set\_\-title}
+\begin{DoxyCompactList}\small\item\em Sets the title of the window holding the canvas. \item\end{DoxyCompactList}\item 
+def \hyperlink{classcs110graphics_1_1Window_a55036373bfb4437eb4368a39fedb8722}{set\_\-width}
+\begin{DoxyCompactList}\small\item\em Sets the width of the canvas. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This window acts as a canvas which other objects can be put onto. Required Parameters:
+\begin{DoxyItemize}
+\item width -\/ int -\/ Width of canvas.
+\item height -\/ int -\/ Height of canvas.
+\item background -\/ str -\/ Background color of canvas. Can be either the name of a color (\char`\"{}yellow\char`\"{}), or a hex code (\char`\"{}\#FFFF00\char`\"{}).
+\item name -\/ str -\/ The title of the window.
+\item first\_\-function -\/ proc(Window) -\/ When the window is created, it runs this function after everything is run. (default: None)
+\item master -\/ unknown type -\/ necessary for the creation of the Tkinter widgets. (default: None) 
+\end{DoxyItemize}
+
+\subsection{Member Function Documentation}
+\hypertarget{classcs110graphics_1_1Window_a34064de02d5149841a23764e78085d18}{
+\index{cs110graphics::Window@{cs110graphics::Window}!add@{add}}
+\index{add@{add}!cs110graphics::Window@{cs110graphics::Window}}
+\subsubsection[{add}]{\setlength{\rightskip}{0pt plus 5cm}def cs110graphics.Window.add ( {\em self}, \/   {\em graphic})}}
+\label{classcs110graphics_1_1Window_a34064de02d5149841a23764e78085d18}
+
+
+Adds an object of type \hyperlink{classcs110graphics_1_1GraphicalObject}{GraphicalObject} to the \hyperlink{classcs110graphics_1_1Window}{Window} object. Required Parameters:
+\begin{DoxyItemize}
+\item graphic -\/ \hyperlink{classcs110graphics_1_1GraphicalObject}{GraphicalObject} 
+\end{DoxyItemize}\hypertarget{classcs110graphics_1_1Window_a14aba875d32f8a70a0c5a80ac3f18a92}{
+\index{cs110graphics::Window@{cs110graphics::Window}!remove@{remove}}
+\index{remove@{remove}!cs110graphics::Window@{cs110graphics::Window}}
+\subsubsection[{remove}]{\setlength{\rightskip}{0pt plus 5cm}def cs110graphics.Window.remove ( {\em self}, \/   {\em graphic})}}
+\label{classcs110graphics_1_1Window_a14aba875d32f8a70a0c5a80ac3f18a92}
+
+
+Removes an object of type \hyperlink{classcs110graphics_1_1GraphicalObject}{GraphicalObject} to the \hyperlink{classcs110graphics_1_1Window}{Window} object, assuming the object being deleted exists. Required Parameters:
+\begin{DoxyItemize}
+\item graphic -\/ \hyperlink{classcs110graphics_1_1GraphicalObject}{GraphicalObject} 
+\end{DoxyItemize}\hypertarget{classcs110graphics_1_1Window_a981a3115f1f22099549117313f38333c}{
+\index{cs110graphics::Window@{cs110graphics::Window}!set\_\-background@{set\_\-background}}
+\index{set\_\-background@{set\_\-background}!cs110graphics::Window@{cs110graphics::Window}}
+\subsubsection[{set\_\-background}]{\setlength{\rightskip}{0pt plus 5cm}def cs110graphics.Window.set\_\-background ( {\em self}, \/   {\em background})}}
+\label{classcs110graphics_1_1Window_a981a3115f1f22099549117313f38333c}
+
+
+Sets the background color of the canvas. Required Parameters:
+\begin{DoxyItemize}
+\item background -\/ string 
+\end{DoxyItemize}\hypertarget{classcs110graphics_1_1Window_a9b548549f8f09ca3f29e6e80483e21d2}{
+\index{cs110graphics::Window@{cs110graphics::Window}!set\_\-height@{set\_\-height}}
+\index{set\_\-height@{set\_\-height}!cs110graphics::Window@{cs110graphics::Window}}
+\subsubsection[{set\_\-height}]{\setlength{\rightskip}{0pt plus 5cm}def cs110graphics.Window.set\_\-height ( {\em self}, \/   {\em height})}}
+\label{classcs110graphics_1_1Window_a9b548549f8f09ca3f29e6e80483e21d2}
+
+
+Sets the height of the canvas. Required Parameters:
+\begin{DoxyItemize}
+\item height -\/ int 
+\end{DoxyItemize}\hypertarget{classcs110graphics_1_1Window_a227c806c2acbcaca9958ba3b610a85f6}{
+\index{cs110graphics::Window@{cs110graphics::Window}!set\_\-title@{set\_\-title}}
+\index{set\_\-title@{set\_\-title}!cs110graphics::Window@{cs110graphics::Window}}
+\subsubsection[{set\_\-title}]{\setlength{\rightskip}{0pt plus 5cm}def cs110graphics.Window.set\_\-title ( {\em self}, \/   {\em name})}}
+\label{classcs110graphics_1_1Window_a227c806c2acbcaca9958ba3b610a85f6}
+
+
+Sets the title of the window holding the canvas. Required Parameters:
+\begin{DoxyItemize}
+\item name -\/ string 
+\end{DoxyItemize}\hypertarget{classcs110graphics_1_1Window_a55036373bfb4437eb4368a39fedb8722}{
+\index{cs110graphics::Window@{cs110graphics::Window}!set\_\-width@{set\_\-width}}
+\index{set\_\-width@{set\_\-width}!cs110graphics::Window@{cs110graphics::Window}}
+\subsubsection[{set\_\-width}]{\setlength{\rightskip}{0pt plus 5cm}def cs110graphics.Window.set\_\-width ( {\em self}, \/   {\em width})}}
+\label{classcs110graphics_1_1Window_a55036373bfb4437eb4368a39fedb8722}
+
+
+Sets the width of the canvas. Required Parameters:
+\begin{DoxyItemize}
+\item width -\/ height 
+\end{DoxyItemize}
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+cs110graphics.py\end{DoxyCompactItemize}

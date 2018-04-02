@@ -1,0 +1,42 @@
+# MultPractice class - Problem 2 on the 2017 AP test
+
+class MultPractice:
+    :: val1 : int, val2 : int ::
+    def MultPractice(x : int, y : int):
+        val1 = x
+        val2 = y
+
+    def getProblem() -> string:
+        return tostring(val1) + " TIMES " + tostring(val2)
+
+    def nextProblem():
+        val2 = val2 + 1
+
+def main():
+    :: p2 : MultPractice ::
+    # p1 = MultPractice(7,3)
+    # print(p1.getProblem())
+
+    # p1.nextProblem()
+    # print(p1.getProblem())
+
+    # p1. nextProblem()
+    # print(p1.getProblem())
+
+    # p1. nextProblem()
+    # print(p1.getProblem())
+    
+    p2 = MultPractice(4, 12)
+    p2.nextProblem()
+    print(p2.getProblem())
+    print(p2.getProblem())
+    
+    p2.nextProblem()
+    p2.nextProblem()
+    print(p2.getProblem())
+    
+    p2.nextProblem()
+    print(p2.getProblem())
+
+main()
+    

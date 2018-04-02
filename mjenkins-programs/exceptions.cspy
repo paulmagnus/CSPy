@@ -1,0 +1,7 @@
+def main():
+    ::number:string, num:int::
+    assert True
+                
+main()
+
+

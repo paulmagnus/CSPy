@@ -1,0 +1,123 @@
+from Tkinter import *
+from ttk import*
+from string import ascii_letters, digits, punctuation, join
+
+class SearchBox:
+
+    def __init__(self, texteditor, prev=0, next=0):       
+        self.texteditor = texteditor
+        self.prev = prev
+        self.next = next
+        self.root = Tk()
+        self.root.title("Search box  ")
+        self.entry = Text (self.root)
+        self.root.geometry("200x30")
+        self.entry.focus()
+        self.entry.pack()
+        self.config_tags()
+        self.entry.config(background = "white",
+                    foreground = "black",
+                    font = ("Monospace", 13),
+                    insertbackground = "black")
+        self.characters = ascii_letters + digits + punctuation
+        self.entry.bind('<KeyRelease>', self.key_release)
+        self.entry.bind('<Control-w>', self.key_control_w)
+        self.texteditor.bind('<Button-1>', self.button_1)
+
+    def _callback(self, result, *args):
+        self.texteditor.callback(result, *args)
+
+    def config_tags(self):
+        self.texteditor.tag_configure("search", background = "#A9A9A9")
+
+    def remove_tags(self, start, end):
+        self.texteditor.tag_remove("search", 1.0, END)
+
+    def get_text(self):
+        cline = self.entry.index(INSERT).split('.')[0] 
+        lastcol = 0
+        char = self.entry.get('%s.%d'%(cline, lastcol))
+        while char != '\n':
+            lastcol += 1
+            char = self.entry.get('%s.%d'%(cline, lastcol))      
+        buffer = self.entry.get('%s.%d'%(cline,0),'%s.%d'%(cline,lastcol))
+        return buffer 
+
+    def button_1(self, key):
+        self.remove_tags("1.0", END)
+
+    def key_release(self, key):
+        """ Highlight any matching string """
+        self.remove_tags("1.0", END)
+        search_text = self.get_text()
+        
+        if self.prev == 1:
+            edit_text = self.texteditor.get("1.0", END)  
+            index = self.texteditor.index(INSERT)
+            start = 1.0
+            count = 0
+            while True:
+                countVar = StringVar()
+                pos = self.texteditor.search(search_text, 
+                                             start, 
+                                             stopindex = index, 
+                                             count = countVar, 
+                                             regexp = True)
+                if not pos:
+                    break
+                else :
+                    last_pos = pos
+                    last_countVar = countVar
+                    count += 1
+
+                start = pos + "+1c"
+            if count > 0:
+                self.texteditor.tag_add("search", 
+                                        last_pos, 
+                                        "%s+%sc" % (last_pos, 
+                                                    last_countVar.get()))  
+
+
+        elif self.next == 1:
+            index = self.texteditor.index(INSERT)
+            edit_text = self.texteditor.get(index, "end")
+            start = index
+            
+            countVar = StringVar()
+            pos = self.texteditor.search(search_text, 
+                                         start, 
+                                         stopindex = END, 
+                                         count = countVar, 
+                                         regexp = True)
+                
+            if not pos:
+                pass
+
+            else:
+                self.texteditor.tag_add("search",
+                                        pos,
+                                        "%s+%sc" % (pos, countVar.get()))
+
+        else:
+            edit_text = self.texteditor.get("1.0", END)        
+            start = 1.0
+            while True:
+                countVar = StringVar()
+                pos = self.texteditor.search(search_text, 
+                                             start, 
+                                             stopindex = END, 
+                                             count = countVar, 
+                                             regexp = True)
+                if not pos:
+                    break
+                else :
+                    self.texteditor.tag_add("search", 
+                                            pos, 
+                                            "%s+%sc" % (pos, countVar.get()))  
+                start = pos + "+1c"
+
+    def key_control_w(self, key):
+        """ Close the search box """
+        self.remove_tags("1.0", END)
+        self.root.destroy()
+     

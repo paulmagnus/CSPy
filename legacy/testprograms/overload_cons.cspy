@@ -1,0 +1,72 @@
+'''construct_overload.cspy'''
+# Simple CSPy example of overloaded class constructors
+
+class Pet:
+    :: name:string = "Spot", age:string = "3", 
+    species:string = "cat", loved:bool = True ::
+
+    def Pet(n:string, a:string, sp:string):
+        name = n
+        age = a
+        species = sp
+
+    def Pet(n:string):
+        name = n
+
+    def Pet():
+        return
+
+    def setName(n:string):
+        name = n
+
+    def setAge(a:string):
+        age = a
+    
+    def setSpecies(s:string):
+        species = s
+
+    def getName() -> string:
+        return name
+    
+    def getAge() -> string:
+        return age
+
+    def getSpecies() -> string:
+        return species
+
+class Dog extends Pet:
+    :: breed:string ::
+
+    def setBreed(b:string):
+        breed = b 
+
+def main():
+    :: myPet : Pet = Pet("Pumpkin", "13", "elephant"), 
+       myPet2 : Pet = Pet("Buttercup"), myPet3 : Pet = Pet(), 
+       myDog : Dog = Pet("this")::
+
+    print(myPet.getName())
+    print(myPet.getAge())
+    print(myPet.getSpecies())
+    print("\n")
+    
+    print(myPet2.getName())
+    print(myPet2.getAge())
+    print(myPet2.getSpecies())
+    print("\n")
+
+    print(myPet3.getName())
+    print(myPet3.getAge())
+    print(myPet3.getSpecies())
+    
+    # myDog.setName("Callie")
+    # myDog.setSpecies("dog")
+    # myDog.setBreed("Border Collie")
+    print(myDog.getName())
+    # print(myDog.getSpecies())
+    # print(myDog.breed)
+
+    # if (myDog.loved):
+    #     print("And I love " + myDog.getName() + "!\n")
+
+main()

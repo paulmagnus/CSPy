@@ -1,0 +1,26 @@
+class Stack:
+    def __init__(self):
+        self.Contents = []
+        self.Size = 0
+    def push(self, item):
+        self.Contents.append(item);
+        self.Size += 1
+    def peek(self):
+        return self.Contents[self.Size - 1]
+    def pop(self):
+        front = self.peek()
+        self.Contents.remove(self.Size)
+        return front
+    def printstack(self):
+        for i in range(0, self.Size):
+            print(self.Contents[i])
+
+def main():
+    stacky = Stack()
+    stacky.push(1)
+    stacky.push(2)
+    stacky.push(3)
+    stacky.peek()
+
+
+main()

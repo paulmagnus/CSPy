@@ -1,0 +1,2 @@
+out:err:This is a test of the error warning system.
+err:

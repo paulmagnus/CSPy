@@ -1,0 +1,25 @@
+from cs110graphics pyimport *
+            
+class Button extends EventHandler:
+    :: circ:Circle, timer:Timer, pressed:bool = False ::
+    def Button(win:Window):
+        EventHandler.EventHandler()
+        circ = Circle(win)
+        win.add(circ)
+        circ.add_handler(self)
+        timer = Timer(win, 200, flash)
+        timer.start()
+
+    def flash():
+        if pressed:
+            circ.set_fill_color("")
+            pressed = False
+        else:
+            circ.set_fill_color("red")
+            pressed = True
+
+def main(win:Window):
+    ::button:Button::
+    button = Button(win)
+
+StartGraphicsSystem(main)

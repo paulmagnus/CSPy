@@ -1,0 +1,9 @@
+'''imp_main.cspy'''
+# to test .cspy importing. testing with imp_a and imp_b
+
+from imp_a import *
+
+:: a : int = 6, b : int = 2 ::
+
+divide(a,b)
+

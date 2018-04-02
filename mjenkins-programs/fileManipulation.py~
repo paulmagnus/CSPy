@@ -1,0 +1,4 @@
+def main():
+    myfile = open(hi.txt, r+)
+    string = myfile.read()
+    print(string)

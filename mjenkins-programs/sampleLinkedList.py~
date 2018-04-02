@@ -1,0 +1,20 @@
+class LinkedList:
+    def __init__(self):
+        self.size = 0
+        self.head = None
+    def insert(self, value):
+        temp = Node(value)
+        temp.next = self.head
+        self.head = temp
+    def search(self, value):
+
+class Node:
+    def __init__(self, value, left = None, right = None):
+        self.value = value;
+        self.left = left
+        self.right = right
+
+def main():
+    print "Hello world!"
+
+main()

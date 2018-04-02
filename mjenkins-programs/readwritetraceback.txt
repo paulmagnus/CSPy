@@ -1,0 +1,44 @@
+Traceback (most recent call last):
+  File "cspy_master.py", line 176, in <module>
+    main()
+  File "cspy_master.py", line 169, in main
+    parsetree = importgenerate(filename)
+  File "cspy_master.py", line 91, in importgenerate
+    det_type(parsetree)                         # type check
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_type_checker.py", line 28, in det_type
+    det_type(child)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_type_checker.py", line 28, in det_type
+    det_type(child)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_type_checker.py", line 28, in det_type
+    det_type(child)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_type_checker.py", line 28, in det_type
+    det_type(child)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_type_checker.py", line 28, in det_type
+    det_type(child)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_type_checker.py", line 28, in det_type
+    det_type(child)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_type_checker.py", line 28, in det_type
+    det_type(child)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_type_checker.py", line 28, in det_type
+    det_type(child)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_type_checker.py", line 28, in det_type
+    det_type(child)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_type_checker.py", line 28, in det_type
+    det_type(child)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_type_checker.py", line 28, in det_type
+    det_type(child)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_type_checker.py", line 28, in det_type
+    det_type(child)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_type_checker.py", line 31, in det_type
+    checks[astnode.label](astnode)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_type_checker.py", line 852, in s_procedure_call
+    callsig, match = signatureMatch(proc, params,  "proc")
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_type_checker.py", line 639, in signatureMatch
+    match = filter(lambda s : callmatch(s, call_sig), sigs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_type_checker.py", line 639, in <lambda>
+    match = filter(lambda s : callmatch(s, call_sig), sigs)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_builtins.py", line 261, in callmatch
+    return sig1.parameterCmp(sig2)
+  File "/home/acampbel/CSPy-shared/ulysses/cspy_builtins.py", line 207, in parameterCmp
+    if len(self.param_types) != len(other.param_types):
+TypeError: object of type 'type_obj' has no len()

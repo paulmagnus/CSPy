@@ -1,0 +1,13 @@
+#!/bin/bash
+printf "No tests to run\n"
+
+# In most cases this script should be replaced or modified to a script
+# designed to run any submission tests which can be placed in the same
+# folder as this file.
+#
+# During the submission script, this file will be executed with one
+# argument - the folder that contains the programs that were just submitted
+# This folder will be 'submit/acampbel/110/test/students/pmagnus'
+# All file names given in 'required_files' will be present in the given
+# folder and any files in 'optional_files' that were found will be present
+# in the given folder also

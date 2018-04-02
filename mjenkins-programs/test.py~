@@ -1,0 +1,7 @@
+def foo(x):
+    if x == 1:
+        return True
+    else:
+        print ("x is not 1")
+
+foo(2)

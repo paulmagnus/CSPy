@@ -1,0 +1,16 @@
+def windChill():
+    :: temperature:string, temp:float, windspeed:string, wspeed:float, windchill:float ::
+    print('Welcome to the windchill calculator!')
+    temperature = input("Enter the temperature: ")
+    windspeed = input("Enter the wind speed: ")
+    temp = tofloat(temperature)
+    wspeed = tofloat(windspeed)
+    windchill = 35.74 + (0.6215 * temp) - (35.75 * (wspeed ** 0.16)) + (0.4275\
+     * temp * (wspeed ** 0.16))
+    print('At ' + temperature + ' degrees, with a wind speed of ' + windspeed+\ 
+    ' miles per hour, the windchill is: ' + tostring(windchill) + ' degrees')
+
+windChill()
+
+
+

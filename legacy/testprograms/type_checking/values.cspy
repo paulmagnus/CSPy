@@ -1,0 +1,2 @@
+:: d:dict of [int|string] ::
+d = { 1 : "a", 2 : 2 , 3 : "d" }

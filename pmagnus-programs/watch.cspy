@@ -1,0 +1,17 @@
+def main():
+    :: intime : string,
+       timelist : list of string ::
+    
+    intime = input("What time does your upside-down watch read (hours:minutes)? ")
+    timelist = intime.split(":")
+    
+    # update hours
+    timelist[0] = tostring(((toint(timelist[0]) + 5) % 12) + 1)
+    # update minutes
+    timelist[1] = tostring(((toint(timelist[1]) + 29) % 60) + 1)
+    
+    print("The right-side-up time is: " + \
+    	       tostring(timelist[0]) + ":" + \
+	       tostring(timelist[1]))
+
+main()

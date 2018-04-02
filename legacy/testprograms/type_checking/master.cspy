@@ -1,0 +1,1 @@
+:: i:int = 9, f:float = 1.2, s:string = "abc", l:list of int = [1, 2, 3], d: dict of [int|string] = { 1 : "a", 2 : "b" }, t:tuple of (int * string) = (4, 5, "s", "t") ::

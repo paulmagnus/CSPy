@@ -1,0 +1,6 @@
+# Problem 4 from 2017 AP Test
+
+from position import *
+
+def getSuccessorArray(intArr : [[int]]) -> [[tuple of (int * int)]]:
+    

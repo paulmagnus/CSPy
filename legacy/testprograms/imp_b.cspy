@@ -1,0 +1,6 @@
+:: msg : string = "yay division" ::
+# testing with imp_a and imp_main
+
+
+# :: msg : string = "yay division",  x : int = 5.0 ::
+# uncomment this to test compilation file removal before runtime

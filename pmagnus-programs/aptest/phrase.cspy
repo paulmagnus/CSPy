@@ -1,0 +1,47 @@
+# Problem 3 from the 2017 AP Test
+
+class Phrase:
+    :: currentPhrase : string ::
+    def Phrase(p : string):
+        currentPhrase = p
+
+    def findNthOccurrence(s : string, n : int) -> int:
+        :: num : int = 0 ::
+        assert len(s) > 0
+        assert n > 0
+        for i in range(len(currentPhrase) - len(s)):
+            if currentPhrase[i:i+len(s)] == s:
+                num = num + 1
+                if num == n:
+                    return i
+        return -1
+
+    def replaceNthOccurrence(s : string, n : int, repl : string):
+        :: index : int ::
+        assert len(s) > 0
+        assert n > 0
+        index = findNthOccurrence(s, n)
+        if index == -1:
+            return
+        currentPhrase = currentPhrase[:index] + repl + \
+            currentPhrase[index + len(s):]
+
+    def findLastOccurrence(s : string) -> int:
+        :: lastIndex : int = -1 ::
+        assert len(s) > 0
+
+        for i in range(len(currentPhrase) - len(s)):
+            if currentPhrase[i:i+len(s)] == s:
+                lastIndex = i
+
+        return lastIndex
+
+    def toString() -> string:
+        return currentPhrase
+
+def main():
+    :: phrase1 : Phrase = Phrase("A cat ate late.") ::
+    print(tostring(phrase1.findLastOccurrence("bat")))
+
+main()
+

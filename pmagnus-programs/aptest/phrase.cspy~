@@ -1,0 +1,18 @@
+# Problem 3 from the 2017 AP Test
+
+class Phrase:
+    :: currentPhrase : string ::
+    def Phrase(p : string):
+        currentPhrase = p
+
+    def findNthOccurrence(s : string, n : int) -> int:
+        pass
+
+    def replaceNthOccurrence(s : string, n : int, repl : string):
+        pass
+
+    def findLastOccurrence(s : string) -> int:
+        pass
+
+    def toString() -> string:
+        return currentPhrase

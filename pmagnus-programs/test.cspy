@@ -1,0 +1,5 @@
+def f(n : int) -> int:
+    :: temp : int ::
+    temp = n * 2
+
+print(f(5) + "hi")

@@ -1,0 +1,5 @@
+:: x:int = 1, y:float = 3.2, p:int ::
+
+p = x + y
+
+

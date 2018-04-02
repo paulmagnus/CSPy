@@ -1,0 +1,118 @@
+\hypertarget{classcs110graphics_1_1Image}{
+\section{cs110graphics.Image Class Reference}
+\label{classcs110graphics_1_1Image}\index{cs110graphics::Image@{cs110graphics::Image}}
+}
+
+
+An image, which can be added to a \hyperlink{classcs110graphics_1_1Window}{Window} object.  
+Inheritance diagram for cs110graphics.Image::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2cm]{classcs110graphics_1_1Image}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classcs110graphics_1_1Image_a3b7c128fa18d85ff4a7586fac04a1bc2}{
+def {\bfseries \_\-\_\-init\_\-\_\-}}
+\label{classcs110graphics_1_1Image_a3b7c128fa18d85ff4a7586fac04a1bc2}
+
+\item 
+def \hyperlink{classcs110graphics_1_1Image_a540d48247976343a91c610009a9af8cd}{move}
+\begin{DoxyCompactList}\small\item\em Moves a graphical object dx pixels horizontally and dy pixels vertically. \item\end{DoxyCompactList}\item 
+def \hyperlink{classcs110graphics_1_1Image_a4b2e775fbb0cb523f6bc09028dc05c65}{move\_\-to}
+\begin{DoxyCompactList}\small\item\em Moves a graphical object to a point. \item\end{DoxyCompactList}\item 
+def \hyperlink{classcs110graphics_1_1Image_a0754151035bb2892f0cd3895b64488fa}{resize}
+\begin{DoxyCompactList}\small\item\em Resizes the \hyperlink{classcs110graphics_1_1Image}{Image}. \item\end{DoxyCompactList}\item 
+def \hyperlink{classcs110graphics_1_1Image_ac58717d68279e536cee608e2bdfc6aa8}{rotate}
+\begin{DoxyCompactList}\small\item\em Rotates an object by degrees. \item\end{DoxyCompactList}\item 
+def \hyperlink{classcs110graphics_1_1Image_a7a59fde33fe83916a4155fafb5cfb01e}{scale}
+\begin{DoxyCompactList}\small\item\em Scales the image according to the factor. \item\end{DoxyCompactList}\item 
+def \hyperlink{classcs110graphics_1_1Image_a4ff2da7a167a433f2c38f1e2e2fe7263}{size}
+\begin{DoxyCompactList}\small\item\em Returns a tuple of the width and height of the image. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+An image, which can be added to a \hyperlink{classcs110graphics_1_1Window}{Window} object. Required Parameters:
+\begin{DoxyItemize}
+\item window -\/ \hyperlink{classcs110graphics_1_1Window}{Window} -\/ the window which the object will be added to.
+\item image\_\-loc -\/ str -\/ The name of an image within the current working directory. (If the current working directory is /foo/bar, then the image the user wants to use has to be in that directory. There is no support for using internet links at this time.)
+\end{DoxyItemize}
+
+Optional Parameters:
+\begin{DoxyItemize}
+\item center -\/ tuple of int $\ast$ int -\/ sets the center of the \hyperlink{classcs110graphics_1_1Image}{Image}. (default: (200, 200))
+\item width -\/ int -\/ sets the width of the image. (default: 25)
+\item height -\/ int -\/ sets the height of the image. (default: 25) 
+\end{DoxyItemize}
+
+\subsection{Member Function Documentation}
+\hypertarget{classcs110graphics_1_1Image_a540d48247976343a91c610009a9af8cd}{
+\index{cs110graphics::Image@{cs110graphics::Image}!move@{move}}
+\index{move@{move}!cs110graphics::Image@{cs110graphics::Image}}
+\subsubsection[{move}]{\setlength{\rightskip}{0pt plus 5cm}def cs110graphics.Image.move ( {\em self}, \/   {\em dx}, \/   {\em dy})}}
+\label{classcs110graphics_1_1Image_a540d48247976343a91c610009a9af8cd}
+
+
+Moves a graphical object dx pixels horizontally and dy pixels vertically. Required Parameters:
+\begin{DoxyItemize}
+\item dx -\/ int
+\item dy -\/ int 
+\end{DoxyItemize}
+
+Reimplemented from \hyperlink{classcs110graphics_1_1GraphicalObject_aa64d270fb83efa4a54e1a7953512f9cd}{cs110graphics.GraphicalObject}.\hypertarget{classcs110graphics_1_1Image_a4b2e775fbb0cb523f6bc09028dc05c65}{
+\index{cs110graphics::Image@{cs110graphics::Image}!move\_\-to@{move\_\-to}}
+\index{move\_\-to@{move\_\-to}!cs110graphics::Image@{cs110graphics::Image}}
+\subsubsection[{move\_\-to}]{\setlength{\rightskip}{0pt plus 5cm}def cs110graphics.Image.move\_\-to ( {\em self}, \/   {\em point})}}
+\label{classcs110graphics_1_1Image_a4b2e775fbb0cb523f6bc09028dc05c65}
+
+
+Moves a graphical object to a point. Required Parameters:
+\begin{DoxyItemize}
+\item point -\/ tuple of (int $\ast$ int) 
+\end{DoxyItemize}
+
+Reimplemented from \hyperlink{classcs110graphics_1_1GraphicalObject_abe2d480265df7ac9447205c52c6946df}{cs110graphics.GraphicalObject}.\hypertarget{classcs110graphics_1_1Image_a0754151035bb2892f0cd3895b64488fa}{
+\index{cs110graphics::Image@{cs110graphics::Image}!resize@{resize}}
+\index{resize@{resize}!cs110graphics::Image@{cs110graphics::Image}}
+\subsubsection[{resize}]{\setlength{\rightskip}{0pt plus 5cm}def cs110graphics.Image.resize ( {\em self}, \/   {\em width}, \/   {\em height})}}
+\label{classcs110graphics_1_1Image_a0754151035bb2892f0cd3895b64488fa}
+
+
+Resizes the \hyperlink{classcs110graphics_1_1Image}{Image}. Required Parameters:
+\begin{DoxyItemize}
+\item width -\/ int
+\item height -\/ int 
+\end{DoxyItemize}\hypertarget{classcs110graphics_1_1Image_ac58717d68279e536cee608e2bdfc6aa8}{
+\index{cs110graphics::Image@{cs110graphics::Image}!rotate@{rotate}}
+\index{rotate@{rotate}!cs110graphics::Image@{cs110graphics::Image}}
+\subsubsection[{rotate}]{\setlength{\rightskip}{0pt plus 5cm}def cs110graphics.Image.rotate ( {\em self}, \/   {\em degrees})}}
+\label{classcs110graphics_1_1Image_ac58717d68279e536cee608e2bdfc6aa8}
+
+
+Rotates an object by degrees. Required Parameters:
+\begin{DoxyItemize}
+\item degrees -\/ int 
+\end{DoxyItemize}\hypertarget{classcs110graphics_1_1Image_a7a59fde33fe83916a4155fafb5cfb01e}{
+\index{cs110graphics::Image@{cs110graphics::Image}!scale@{scale}}
+\index{scale@{scale}!cs110graphics::Image@{cs110graphics::Image}}
+\subsubsection[{scale}]{\setlength{\rightskip}{0pt plus 5cm}def cs110graphics.Image.scale ( {\em self}, \/   {\em factor})}}
+\label{classcs110graphics_1_1Image_a7a59fde33fe83916a4155fafb5cfb01e}
+
+
+Scales the image according to the factor. Required Parameters:
+\begin{DoxyItemize}
+\item factor -\/ float 
+\end{DoxyItemize}\hypertarget{classcs110graphics_1_1Image_a4ff2da7a167a433f2c38f1e2e2fe7263}{
+\index{cs110graphics::Image@{cs110graphics::Image}!size@{size}}
+\index{size@{size}!cs110graphics::Image@{cs110graphics::Image}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}def cs110graphics.Image.size ( {\em self})}}
+\label{classcs110graphics_1_1Image_a4ff2da7a167a433f2c38f1e2e2fe7263}
+
+
+Returns a tuple of the width and height of the image. 
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+cs110graphics.py\end{DoxyCompactItemize}

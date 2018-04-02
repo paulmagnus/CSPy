@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#------------------------------------------------------------------------------#
+# editor                                                                       #
+#                                                                              #
+# This shell script opens the CSPy editor.                                     #
+#                                                                              #
+# Written by Paul Magnus '18, Ines Ayara '20, Matthew R. Jenkins '20           #
+# Summer 2017                                                                  #
+#------------------------------------------------------------------------------#
+
+# Get directory of script, resolving links
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+# open the CSPy editor
+python2.7 "$DIR/../cspy_gui/cspy_app.py"

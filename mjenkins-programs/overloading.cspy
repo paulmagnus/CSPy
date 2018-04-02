@@ -1,0 +1,17 @@
+def hi(x:int, y:int):
+    print(x + y)
+
+def hi(x:int):
+    print(x)
+
+def main():
+    :: x:int, y:int ::
+    x = 10
+    y = 11
+    hi(x, y)
+    hi(x)
+
+main()
+
+
+

@@ -1,0 +1,297 @@
+#!/bin/bash
+
+#------------------------------------------------------------------------------#
+# verify                                                                       #
+#                                                                              #
+# This program is intended to be run by the professor to verify that their     #
+# directory is set up in a way that the submit program will be able to use     #
+# without errors.                                                              #
+#                                                                              #
+# Usage: verify [OPTION]... PROFESSOR CLASS PROJECT                            #
+# Verify all files for PROFESSOR, CLASS, and PROJECT exist                     #
+#                                                                              #
+# OPTIONS:                                                                     #
+#   -f, --fix             fix any errors that are detected, if possible        #
+#   -h, --help            print this help documentation                        #
+#   -v, --verbose         explain what is being done                           #
+#                                                                              #
+# Written by Paul Magnus '18, Ines Ayara '20, Matthew R. Jenkins '20           #
+# Summer 2017                                                                  #
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# verifyFile filename                                                          #
+#   Determines if 'filename' exists. If it does not, an error is printed and   #
+#   the program exits with error code 1.                                       #
+#------------------------------------------------------------------------------#
+
+verifyFile()
+{
+    if [ $verbose ]; then
+        printf "Verifying '$1'..."
+    fi
+
+    if [ ! -f $1 ]; then
+        if [ $verbose ]; then
+            printf "missing\n"
+        else
+            printf "File '$1' is missing\n"
+        fi
+        exit 1
+    fi
+
+    if [ $verbose ]; then
+        printf "Done\n"
+    fi
+}
+
+#------------------------------------------------------------------------------#
+# verifyDirectory dirname                                                      #
+#   Determines if 'dirname' exists and is a directory. If it is not and the    #
+#   'fix' flag has been set, then the directory is created. If the 'fix' flag  #
+#   is not set and 'dirname' does not exist, then an error is printed and the  #
+#   program exits with error code 1.                                           #
+#------------------------------------------------------------------------------#
+
+verifyDirectory()
+{
+    if [ $verbose ]; then
+        printf "Verifying '$1'..."
+    fi
+    
+    if [ ! -d $1 ]; then
+        
+        if [ $fix ]; then
+            if [ $verbose ]; then
+                printf "Creating directory..."
+            fi
+
+            mkdir $1
+
+        else
+            if [ $verbose ]; then
+                printf "missing\n"
+            else
+                printf "Directory '$1' is missing\n"
+            fi
+            exit 1
+        fi
+    fi
+    
+    if [ $verbose ]; then
+        printf "Done\n"
+    fi
+}
+
+#------------------------------------------------------------------------------#
+# print_help                                                                   #
+#   This prints the help documentation.                                        #
+#------------------------------------------------------------------------------#
+
+print_help()
+{
+    printf "Usage: verify [OPTION]... PROFESSOR CLASS PROJECT\n"
+    printf "Verify all files for PROFESSOR, CLASS, and PROJECT exist\n\n"
+
+    printf "OPTIONS:\n"
+    printf "  -f, --fix\t\tfix any errors that are detected, if possible\n"
+    printf "  -h, --help\t\tprint this help documentation\n"
+    printf "  -v, --verbose\t\texplain what is being done\n\n"
+
+    printf "Written by Paul Magnus '18, Ines Ayara '18, Matthew R. Jenkins '20\n"
+    printf "Summer 2017\n"
+}
+
+# parse the arguments
+while :; do
+    case $1 in
+        -f|--fix) fix=true
+            shift;;
+        -v|--verbose) verbose=true
+            shift;;
+        -h|--help) print_help
+            exit;;
+        *) break
+    esac
+done
+
+# make sure there are 3 remaining arguments
+if [ $# != 3 ]; then
+    printf "verify: missing operands\n"
+    printf "Try 'verify --help' for more information\n"
+    exit 1
+fi
+
+professor=$1
+course=$2
+project=$3
+
+# Get directory of script, resolving links
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+# make sure this program is in submit/bash
+if [ "${DIR##*/}" != 'pbin' ]; then
+    printf "Verify script must be in directory 'submit/pbin'\n"
+    printf "Verify script is currently in '$DIR'\n"
+    exit 1
+fi
+
+dirname="${DIR%/*}"
+if [ "${dirname##*/}" != 'submit' ]; then
+    printf "Verify script must be in directory 'submit/pbin'\n"
+    printf "Verify script is currently in '$DIR'\n"
+    exit 1
+fi
+
+if [ $fix ]; then
+# verify that makeTemplate is in submit/bin and is executable
+    if [ ! -f "$dirname/pbin/makeTemplate" ]; then
+        printf "File '$dirname/pbin/makeTemplate' could not be found and is required for -f, --fix to work\n"
+        exit 1
+    fi
+
+    if [ $(stat -c "%a" "$dirname/pbin/makeTemplate") != "775" ]; then
+        chmod 775 "$dirname/pbin/makeTemplate"
+    fi
+fi
+
+# verify that submit is in submit/bin and is executable
+verifyFile "$dirname/bin/submit"
+if ! [ "$(stat -c "%a" "$dirname/bin/submit")" = "775" ]; then
+    if [ $fix ]; then
+        chmod 755 "$dirname/bin/submit"
+    else
+        printf "File '$dirname/bin/submit' does not have correct permissions\n"
+        exit 1
+    fi
+fi
+
+verifyDirectory "$dirname/$professor"
+verifyDirectory "$dirname/$professor/$course"
+
+# VERIFY current
+if [ $verbose ]; then
+    printf "Verifying '$dirname/$professor/$course/current'..."
+fi
+
+if [ ! -f "$dirname/$professor/$course/current" ]; then
+    if [ $fix ]; then
+        if [ $verbose ]; then
+            printf "Creating file..."
+        fi
+        touch "$dirname/$professor/$course/current"
+    else
+        if [ $verbose ]; then
+            printf "missing\n"
+        else
+            printf "File '$dirname/$professor/$course/current' is missing\n"
+        fi
+        exit 1
+    fi
+fi
+
+if [ $verbose ]; then
+    printf "Done\n"
+fi
+
+verifyDirectory "$dirname/$professor/$course/$project"
+
+projectDir="$dirname/$professor/$course/$project"
+
+verifyDirectory "$projectDir/students"
+verifyDirectory "$projectDir/tests"
+
+# VERIFY required_files
+if [ $verbose ]; then
+    printf "Verifying '$projectDir/required_files'..."
+fi
+
+if [ ! -f "$projectDir/required_files" ]; then
+    if [ $fix ]; then
+        if [ $verbose ]; then
+            printf "Creating file..."
+        fi
+        printf "*" > "$projectDir/required_files"
+    else
+        if [ $verbose ]; then
+            printf "missing\n"
+        else
+            printf "File '$projectDir/required_files' is missing\n"
+        fi
+        exit 1
+    fi
+fi
+
+if [ $verbose ]; then
+    printf "Done\n"
+fi
+
+# VERIFY optional_files
+if [ $verbose ]; then
+    printf "Verifying '$projectDir/optional_files'..."
+fi
+
+if [ ! -f "$projectDir/optional_files" ]; then
+    if [ $fix ]; then
+        if [ $verbose ]; then
+            printf "Creating file..."
+        fi
+        touch "$projectDir/optional_files"
+    else
+        if [ $verbose ]; then
+            printf "missing\n"
+        else
+            printf "File '$projectDir/optional_files' is missing\n"
+        fi
+        exit 1
+    fi
+fi
+
+if [ $verbose ]; then
+    printf "Done\n"
+fi
+
+# VERIFY run_all_tests
+if [ $verbose ]; then
+    printf "Verifying '$projectDir/tests/run_all_tests'..."
+fi
+
+if [ ! -f "$projectDir/tests/run_all_tests" ]; then
+    if [ $fix ]; then
+        if [ $verbose ]; then
+            printf "Creating file..."
+        fi
+        printf "#!/bin/bash\nprintf \"No tests to run\\n\"" > "$projectDir/tests/run_all_tests"
+
+        chmod 755 "$projectDir/tests/run_all_tests"
+    else
+        if [ $verbose ]; then
+            printf "missing\n"
+        else
+            printf "File '$projectDir/tests/run_all_tests' is missing\n"
+        fi
+        exit 1
+    fi
+else
+    if [ $(stat -c "%a" "$projectDir/tests/run_all_tests") != "755" ]; then
+        if [ $fix ]; then
+            if [ $verbose ]; then
+                printf "Changing permission to 755..."
+            fi
+            chmod 755 "$projectDir/tests/run_all_tests"
+        else
+            printf "\nPermissions for 'run_all_tests' is incorrect\nShould be 755\n"
+            exit 1
+        fi
+    fi
+fi
+
+if [ $verbose ]; then
+    printf "Done\n"
+fi

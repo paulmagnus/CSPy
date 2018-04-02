@@ -1,0 +1,21 @@
+def ifOne(x:int) -> bool:
+     if x == 1:
+         return True
+     return False
+
+def ifTwo(x:int) -> bool:
+    if x == 2:
+        return True
+    else:
+        return False
+
+def main():
+    :: x:bool ::
+    print(ifOne(1))
+    print(ifOne(2))
+    print(ifTwo(2))
+    print(ifTwo(1))
+
+main()
+
+

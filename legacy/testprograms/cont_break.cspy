@@ -1,0 +1,13 @@
+"""test_cont_break.cspy"""
+::  x:int = 0  ::
+
+while True:
+    print(x)
+    if x != 15:
+        x += 1
+        continue
+    else:
+        break
+
+
+

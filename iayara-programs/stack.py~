@@ -1,0 +1,24 @@
+class stack:
+    def __init__(self):
+        self.contents = []
+        self.size = 0
+
+    def top(self):
+        if self.size == 0:
+            print("Nope")
+        else:
+            return self.contents[self.size - 1] 
+    
+    def pop(self):
+        if self.size == 0:
+            print("Nope")
+        else:
+            del self.contents[-1]
+            self.size -= 1
+
+    def push(self, item):
+        self.contents.append(item)
+        self.size += 1
+    
+    def empty():
+        return self.size == 0

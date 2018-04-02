@@ -1,0 +1,21 @@
+def BmiCalc(height:float, weight:int) -> string:
+    """calculates a person's bmi"""
+    ::BMI:float::
+    
+    BMI = tofloat(weight) / (tofloat(height) ** 2.0)
+
+    if BMI < 18.5:
+        return 'under'
+    if BMI < 25.0 and BMI >= 18.5:
+       	return 'normal'
+    if BMI >= 25.0 and BMI < 30.0:
+       	return 'over'
+    return 'OBESE DIET YOU UNHEALTHY IDIOT'
+
+print(BmiCalc(1.67, 72))
+    
+
+
+
+
+

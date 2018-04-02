@@ -1,0 +1,57 @@
+"""testing file for built in functions"""
+
+:: s:string, b:bool, f:float, i:int, L:list of int, t:tuple of (int * int * int * int), d:dict of [int|string] ::
+  
+s = "hello"
+
+b = tobool("False")
+print(b)
+i = toint(4.0)
+print(i)
+i = toint("7")
+print(i)
+f = tofloat("4.0")
+print(f)
+f = tofloat(8)
+print(f)
+s = tostring(13)
+print(s)
+L = tolist((1,2,3,4))
+print(L)
+d = todict([(1,"a"), (2,"b")])
+print(d)
+d = todict(((1,"a"), (2,"b")))
+print(d)
+print(frzset(["orange", "apple", "banana"]))
+print(makeset(["cat", "dog", "goat"]))
+
+print(cmp(4,5))
+print(cmp(4.0, 5.0))
+
+print(filter(lambda (x:int) -> bool : (x != 4), (1,2,3,4,1,2,3,4)))
+print(map(lambda (p:[int]) -> int: (p[0] + p[1]), ([1,2],[3,4])))
+print(repr(4))
+
+i = max((4,5,6))
+print(i)
+print(min((6,7)))
+print(abs(-9))
+print(abs(9.0))
+print(all([1,2,3,4]))
+print(any([1,2,3,0]))
+print(bin(2))
+print(chr(97))
+print(divmod(48, 6))
+print(divmod(48.0, 6.0))
+print(hex(97))
+i = len("aaaa")
+print(i)
+print(oct(78))
+print(ord("a"))
+print(pow(2,16))
+print(range(3,4) + [7,7])
+print(round(4.5))
+print(sum([1,2,3,4], 5))
+print("""Hello 
+	       World """)
+

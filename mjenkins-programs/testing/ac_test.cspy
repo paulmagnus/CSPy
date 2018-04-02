@@ -1,0 +1,37 @@
+from cs110graphics pyimport *
+
+class J extends EventHandler:
+    def J(circ : Circle):
+        EventHandler.EventHandler()
+        circ.add_handler(self)
+    def foo(i : int):
+        if i == 0:
+            return
+        print("Hello")
+        self.foo(i - 1)
+    def handle_mouse_enter():
+        print("Yo!")
+      
+def hello():
+    :: name : string,
+       age : int ::
+    name = "Alistair"
+    age = 17
+    age = toint(input("Age: "))
+    for i in 1..age:
+        print(name)
+        
+def main(win : Window):
+    :: circ : Circle, eh : J ::
+    circ = Circle(win, 50, (250, 250))
+    win.add(circ)
+    circ.set_fill_color("#FF0000")
+    eh = J(circ)
+    eh.foo(7)
+    
+    
+StartGraphicsSystem(main)
+
+
+
+

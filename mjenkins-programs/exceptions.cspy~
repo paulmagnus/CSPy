@@ -1,0 +1,6 @@
+def main():
+    ::number:string, num:int::
+    number = "superman"
+    assert(number != "superman")
+                
+main()

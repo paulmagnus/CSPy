@@ -1,0 +1,474 @@
+# -----------------------------------------------------------------------------
+# class Event:
+# An event which gets bound to an object. Used by EventHandler objects.
+# -----------------------------------------------------------------------------
+class Event:
+    # -------------------------------------------------------------------------
+    # def get_button(self)
+    # Returns the mouse button that is attached to the event. Returns None if
+    # the button fails to exist (like if the Event handles a key press).
+    # -------------------------------------------------------------------------
+    def get_button() -> string
+
+    # -------------------------------------------------------------------------
+    # def get_description(self)
+    # Returns the description of the event.
+    # -------------------------------------------------------------------------
+    def get_description() -> string
+
+    # -------------------------------------------------------------------------
+    # def get_key(self)
+    # Returns the keyboard key that is attached to the event. Returns None if
+    # the key fails to exist (like if the Event handles a mouse press).
+    # -------------------------------------------------------------------------
+    def get_key() -> int
+
+    # -------------------------------------------------------------------------
+    # def get_mouse_location(self)
+    # Returns a tuple of the x and y coordinates of the mouse location in the
+    # canvas.
+    # -------------------------------------------------------------------------
+    def get_mouse_location() -> tuple of (int * int)
+
+    # -------------------------------------------------------------------------
+    # def get_root_mouse_location(self)
+    # Returns a tuple of the x and y coordinates of the mouse location in the
+    # monitor.
+    # -------------------------------------------------------------------------
+    def get_root_mouse_location() -> tuple of (int * int)
+
+# -----------------------------------------------------------------------------
+# class EventHandler:
+# Handles an event. These are overloaded by the user.
+# -----------------------------------------------------------------------------
+class EventHandler:
+
+    def EventHandler()
+    # -------------------------------------------------------------------------
+    # def handle_key_press(self, event(Event) )
+    # Handles a key press.
+    # -------------------------------------------------------------------------
+    def handle_key_press(event:Event)
+
+    # -------------------------------------------------------------------------
+    # def handle_key_release(self, event(Event) )
+    # Handles a key release.
+    # -------------------------------------------------------------------------
+    def handle_key_release(event:Event)    
+
+    # -------------------------------------------------------------------------
+    # def handle_mouse_enter(self, event(Event) )
+    # Handles when a mouse enters an object.
+    # -------------------------------------------------------------------------
+    def handle_mouse_enter(event:Event)    
+
+    # -------------------------------------------------------------------------
+    # def handle_mouse_leave(self, event(Event) )
+    # Handles when a mouse leaves an object
+    # -------------------------------------------------------------------------
+    def handle_mouse_leave(event:Event)
+
+    # -------------------------------------------------------------------------
+    # def handle_mouse_move(self, event(Event) )
+    # Handles general mouse movement.
+    # -------------------------------------------------------------------------
+    def handle_mouse_move(event:Event)
+
+    # -------------------------------------------------------------------------
+    # def handle_mouse_press(self, event(Event) )
+    # Handles a mouse press.
+    # -------------------------------------------------------------------------
+    def handle_mouse_press(event:Event)
+
+    # -------------------------------------------------------------------------
+    # def handle_mouse_release(self, event(Event) )
+    # Handles a mouse release.
+    # -------------------------------------------------------------------------
+    def handle_mouse_release(event:Event)
+
+# -----------------------------------------------------------------------------
+# class GraphicalObject:
+# This window is a parent class of any object which can be put into Window.
+# No constructor exists in this class, but its methods are used by other
+# objects that extend/inherit this class.
+# -----------------------------------------------------------------------------
+class GraphicalObject:
+
+    # -------------------------------------------------------------------------
+    # def add_handler(handler(EventHandler) )
+    # Adds an EventHandler to an object.
+    # -------------------------------------------------------------------------
+    def add_handler(handler:EventHandler)
+
+    # -------------------------------------------------------------------------
+    # def get_center(self)
+    # Returns the center of the graphical object.
+    # -------------------------------------------------------------------------
+    def get_center() -> tuple of (int * int)
+
+    # -------------------------------------------------------------------------
+    # def get_depth(self)
+    # Returns the depth of the graphical object.
+    # -------------------------------------------------------------------------
+    def get_depth() -> int 
+
+    # -------------------------------------------------------------------------
+    # def move(self, dx (int), dy (int) )
+    # Moves a graphical object dx pixels horizontally and dy pixels vertically.
+    # -------------------------------------------------------------------------
+    def move(dx:int, dy:int)
+
+    # -------------------------------------------------------------------------
+    # def move_to(self, point (tuple of int * int) )
+    # Moves a graphical object to a point.
+    # -------------------------------------------------------------------------
+    def move_to(point:tuple of (int * int))
+
+    # -------------------------------------------------------------------------
+    # def set_depth(self, depth)
+    # Sets the depth of the GraphicalObject.
+    # -------------------------------------------------------------------------
+    def set_depth(depth:int)
+
+# -----------------------------------------------------------------------------
+# class Window:
+# This window acts as a canvas which other objects can be put onto.
+# -----------------------------------------------------------------------------
+class Window:
+
+    # -------------------------------------------------------------------------
+    # def add(self, graphic (GraphicalObject) )
+    # Adds an object of type GraphicalObject to the Window object.
+    # -------------------------------------------------------------------------
+    def add(graphic:GraphicalObject)
+
+    # -------------------------------------------------------------------------
+    # def remove(self, graphic (GraphicalObject) )
+    # Removes an object of type GraphicalObject to the Window object, assuming 
+    # the object being deleted exists.
+    # -------------------------------------------------------------------------
+    def remove(graphic:GraphicalObject)
+
+    # -------------------------------------------------------------------------
+    # def set_background(self, background (str) )
+    # Sets the background color of the canvas.
+    # -------------------------------------------------------------------------
+    def set_background(background:string)
+
+    # -------------------------------------------------------------------------
+    # def set_height(self, height (int) )
+    # Sets the height of the canvas.
+    # -------------------------------------------------------------------------
+    def set_height(height:int)
+
+    # -------------------------------------------------------------------------
+    # def set_title(self, title (str) )
+    # Sets the title of the window holding the canvas.
+    # -------------------------------------------------------------------------
+    def set_title(name:string)
+
+    # -------------------------------------------------------------------------
+    # def set_width(self, height (int) )
+    # Sets the width of the canvas.
+    # -------------------------------------------------------------------------
+    def set_width(width:int)
+
+# -----------------------------------------------------------------------------
+# class Fillable:
+# This window is a parent class of any object which can have its colors
+# modified.
+# No constructor exists in this class, but its methods are used by other
+# objects that extend/inherit this class.
+# -----------------------------------------------------------------------------
+class Fillable extends GraphicalObject:
+
+    # -------------------------------------------------------------------------
+    # def get_border_color(self)
+    # Returns the border color of a Fillable.
+    # -------------------------------------------------------------------------
+    def get_border_color() -> string
+
+    # -------------------------------------------------------------------------
+    # def get_border_width(self)
+    # Returns the border width of a Fillable.
+    # -------------------------------------------------------------------------
+    def get_border_width() -> int
+
+    # -------------------------------------------------------------------------
+    # def get_fill_color(self)
+    # Returns the depth of a Fillable.
+    # -------------------------------------------------------------------------
+    def get_fill_color() -> string
+
+    # -------------------------------------------------------------------------
+    # def get_pivot(self)
+    # Returns the pivot point of a Fillable.
+    # -------------------------------------------------------------------------
+    def get_pivot() -> tuple of (int * int)
+
+    # -------------------------------------------------------------------------
+    # def rotate(self, degrees (int) )
+    # Rotates the object.
+    # -------------------------------------------------------------------------
+    def rotate(degrees:int)
+
+    # -------------------------------------------------------------------------
+    # def scale(self, factor (float) )
+    # Scales the Fillable up or down depending on the factor.
+    # -------------------------------------------------------------------------
+    def scale(factor:float)
+
+    # -------------------------------------------------------------------------
+    # def set_border_color(self, color (str) )
+    # Sets the border color of the Fillable.
+    # -------------------------------------------------------------------------
+    def set_border_color(color:string)
+
+    # -------------------------------------------------------------------------
+    # def set_border_width(self, width (int) )
+    # Sets the border width of the Fillable.
+    # -------------------------------------------------------------------------
+    def set_border_width(width:int)
+
+    # -------------------------------------------------------------------------
+    # def set_fill_color(self, color (str) )
+    # Sets the fill color of the Fillable.
+    # -------------------------------------------------------------------------
+    def set_fill_color(color:string)
+
+    # -------------------------------------------------------------------------
+    # def set_pivot(self, pivot (tuple of int * int))
+    # Sets the pivot point of the Fillable.
+    # -------------------------------------------------------------------------
+    def set_pivot(pivot:tuple of (int * int))
+
+# GRAPHICAL OBJECTS
+
+# -----------------------------------------------------------------------------
+# class Image:
+# An image, which can be added to a Window object.
+#
+# Required Parameters:
+# image_loc - str - The name of an image within the current working directory.
+# (If the current working directory is /foo/bar, then the image the user
+# want to use has to be in that directory. There is no support for using
+# internet links at this time.)
+#
+# Optional Parameters:
+# center - tuple of int * int - sets the center of the Image.
+# (default: (200, 200))
+# width - int - sets the width of the image. (default: 25)
+# height - int - sets the height of the image. (default: 25)
+# -----------------------------------------------------------------------------
+class Image extends GraphicalObject:
+    def Image(win:Window, image_loc:string, width:?int, height:?int, center:?tuple of (int * int))
+
+    # -------------------------------------------------------------------------
+    # def resize(self, width (int) , height (int) )
+    # Resizes the Image.
+    # -------------------------------------------------------------------------
+    def resize(width:int, height:int)
+
+    # -------------------------------------------------------------------------
+    # def rotate(self, degrees (int) )
+    # Rotates an object by degrees.
+    # -------------------------------------------------------------------------
+    def rotate(degrees:int) #OVERLOADED
+
+    # -------------------------------------------------------------------------
+    # def scale(self, factor (float) )
+    # Scales the image according to the factor.
+    # -------------------------------------------------------------------------
+    def scale(factor:float) #OVERLOADED
+
+    # -------------------------------------------------------------------------
+    # def move(self, dx (int), dy (int) )
+    # Moves a graphical object dx pixels horizontally and dy pixels vertically.
+    # -------------------------------------------------------------------------
+    def move(dx:int, dy:int) #OVERLOADED
+
+    # -------------------------------------------------------------------------
+    # def move_to(self, point (tuple of int * int) )
+    # Moves a graphical object to a point.
+    # -------------------------------------------------------------------------
+    def move_to(point:tuple of (int * int)) #OVERLOADED
+
+    # -------------------------------------------------------------------------
+    # def size(self)
+    # Returns a tuple of the width and height of the image.
+    # -------------------------------------------------------------------------
+    def size() -> tuple of (int * int)
+
+# -----------------------------------------------------------------------------
+# class Text:
+# Text which can be added to a Window object.
+#
+# Required Parameters:
+# text - str - The text which is displayed.
+#
+# Optional Parameters:
+# center - tuple of int * int - sets the center of the Image.
+# (default: (200, 200))
+# width - int - sets the size of the text. (default: 12)
+# -----------------------------------------------------------------------------
+class Text extends GraphicalObject:
+    def Text(win:Window, text:string, center:?tuple of (int * int), size:?int)
+
+    # -------------------------------------------------------------------------
+    # def move(self, dx (int), dy (int) )
+    # Moves a graphical object dx pixels horizontally and dy pixels vertically.
+    # -------------------------------------------------------------------------
+    def move(dx:int, dy:int) #OVERLOADED
+
+    # -------------------------------------------------------------------------
+    # def move_to(self, point (tuple of int * int) )
+    # Moves a graphical object to a point.
+    # -------------------------------------------------------------------------
+    def move_to(point:tuple of (int * int)) #OVERLOADED
+
+    # -------------------------------------------------------------------------
+    # def set_text(self, text (str) )
+    # Sets the text.
+    # -------------------------------------------------------------------------
+    def set_text(text:string)
+
+    # -------------------------------------------------------------------------
+    # def set_size(self, size (int) )
+    # Sets the point size of the text.
+    # -------------------------------------------------------------------------
+    def set_size(size:int)
+
+# FILLABLES
+# -----------------------------------------------------------------------------
+# class Polygon:
+# A Polygon, which can be added to a Window object.
+#
+# Required Parameters:
+# points - list of tuples of int * int - each tuple corresponds to an xy point
+# which are drawn and automatically merged. In the process of making the
+# Polygon, the list of tuples of int * int is turned into a list of ints
+# to make averaging a center point easier.
+# -----------------------------------------------------------------------------
+class Polygon extends Fillable:
+    def Polygon(win:Window, points:[tuple of (int * int)])
+
+# -----------------------------------------------------------------------------
+# class Circle:
+# A circle, which can be added to a Window object.
+#
+# Optional Parameters:
+# radius - int - sets the radius of the Circle. (default: 40)
+# center - tuple - sets the center of the Circle. (default: (200, 200))
+# -----------------------------------------------------------------------------
+class Circle extends Fillable:
+    def Circle(win:Window, radius:?int, center:?tuple of (int * int))
+
+    # -------------------------------------------------------------------------
+    # def set_radius(self, radius (int) )
+    # Sets the radius of the Circle.
+    # -------------------------------------------------------------------------
+    def set_radius(radius:int)
+
+# -----------------------------------------------------------------------------
+# class Oval:
+# An oval, which can be added to a Window object.
+#
+# Optional Parameters:
+# radiusX - int - sets the radius of the Oval. (default: 40)
+# radiusY - int - sets the radius of the Oval. (default: 60)
+# center - tuple - sets the center of the Oval. (default: (200, 200))
+# -----------------------------------------------------------------------------
+class Oval extends Fillable:
+    def Oval(win:Window, radiusX:?int, radiusY:?int, center:?tuple of (int * int))
+
+    # -------------------------------------------------------------------------
+    # def set_radii(self, radiusX (int), radiusY (int) )
+    # Sets the horizontal and vertical radii of the Oval.
+    # -------------------------------------------------------------------------
+    def set_radii(radiusX:int, radiusY:int)
+
+# -----------------------------------------------------------------------------
+# class Square:
+# A square, which can be added to a Window object.
+#
+# Optional Parameters:
+# sideLength - int - sets the side length of the Square. (default: 40)
+# center - tuple - sets the center of the Square. (default: (200, 200))
+# -----------------------------------------------------------------------------
+class Square extends Fillable:
+    def Square(win:Window, sideLength:?int, center:?tuple of (int * int))
+
+    # -------------------------------------------------------------------------
+    # def set_side_length(self, sideLength (int) )
+    # Sets the side length of the Square.
+    # -------------------------------------------------------------------------
+    def set_side_length(sideLength:int)
+
+# -----------------------------------------------------------------------------
+# class Rectangle:
+# A rectangle, which can be added to a Window object.
+#
+# Optional Parameters:
+# width - int - sets the width of the Square. (default: 40)
+# height - int - sets the height of the Square. (default: 40)
+# center - tuple - sets the center of the Square. (default: (200, 200))
+# -----------------------------------------------------------------------------
+class Rectangle extends Fillable:
+    def Rectangle(win:Window, width:?int, height:?int, center:?tuple of (int * int))
+
+    # -------------------------------------------------------------------------
+    # def set_side_lengths(self, width (int), height (int) )
+    # Sets the width and height of the Rectangle.
+    # -------------------------------------------------------------------------
+    def set_side_lengths(width:int, height:int)
+
+# MISCELLANEOUS
+# -----------------------------------------------------------------------------
+# class Timer:
+# A timer, used to run an object every specific interval.
+#
+# Required Parameters:
+# win - Window - the window the timer operates on.
+# interval - int - the timer interval in milliseconds.
+# function - proc() - the function/process which is run every interval.
+# -----------------------------------------------------------------------------
+class Timer:
+    def Timer(win:Window, interval:int, function:proc())
+
+    # -------------------------------------------------------------------------
+    # def set_function(self, function (proc) )
+    # Sets the function the timer runs.
+    # -------------------------------------------------------------------------
+    def set_function(function:proc())
+    
+    # -------------------------------------------------------------------------
+    # def set_interval(self, interval (int) )
+    # Sets the function the timer runs.
+    # ------------------------------------------------------------------------- 
+    def set_interval(interval:int)
+    
+    # -------------------------------------------------------------------------
+    # def start(self)
+    # Starts the timer.
+    # ------------------------------------------------------------------------- 
+    def start()
+    
+    # -------------------------------------------------------------------------
+    # def stop(self)
+    # Stops the timer.
+    # ------------------------------------------------------------------------- 
+    def stop()
+
+# -----------------------------------------------------------------------------
+# def RunWithYieldDelay(win (Window), function (generator of int) ):
+# A function which takes a window and a function which returns a generator of
+# int and runs the function with a delay.
+# -----------------------------------------------------------------------------
+def RunWithYieldDelay(win:Window, function:generator of int)
+
+# -----------------------------------------------------------------------------
+# def StartGraphicsSystem(function (proc), width (int), height(int),
+#                       background (str), name (str))
+# This initalizes the graphics engine.
+# -----------------------------------------------------------------------------
+def StartGraphicsSystem(firstFunction:proc(Window), width:?int, height:?int, background:?string, name:?string)

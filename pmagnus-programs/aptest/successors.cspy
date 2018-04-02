@@ -1,0 +1,33 @@
+# Problem 4 from 2017 AP Test
+
+from position import *
+
+def getSuccessorArray(intArr : [[int]]) -> [[Position]]:
+    :: successorArray : [[Position]] = [[]]::
+    for r in range(len(intArr)):
+        :: row : [Position] ::
+        for c in range(len(intArr[r])):
+            row.append(findPosition(intArr[r][c] + 1 ,intArr))
+        successorArray.append(row)
+    return successorArray
+
+def toString1(x : [string]) -> string:
+    :: ret : string ::
+    ret = "["
+    for s in x:
+        ret += s + ", "
+    ret = ret[:-2]
+    ret += "]"
+    return ret
+
+def toString2(x : [Position]) -> string:
+    return toString1(map(lambda (p : Position) -> string : (p.toString()), x))
+
+def toString3(x : [[Position]]) -> string:
+    return toString1(map(toString2, x))
+
+def main():
+    :: intArr : [[int]] = [[15, 5, 9, 10], [12, 16, 11, 6], [14, 8, 13, 7]] ::
+    print(toString3(getSuccessorArray(intArr)))
+
+main()

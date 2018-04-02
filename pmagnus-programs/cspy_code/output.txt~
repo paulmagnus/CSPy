@@ -1,0 +1,103 @@
+[?1034hhi
+(1,4:0:'FILE':{'A': A, 'fun': [proc (), proc (int)], 'f': proc ()},
+ (1,4:1:'DOCSTRING',
+  (1,4:2:'EMPTY'
+  )
+ ),
+ (1,0:1:'IMPORTBLOCK_SINGLE',
+  (1,0:2:'PYIMPORT_BULK',
+   'alpha'
+  )
+ ),
+ (3,26:1:'DECLARATION_SUITE',
+  (3,26:2:'EMPTY'
+  ),
+  (3,26:2:'EMPTY'
+  ),
+  (3,23:2:'METHODBLOCK',
+   (3,23:3:'PROCEDURE_DEFINITION',
+    'f',
+    (3,30:4:'ARGUMENTLIST':(),
+     (3,30:5:'EMPTY'
+     ),
+     (3,30:5:'EMPTY'
+     )
+    ),
+    (3,31:4:'SUITE_BLOCK',
+     (4,38:5:'DOCSTRING',
+      (4,38:6:'EMPTY'
+      )
+     ),
+     (4,36:5:'BLOCK_WITH_ENVIRONMENT':{'x': A},
+      (4,39:6:'VARIABLEBLOCK_SINGLE',
+       (4,39:7:'DECLARATION_SIMPLE',
+        'x',
+        (4,43:8:'TYPE':A,
+         'A'
+        )
+       )
+      ),
+      (5,52:6:'BLOCK',
+       (5,52:7:'STATEMENT_SINGLE',
+        (5,52:8:'PROCEDURE_CALL',
+         (5,52:9:'VARIABLE':proc (string),
+          'print'
+         ),
+         (5,58:9:'EXPRESSIONLIST_SINGLE':proc (string),
+          (5,58:10:'LITERAL_STRING':string,
+           "'hi'"
+          )
+         )
+        )
+       ),
+       (6,68:7:'BLOCK',
+        (6,68:8:'STATEMENT_SINGLE',
+         (6,68:9:'ASSIGNMENT',
+          (6,68:10:'VARIABLE':A,
+           'x'
+          ),
+          '=',
+          (6,72:10:'CONSTRUCTOR_CALL':A,
+           (6,72:11:'VARIABLE':[proc (), proc (int), proc (int, int)],
+            'A'
+           ),
+           (6,74:11:'EXPRESSIONLIST_MULTI':proc (int, int),
+            (6,74:12:'EXPRESSIONLIST_SINGLE':int,
+             (6,74:13:'LITERAL_INT':int,
+              '3'
+             )
+            ),
+            (6,77:12:'EXPRESSIONLIST_SINGLE':int,
+             (6,77:13:'LITERAL_INT':int,
+              '7'
+             )
+            )
+           )
+          )
+         )
+        ),
+        (8,80:8:'EMPTY'
+        )
+       )
+      )
+     )
+    )
+   ),
+   (8,82:3:'EMPTY'
+   )
+  )
+ ),
+ (8,81:1:'BLOCK',
+  (8,81:2:'STATEMENT_SINGLE',
+   (8,81:3:'PROCEDURE_CALL',
+    (8,81:4:'VARIABLE':proc (),
+     'f'
+    ),
+    (8,84:4:'EMPTY':proc ()
+    )
+   )
+  ),
+  (9,86:2:'EMPTY'
+  )
+ )
+)

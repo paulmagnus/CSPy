@@ -1,0 +1,13 @@
+from sampleStack import *
+
+def main():
+    :: stack:Stack, node:Node ::
+    stack = Stack()
+    node = Node(10)
+    stack.push(node)
+    stack.printstack()
+
+main()
+
+
+

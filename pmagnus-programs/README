@@ -1,0 +1,22 @@
+Things completed for each day in the summer.
+
+15 May 2017
+
+Tested CS110 projects
+- need floor and ceil functions added
+- bots requires graphics library\
+- imports do not work as far as we can tell (local and module)
+- classes cannot contain themselves
+- would like printf
+- templating?
+- early ideas of UX design
+
+16 May 2017
+
+Fixed file write built-in function
+Basic understanding of the parse tree structure
+Basic ideas about how to implement import:
+      from python (should we include import?) -> possibly complex implementation scheme
+      from cspy -> already works for the format:
+           from file import *
+      otherwise it does not work correctly

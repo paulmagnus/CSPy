@@ -1,0 +1,1022 @@
+\documentclass{article}
+\usepackage{enumitem}
+\usepackage{authblk}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{rotating}
+\usepackage{fullpage}
+\usepackage{fancyvrb}
+
+\setlist[itemize]{leftmargin=*}
+
+\begin{document}
+\title{CSPy Ulysses Documentation For Teacher And Student Usage} 
+\author{Paul Magnus '18, Ines Ayara '20, and Matthew R. Jenkins '20, assisted by Alistair Campbell}
+\maketitle{}
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+This is the documentation for CSPy, a strongly-typed Python dialect for use in learning environments. This is the Ulysses version, which is the third version of the dialect. It succeeds the Jabberwocky version made by Lyndsay LaBarge '17 and Maya Montgomery '18, which is itself preceded by a foundation written by Alex Dennis '18 and Eric Collins '17. We thank those responsible for earlier versions for making our lives easier and providing a suitable framework for our improvements.
+
+\subsection{What is CSPy?}
+CSPy is a strongly-typed dialect of Python. Python by itself is not strongly typed and because of this, new programmers that use Python can use it in bad ways, like creating variables that end up not being used, or by setting a variable of a specific type to another type. With CSPy, we are more up front about these problems. Any things have to benamed at the start of each function definition or class definition or program, and CSPy makes sure each thing is used and is not changed to a different thing by the writer. These things make it easy to teach future programmers about programming languages, and helps to make learning other object oriented programming languages easier in the future.
+
+\subsection{How To View And Use This Document}
+This document should be used to aid a developer's analysis of the CSPy backend, and CSPy's Text Editor. It will describe in detail how each part of the CSPy backend works, starting with the master file, then delving into CSPy's lexer and parser, the data structures used throughout the program, the environment generator, the type checker, and then the runtime. After that will be discussion on improvements we have made, such as importing of Python files and the CSPy Text Editor (as well as what aspects we included and what design choices we made in assuring an easy to use IDE for beginning students). Functional development recommendations will be at the end of this document. 
+The authors advise against printing out this document, as it is lengthy and generally not designed for print form. If you have to print this document, print double sided.
+
+\subsection{Contact Information}
+Please send CSPy and graphical environment issues to \verb|pmagnus@hamilton.edu|, any issues related to the CSPy editor to \verb|iayara@hamilton.edu|, and any documentation and graphical environment or documentation issues to \verb|mjenkins@hamilton.edu|. We will be happy to fix anything you find. If any of us are unable to be reached, please email \verb|acampbel@hamilton.edu| and he'll forward any issues to us.
+
+\pagebreak
+\section{CSPy Master Documentation}
+The file \verb|cspy_master.py| runs everything that is necessary for CSPy to work. It analyzes the code, type checks everything, and runs the code. The steps of this process are as follows:
+
+\begin{enumerate}
+\item \verb|cspy_master| sets up the lexer and parser using rules defined in \verb|cspy_lexer| and \verb|cspy_parser| files, then runs the lexer and parser on the CSPy file. (This uses PLY, an implementation of lex and yacc parsing tools for Python.) This process returns a parse tree, which is an abstract syntax tree and whose definition is defined in \verb|cspy_data_struct|.
+
+\item \verb|cspy_master| checks the parse tree for imported files. Once that is finished, master begins a compilation process (steps 1-5) on any imported files. Once that finishes, the generated parse trees are used to add any methods and attributes used in the parent file.
+
+\item \verb|cspy_master| passes the parse tree to \verb|cspy_genenv|, which adds environments in proper scope to appropriate nodes in the tree.
+
+\item \verb|cspy_master| passes the parse tree to \verb|cspy_type_checker| and checks each node for type errors. If an error is found, the program quits and outputs a personalized error message. Otherwise, the parse tree gets sent to \verb|cspy_translate|.
+
+\item \verb|cspy_translate| translates each line of code into Python 2.7 and writes it into a new.py file. It also writes a dictionary which maps each line in the CSPy file to lines in the new .py file.
+
+\item Finally, \verb|cspy_master| calls \verb|cspy_runtime|, which executes the Python file. Any runtime errors are caught and displayed in a simplified manner, and the line the error was found on is substituted for the corresponding line in the CSPy file. Once everything is finished executing, any generated files are deleted.
+\end{enumerate}
+
+\verb|cspy_genenv|, \verb|cspy_type_checker|, and \verb|cspy_translate| all import and make use of the files\\ % document overflow problem
+\verb|cspy_builtins| and \verb|cspy_data_struct| in order to create and edit the parse tree and to type-check built in functions and types.
+
+If an error is found in a .cspy file, any .py or .txt files created in the compilation process will be removed before the program terminates. At any location with a planned system exit, such as in type error in \verb|cspy_type_checker|, the function \verb|remove_files| is called. The master writes the names of any imported .cspy files as well as the main .cspy file to a .txt file to \verb|/tmp/$USER|, so \verb|remove_files| may read in the names of the files to search for. Note that this .txt file must be closed after writing each name, because if the file object is open when an error is found, \verb|remove_files| will not be able to access the names. More information on this can be found in the \verb|cspy_runtime| documentation. 
+
+Currently, the command to run any CSPy file is as follows:
+\begin{verbatim}
+python2.7 cspy_master.py filename.cspy
+\end{verbatim}
+Within bin/ there is an executable called cspy which shortcuts this process:
+\begin{verbatim}
+/bin/cspy filename.cspy
+\end{verbatim}
+\pagebreak
+
+\section{CSPy Lexer Documentation}
+(NOTE: For further documentation on PLY (Python Lex-Yacc), please visit the original creator's documentation located at http://www.dabeaz.com/ply/ply.html.)
+\subsection{PLY Lex and Tokens}
+A lexer is used to tokenize an input string. It splits a string into individual tokens. Tokens are usually given a name to indicate what they are.
+
+According to the PLY model, all token identifiers must be contained within a list assigned to the variable 'tokens'. In this sense, 'tokens' is a reserved word and cannot be used in any other context. Each token identifier corresponds to a variable or function whose identifier is prefixed with '\verb|t_|', another naming system specific to PLY. Anything that follows '\verb|t_|' must be a token identifier and a member of the tokens list. 
+
+\verb|cspy_lexer.py| contains variables and functions which define the tokens in the CSPy language (following the naming system outlined in the PLY documentation). 
+
+\subsection{Token Identifiers and Regular Expressions}
+Each variable or function prefixed with '\verb|t_|' and followed by a token identifier is assigned a regular expression which corresponds to the token name. For example, any string matching the regular expression '\verb|[0-9]+|' will be classified as an '\verb|INTLITERAL|' token:
+\begin{verbatim}
+t_INTLITERAL = r'[0-9]+'
+\end{verbatim}
+Token definitions using variables are added to the lexer in order of decreasing regular expression length. This means '\verb|==|' will be added to lexer before '\verb|=|', and any string containing two equals signs will match the first regular expression, not the second. 
+
+Token definitions using functions are added to the lexer before definitions using variables and in the order they are listed in the lexer file. 
+
+The first line in a token definition must always be a regular expression. Consider the token definition for an '\verb|IDENTIFIER|' token below:
+\begin{verbatim}
+def t_IDENTIFIER(t):
+    r'[a-zA-Z][a-zA-Z0-9_]*'
+    t.type = reserved.get(t.value, 'IDENTIFIER')
+    if t.value == 'True' or t.value == 'False':
+        t.type = 'BOOLLITERAL'
+    return t
+\end{verbatim}
+Note that the first line of the function is a regular expression corresponding to an identifier in CSPy, which can begin with a lowercase or uppercase alphabetic character, and can be followed by any number of underscores or alphanumeric characters. 
+
+The parameter '\verb|t|' is a \verb|LexToken| object. \verb|LexToken| objects have a type attribute, a value attribute, and a lexer attribute. The type attribute is the token identifier, e.g. '\verb|INTLITERAL|', and the value attribute is the input string corresponding to the identifier, e.g. '\verb|7|'. The lexer attribute is the lexer which the token has been tokenized by. 
+
+All token definitions using functions must return '\verb|t|' or else the token object will disappear once the function finishes executing.
+
+\subsection{Reserved Words}
+In addition to the tokens list, cspy lexer.py also contains a dictionary of reserved words whose keys are reserved CSPy words and whose values are token identifiers corresponding to their keys, e.g. \verb|'if' :'IF' |, \verb|'else' : 'ELSE'|.
+
+Unlike the rest of the token identifiers, reserved words do not have to corresponding '\verb|t_|' variables or functions. Any reserved word will match the regular expression for an identifier. The '\verb|t_INDENTIFIER|' function defined above will assign the type attribute of the \verb|LexToken| to a reserved words token identifier if the value of the token is in the dictionary of reserved words. If the identifier is not a reserved word, the \verb|LexToken| type attribute will simply be '\verb|IDENTIFIER|'.
+
+\subsection{Ignore}
+\verb|t_ignore| is a special token definition. It is a regular expression that specifies which characters can be ignored by lexer (usually whitespace). The CSPy lexer ignores space and tab characters that do not relate to line indentation, e.g. spaces between letters, etc.
+\begin{verbatim}
+t_ignore_WS = r'[ \t]'
+\end{verbatim}
+
+\subsection{Line Numbers}
+By default, the lexer does not keep track of new lines. The lineno attribute of the lexer must be updated manually whenever the lexer encounters a newline token. The CSPy lexer keeps track of line numbers by updating the lexer's lineno attribute in \verb|t_CONTLINE| and \verb|t_pass_start|.
+
+\subsection{Indentation}
+Additional attributes for a PLY lexer can be created after a lexer object has been created. In \verb|cspy_master.py|, the CSPy lexer is assigned two additional attributes, \verb|indentstack| and \verb|indentedline|. \verb|indentstack| is a stack containing the indentation levels of the program, where the indentation level on the top of the stack is the current indentation level in the lexing process.
+
+Indentation is handled by \verb|t_indent_INDENT|.
+
+\subsection{Illegal Characters}
+Whenever the lexer encounters illegal characters (like '\verb|$|'), \verb|t_error| is invoked and a syntax error message is displayed containing the CSPy line and line number, along with '\verb|^|'s pointing to the illegal character(s). After displaying the error message, the lexer skips over the illegal character(s) and continues tokenizing the input stream.
+\pagebreak
+\section{CSPy Parser Documentation}
+(NOTE: For further documentation on PLY (Python Lex-Yacc), please visit the original
+creator's documentation located at http://www.dabeaz.com/ply/ply.html.)
+\subsection{Set Up}
+\verb|cspy_parser.py| contains a multitude of functions whose names are prefixed with '\verb|p_|', as per the PLY model. Each function takes a single variable, \verb|p|, which is a \verb|LexToken| created by the CSPy Lexer (see lexer documentation for more details). The very first line of each function is a docstring, which corresponds to a grammar rule and uses the following format, where '\verb|b|', '\verb|c|', and '\verb|d|' are nonterminals or terminals that reduce to nonterminal '\verb|a|':
+\begin{verbatim}
+a : b c d
+\end{verbatim}
+Multiple rules for the same nonterminal can be written within the same docstring using the following syntax:
+\begin{verbatim}
+a : b c d
+  | e f g
+\end{verbatim}
+The start rule for the grammar is the nonterminal '\verb|file|', as specified by the variable '\verb|start|'.
+\subsection{Abstract Syntax Tree}
+Parsed input is stored in an abstract syntax tree (defined in \verb|cspy_data_structs.py|; see Data Structure documentation for more details). For each function, the variable '\verb|p|' is an iterable whose indices correspond to a nonterminal or terminal in the grammar rule. For example:
+\begin{verbatim}
+a    :  b    c    d
+p[0]    p[1] p[2] p[3]
+\end{verbatim}
+All non-terminals on the right hand side of the grammar rule evaluate to abstract syntax trees representing the expansion of said terminal. For example, if '\verb|b|' was a non-terminal, the value of \verb|p[1]| would be an abstract syntax tree corresponding to the grammar rule '\verb|b : l m n|' where '\verb|l|', '\verb|m|', and '\verb|n|' are terminals or nonterminals. The value assigned to \verb|p[0]| is the value which gets returned by a parsing rule function. The majority of parsing functions assign \verb|p[0]| to an abstract syntax tree, e.g. \verb|p[0] = ast(p, label, children*)| where '\verb|p|' is itself, '\verb|label|' is a string which is the identifier of the abstract syntax tree node, and children are the indices of \verb|p| that need to be stored in the abstract syntax tree. From the above example, if you wanted to store the value of '\verb|b|' and '\verb|d|', but not '\verb|c|' in an abstract syntax tree, you would write the following line of code:
+\begin{verbatim}
+p[0] = ast(p, "A NODE", 1, 3)
+\end{verbatim}
+\subsection{Error Reporting}
+In addition to containing the grammar rules for the CSPy language, cspy parser.py also contains additional grammar rules which contain the special '\verb|error|' token, which accounts for the possibility of syntax errors. Use of this token allows the parser to recover and resynchronize itself to continue parsing the remainder of a CSPy program after encountering a syntax error. This process is described in detail in the PLY documentation, under the section 'Recovery and synchronization with error rules'. A simple example, taken from the CSPy grammar, is described below.
+
+\begin{verbatim}
+def p_declaration_error(p):
+    'declaration : IDENTIFIER COLON error EQUALS expression '
+    print("invalid type\n")
+\end{verbatim}
+
+A variable can either be declared or declared and initialized simultaneously. The above rule corresponds to the latter. A variable declaration is defined to be an identifier followed by a colon and a type identifier. An equals sign followed by an expression signifies a variable initialization. '\verb|x:int = 4|' is an example of a valid declaration with an initialization step that contains no syntax errors.
+
+'\verb|x:7 = 7|' is clearly not a valid variable declaration, as both '\verb|7|'s are classified as integer literals by the parser. What follows the colon must be a type identifier, such as '\verb|int|' or '\verb|bool|'. In the case that what follows the colon is not a valid identifier or is a reserved word, in the above example, everything following the colon up to the equals sign ('\verb|7|') will be matched to the special '\verb|error|' token and the following actions will be taken:
+\begin{itemize}
+  \item \verb|p_error|, the parsing error message function, will be invoked with the '\verb|error|' token as its sole argument.
+  \item \verb|p_error| will display the CSPy line and line number the error occurred on along with '\verb|^|'s pointing to the error and a message identifying it as a syntax error.
+  \item The parser will exit from \verb|p_error| and \verb|IDENTIFIER COLON| error \verb|EQUALS| expression will reduce to declaration, invoking \verb|p_declaration_error|, which will display the message "invalid type" to elaborate on the nature of the syntax error.
+  \item The error token will go away and the parser will attempt to continue parsing the CSPy program from the \verb|LexTokens| which follow the expression.
+\end{itemize}
+Note that the '\verb|error|' token should never appear on the end of the right hand side of a grammar rule, as it will make resynchronization more difficult once the rule is reduced. For more information and examples, see the PLY documentation.
+\subsection{Precedence}
+\verb|cspy_parser.py| contains a tuple named '\verb|precedence|' which lists the precedence of specific tokens. Tokens are listed in precedence order of lowest to highest. Each entry in the precedence list is also a tuple whose first element is a string corresponding to the associativity of the token(s). The remaining elements in the tuple are the names of the token(s). Consider the following two entries from the precedence list:
+\begin{verbatim}
+('left', 'PLUS', 'MINUS'),
+('left', 'TIMES', 'DIVIDE', 'MODULO', 'INTDIV')
+\end{verbatim}
+Because they are listed below the '\verb|PLUS|' and '\verb|MINUS|' tokens, '\verb|TIMES|', '\verb|DIVIDE|', '\verb|MODULO|', and '\verb|INTDIV|' have higher precedence. All six of these tokens are left-associative.
+\subsection{Output}
+A CSPy program with no syntax errors will produce a single abstract syntax tree. The parser also produces the following files each time changes are made to the grammar, which are automatically generated:
+\begin{itemize}
+\item parser.out \\
+Contains a written version of the grammar described in \verb|cspy_parser.py| and the parsing table as well as any \verb|S/R| or \verb|R/R| conflicts if they exist. Text file for personal use, debugging, etc.
+\item parsetab.py \\
+A Python version of the PLY parsing table for use during the parsing process. DO NOT edit.
+\end{itemize}
+\subsection{The Language}
+There are currently almost 300 CSPy grammar rules, automatically generated by the parser and stored in the file parser.out. This can be found in Appendix 1 of this document.
+\pagebreak
+\section{CSPy Data Structures Documentation}
+\verb|cspy_data_struct.py| contains class definitions for the following:
+\begin{itemize}
+\item AST (abstract syntax tree)
+\item DeclarationException
+\item NotYetDeclaredException
+\item SignatureException \\
+\end{itemize}
+
+It also contains the following global variables:
+\begin{itemize}
+\item \verb|binary_overload|: 
+
+Dictionary which associates binary operators to the names of their
+corresponding binary overload functions
+\item \verb|unary_overload|: 
+
+Dictionary which associates unary operators to the names of their
+corresponding unary overload functions
+\item \verb|holds_env|: 
+
+List containing labels of all AST nodes that contain environments
+\end{itemize}
+\subsection{AST Attributes}
+\begin{itemize}
+\item \verb|label:string| 
+
+The name of the node. See parser defs for node names (e.g. '\verb|INTLITERAL|').
+\item \verb|type:type_obj| 
+
+The type of the node. Defaults to None. The type of the node is altered by the function \verb|det_type| (found in \verb|cspy_type_checker.py|), which sets the type attributes for all of the nodes in the AST.
+\item \verb|children:list of ast| 
+
+A list of all the children of the current node. Children are usually abstract syntax trees but may occasionally be strings. Children can be accessed through the overloaded indexing operator (\verb|n.children[0]| is equivalent to \verb|n[0]|).
+\item \verb|parent:ast| 
+
+The parent of the current abstract syntax tree node (the node in the tree which contains the current node as a child). All nodes have a parent except for the root of the tree, whose parent is \verb|None|.
+\item \verb!env:dict of [string|type_obj]! 
+
+A dictionary representing the environment contained by the current AST node. Only nodes whose labels are in \verb|holds_env| will have an env attribute defined.
+\item \verb!python_env:dict or [string|type_obj]!
+
+A dictionary representing the environment variables that originated from a python import. Only \verb|FILE| nodes will have a \verb|python_env| attribute defined.
+\item \verb|lineNum:int| 
+
+The number in the CSPy source file indicating where the code this node holds resides.
+\item \verb|endLineNum:int| 
+
+The number in the CSPy source file indicating where the code this node holds ends.
+\item \verb|position:int| 
+
+The index of the first character of code from the CSPy source file the current node holds.
+\item \verb|endPosition:int| 
+
+The index of the last character of code from the CSPy source file the current ast node holds.
+
+\item \verb|column:int| 
+The index of the first character of CSPy code the current node holds with respect to the line number the code is one. The function \verb|set_column_node(sourceCode)| must be called on the root of the tree in order to initialize this attribute.
+
+\item \verb|endColumn:int| 
+The index of the last character of CSPy code the current node holds with respect to the line number the code is one. The function \verb|set_column_node(sourceCode)| must be called on the root of the tree in order to initialize this attribute.
+
+\item \verb|line:int| 
+The line of CSPy where the code contained within the current node is found.
+\end{itemize}
+\subsection{AST Methods}
+\begin{itemize}
+\item \verb|__init__(p:YaccProduction, label:string, *children:int)|
+
+Constructor for an AST node. Receives a YaccProduction \verb|p| which is the parsing symbol the AST represents, a string \verb|label| which is the name and type of the node, and a tuple of integers \verb|children| which are the indices of p that should be added to the current node's children attribute.
+\item \verb|set_column_num(s:string)| 
+
+Sets the values of the column, endColumn, and line attributes for the current node and for all of the children of the current node. Receives a string \verb|s| which is the CSPy source code.
+\item \verb|add_children(children:list of int, p:YaccProduction)| 
+
+Given a list of integers \verb|children| which are the indices of \verb|p| to be added to the children of the current node.
+\item \verb|lookup_var(var:string) -> type_obj or [type_obj]| 
+
+Looks up \verb|var|, the name of the variable being looked up, and returns the type object or a list of type objects (in the case of overloaded functions or procedures) if \verb|var| has been declared in the node's current scope (or its parent scopes). If the variable does not exist, a \verb|NotYetDeclaredException| is raised.
+\item \verb|initiate_var(var:string, typ:type_obj)| 
+
+Given a string \verb|var|, the name of the variable being initialized, and \verb|typ|, the type of \verb|var|, adds \verb|var| to the current node's environment. If the variable already exists, its value is not a function or procedure, or \verb|typ| is not a function or procedure, a \verb|DeclarationException| is raised. If the variable already exists and its value is a function or procedure, or if \verb|typ| has the same signature as its values, a \verb|SignatureException| is raised.
+\item \verb|initiate_python_var(var:string, typ:type_obj)|
+
+Given a string \verb|var|, the name of the variable being initialized, and \verb|typ|, the type of \verb|var|, adds \verb|var| to the file's \verb|env| and \verb|python_env| dictionaries. If the variable already exists, a \verb|DeclarationException| is raised.
+\item \verb|is_class_var(var:string)|
+
+Looks up \verb|var| and returns whether \verb|var| is a local class variable. 
+\item \verb|is_python(var:string)|
+
+Looks up \verb|var| and returns whether \verb|var| was imported from a python program. If the variable is found at any point in the syntax tree before reaching the \verb|FILE| node, then \verb|False| is returned since the local environment has overridden the python import variable.
+\item \verb|flatten(label:string) -> list of ast| 
+
+Flattens the current tree and returns a list of tree nodes whose label attribute is label.
+\item \verb|__getitem__(index:int) -> ast| 
+
+Overloads the indexing operator for an AST. Returns the AST from the current AST's children attribute whose index is index.
+\item \verb|__setitem__(index:int, value:ast)| 
+
+Overloads the indexing assignment operator for an abstract syntax tree. Sets the value of current AST's children attribute at index to value.
+\item \verb|__repr__() -> string| 
+
+Returns a string representation of the current abstract syntax tree.
+\end{itemize}
+\subsection{Exceptions}
+Exceptions:
+\begin{itemize}
+\item DeclarationException 
+
+Raised if a variable declaration fails.
+\item NotYetDeclaredException 
+
+Raised if a variable has not been declared.
+\item SignatureException 
+
+Raised if a function or procedure has already been declared with a given signature.
+\end{itemize}
+\pagebreak
+
+\section{CSPy Generate Environments Documentation}
+Description: \verb|cspy_genenv.py| generates environments, assigning variables to their appropriate scopes, within an AST parse tree.
+\subsection{Detailed Process}
+\begin{itemize}
+\item Tree traversal: The function \verb|generate_environments| is called by the master program and is passed a parse tree. It calls \verb|tree_pass|, which traverses the tree and delegates the environment building by calling functions based on the label of the current node; most of the functions in this file are named with the format \verb|g_NODE|, where NODE is the label of a parse tree node. Only nodes pertaining to scope have functions in this file.
+\item Node functions: These functions take an AST node \verb|n| as their argument. Each node function begins with a comment explaining the children of the received node:
+\begin{verbatim}
+    def g_declaration(n):
+         # 0: identifier; 1: type
+        (NOTE: 0 means n[0]; 1 means n[1])
+\end{verbatim}
+Then each node function performs the appropriate tasks for its given node. The AST is edited to add objects to nodes that can hold environments. Some functions check for errors, usually when some object (a variable, a class, a function) has already been declared in the current scope and the user is attempting to declare it again.
+\item Error reporting: When an error is found, the imported function \verb|type_error|, contained in\\ % Page overflow problem
+\verb|cspy_type_checker.py|, is called to display a formatted and educational error message. As the goal is to help beginning programmers learn, these messages are as descriptive yet simple as possible. \verb|type_error| receives a message as a string, and at least one AST node. The node(s) passed to \verb|type_error| holds the section of code that contains an error. Please see documentation on cspy \verb|cspy_type_checker.py| to read more about \verb|type_error|.
+\end{itemize}
+\pagebreak
+
+\section{CSPy Type Checker Documentation}
+Description: \verb|cspy_type_checker.py| handles the semantic type-checking of a CSPy program via an abstract syntax tree whose environments have already been generated (see \verb|cspy_genenv.py| documentation for more information).
+\begin{itemize}
+\item Traversing a CSPy AST: The main function, \verb|det_type|, receives an abstract syntax tree. It traverses the tree, calling type checking functions based on the label of the current node. All of the type checking functions in this file are named with the format \verb|s_NODE|, where \verb|NODE| is the label of a parse tree node. This file contains additional helper functions as well, whose identifiers are not preceded by an '\verb|s_|'.
+\item Type Checking: Each type checking function (prefixed with an '\verb|s_|') receives an AST node \verb|n| as its sole argument. The first line of every function is a comment with the indices and descriptions of the node's children (taken from \verb|cspy_parser.py|):
+\begin{verbatim}
+    def s_member(n):
+        # 0: object; 1: attribute terminal
+        (NOTE: 0 means n[0]; 1 means n[1])
+\end{verbatim}
+Each type checking function performs the tests appropriate for the given node. If there is a type error, the function calls \verb|type_error|, an error reporting function which receives an error message (a string) and the tree node(s) where the error occurred. For detailed information on the specific type requirements checked by each node function, see documentation on Type Checking Functions.
+\item Error Reporting: When a type error is found, \verb|type_error| is called to display a detailed error message, containing the line and column number of the error, and a short description of what went wrong. These error messages are written for beginners and aim to use simple language to give the user helpful information about the error. The following occurs for every node passed to \verb|type_error|:
+\begin{enumerate}
+\item The line and column number of the start of the code containing the error is displayed, along with the type of the node containing the error, if one exists.
+\item The line of code from the source file containing error is output and underlined  with the symbol '\verb|^|', highlighting the portion of code within the line where the error occurred.
+\item Finally, \verb|type_error| displays the given error message.
+\end{enumerate}
+For example, below is a CSPy program along with the error message for the type error it contains:
+\begin{verbatim}
+    :: p : list of int = [1,2,3] ::
+    for item in p:
+        print(item + "!")
+
+    --------------------------------------------------------
+    CSPy : Type Error
+    Line 3, Column 11: int
+    print(item + "!")
+          ^^^^
+
+    Line 3, Column 18: string
+    print(item + "!")
+                 ^^^
+
+    The binary operator '+' is defined for the left-hand side (int),
+    but it does not have a signature matching the right-hand side (string).
+    --------------------------------------------------------
+\end{verbatim}
+\end{itemize}
+\pagebreak
+
+\section{CSPy Translator Documentation}
+Description: \verb|cspy_translate.py| handles the translation of CSPy to Python 2.7 when given a type-checked parse tree.
+\subsection{Detailed Process}
+\begin{itemize}
+\item Set up: The function \verb|translate| is called by the master program and is passed a parse tree and the name of the CSPy file. Within \verb|/tmp/$USER|, it creates a file with the same filename but with the extension .py, then calls \verb|toPython| on the parse tree to begin translation.
+\item Tree traversal: The function \verb|toPython| traverses the tree and delegates translation by calling functions based on the label of the current node; most of the functions in this file are named with the format \verb|c_NODE|, where \verb|NODE| is the label of a parse tree node. This file contains additional helper functions as well, whose identifiers are not preceded by a '\verb|c_|'.
+\item Node functions: These functions take three arguments: an AST node (child), a file object (file), and the current indentation level as measured by strings such as "\verb|\t\t|" (tabs - set to a default of an empty string). Each node function begins with a comment explaining the children of the received node:
+\begin{verbatim}
+    def c_MEMBER(child, file, tabs=""):
+        # 0: identifier; 1: attribute name
+        (NOTE: 0 means child[0]; 1 means child[1])
+\end{verbatim}
+Then each node function calls \verb|toPython| on any appropriate children, and/or outputs Python code to the output file.
+\begin{itemize}
+\item e.g. when \verb|toPython| sees a node labeled "FILE", it will call \verb|c_FILE|, which in turn calls \verb|toPython| on all of its children (docstring, import block, declaration suite, and block) to be further broken down.
+\item e.g. when \verb|toPython| sees a node labeled "\verb|LITERAL_STRING|", it simply writes the string to the output file because there is no more breaking down needed.
+\end{itemize}
+\item Line mapping: At the end of every output with a new line (such as any single statement), the current line number in the output file is saved in a dictionary as the key to the current CSPy file line number. When translation is complete, a new file is created with the same filename plus "\verb|_linemap.py|". The dictionary of the Python and CSPy line numbers is written to this file to be used for error reporting during runtime. See the documentation of \verb|cspy_runtime.py| for more details.
+Additional Notes:
+\item Irregular keywords: This file includes a dictionary "\verb|replace|" that holds a handful of specific keywords that need to be replaced when translating. For example, "\verb|&&|" is a valid operator in CSPy, but must be replaced with "\verb|and|" when translating to Python.
+\item Global variables: This file includes several global variables that are generally used in situations where a node function may need information that is not present in its received node. For example, \verb|in_class| keeps track of whether or not the translator is currently writing a class definition; this variable is necessary in, for example, \verb|c_DECLARATION_SUITE|, in order to decide between writing a normal series of variable declarations and writing an \verb|__init__| method to declare class attributes. (More details on the global variable \verb|last_var| in "Class constructors" below, and on \verb|assign_me| in "Overloaded functions" below.)
+
+\item Class constructors: In CSPy, creating an instance of a user-defined class looks like:
+\begin{verbatim}
+    myPet : Pet = Pet("Spot")
+\end{verbatim}
+% where the user-defined constructor is named after the class. In order to handle class attributes, this translator writes an \verb|__init__| method consisting only of the class definition's main variable block (i.e. the class attributes). So when a class instance is created - using the above example - the translator outputs \verb|myPet = Pet()|, which will call the \verb|__init__| to declare the class attributes, and then outputs \verb|myPet.Pet("Spot")|, which will call the user-defined constructor as a method. (The line mapping is adjusted accordingly.) However, the variable \verb|myPet| is not passed to \verb|c_CONSTRUCTOR_CALL|, and so a global variable, \verb|last_var|, is used to access this identifier in order to output the call of the user-defined constructor. Also note that a class may have multiple constructors defined (see "Overloaded functions" below). REPLACE WITH UPDATED INIT METHOD
+\item Overloaded functions: CSPy allows for overloaded function signatures, i.e. function definitions that share the same name but accept different parameters. (Note: though in CSPy terms a "function" returns a value and a "procedure" is void, in this case function is simply a general term; procedures may also be overloaded.) Of course, this means no two functions may share the same name and the same list of parameter types, as the functions are distinguished by their parameter type lists. In translation, this overloading is handled by changing the names of the functions. When translating a function definition, if the value of the identifier in the node's parent environment is a list, then the identifier is associated with more than one function, and thus is overloaded. The name of each overloaded function is translated to the following format:
+\verb|_funcname_params|. For example:
+\begin{verbatim}
+    def myFunc (x:int) -> _myFunc_int
+    def myFunc (x:string) -> _myFunc_string
+    def myFunc (x:string, y:int) -> _myFunc_string_int
+\end{verbatim}
+When a function is called, the translator again checks if the function is overloaded. If it is, the translator uses the above established format to find the translated function name, but this time using the types of the given arguments instead of the defined parameter types. For example:
+\begin{verbatim}
+    myFunc(6) -> _myFunc_int(6)
+    myFunc("hi") -> _myFunc_string("hi")
+    myFunc("hi", 3) -> _myFunc_string_int("hi", 3)
+\end{verbatim}
+In this way, all the overloaded functions are translated into their own separately named and callable functions in the Python file.
+
+If a user is attempting to assign an overloaded function to a variable, the global variable \verb|assign_me| comes into play. \verb|assign_me| holds the name of the identifier to which a value is being assigned. In \verb|c_VARIABLE|, the identifier's type is looked up (it matches that of an overloaded function) and its parameter type list is passed on to \verb|overload_name| in order to assign the correct overloaded function to the variable.
+% Import sys + sys.path.append explanation
+\item Import readline: \verb|readline| is a module imported into each translated Python file. Adding this allows for the use of \verb|input()| in .cspy files. Rather than determine whether or not a given file will require the module, the translator simply outputs this import statement to every Python executable. See \verb|cspy_runtime.py| documentation on "Running the file" for a more detailed explanation.
+\end{itemize}
+\pagebreak
+\section{CSPy Runtime Documentation}
+Description: \verb|cspy_runtime.py| runs the Python executable file as the final step in the compilation process, handles any runtime errors, and removes all the extraneous files which were created throughout the compilation process.
+\subsection{Detailed Process}
+\begin{itemize}
+\item Set up: The function run is called by the master program and is passed the name of the CSPy file and a list of imported module names. It checks if the Python executable exists. If it doesn't, something unexpected has gone wrong somewhere in the compilation process, and \verb|cspy_runtime.py| throws an exception.
+
+\item Running the file: Many methods have been tested for this purpose, all with various pros and cons. Currently runtime is using \verb|os.system|  to execute the Python file. Though many sources say the \verb|subprocess| module is a better choice, it does not appear to easily allow the function \verb|input()| (more details in "Other run methods" below). \verb|os.system| calls a bash command to run the Python executable and pipe any \verb|stderr| (standard error) into a text file. Any intended output from the executable prints to the terminal, and any input during runtime is entered into the terminal.
+
+(NOTE: \verb|os.system| also had some difficulty with \verb|input()|, namely that it considered input prompts to be in the same category as \verb|stderr| and therefore output these to the text file instead of the terminal. Research appears to show this is an unresolved bug. One forum coder's suggestion was to simply include \verb|import readline| in the Python file. This miraculously works, allowing the use of \verb|input()|, and so the translator currently imports readline into every Python executable. A messy fix, perhaps, and one that may have unforeseen consequences, but currently not a gift horse we're looking in the mouth.)
+\item Error reporting: When an error is found, this file formats the error message to be more beginner-friendly. The error message is read in from the text file specified above. In the traceback, every pair of lines consists of the file info and the appropriate line of code. (Note: All files present in the traceback should be Python files.) Below is an example Python error message straight from the terminal:
+\begin{verbatim}
+    Traceback (most recent call last):
+        File "ex.py", line 4, in <module>
+            divide(6)
+        File "ex.py", line 3, in divide
+            y = x / 0
+    ZeroDivisionError: integer division or modulo by zero
+\end{verbatim}
+A regular expression is used to extract the filename and the line number from the first line of each pair of lines in the traceback. Then, using the predetermined naming format \verb|filename_linemap.py|, the Python-to-CSPy linemap dictionary created in \verb|cspy_translate.py| is imported (more details in "Line mapping" below). This allows run to convert the extracted line number to the CSPy file's line number, to properly pinpoint the erroring code in the user's .cspy file. Once all the lines have been processed, the given error message is printed, followed by the traceback. Below is the CSPy version of the above error message:
+\begin{verbatim}
+    THERE IS AN ERROR IN FILE 'ex.cspy', LINE 4:
+
+    y = x / 0
+
+    ZeroDivisionError: integer division or modulo by zero
+
+    TRACEBACK:
+    File 'ex.cspy', line 6:
+        divide(6)
+    File 'ex.cspy', line 4:
+        y = x / 0
+\end{verbatim}
+\item Removing files: Whether there's a runtime error or not, at the end this program removes the traces of compilation from \verb|/tmp/$USER| using the function \verb|remove_files|. This removes the temporary folder.
+
+\end{itemize}
+Additional Notes:
+\begin{itemize}
+\item Line mapping: The system for importing the line map dictionary is to use the python pickle module to export the linemap dictionary to the \verb|_linemap| file during translation, and then during runtime use
+\begin{verbatim}
+    line_map = pickle.load(open("/tmp/$USER/file_linemap", "rb"))
+\end{verbatim}
+to load the dictionary.
+\item Other run methods: Ignoring the aforementioned issue of \verb|input()|, the best method found so far was to use the module \verb|subprocess.Popen| to attempt to run the Python executable - as it sounds, this module creates a subprocess in which to execute its given command. If there was a runtime error, the error message was retrieved from the process - using the Popen method \verb|communicate()| - and saved to a variable:
+\begin{verbatim}
+    new_process = subprocess.Popen(['python', filename],
+    stderr = subprocess.PIPE)
+    error = new_process.communicate()[1]
+\end{verbatim}
+The issue with this is that the function \verb|input()|, which introductory students will likely use often to interact with their programs, will not work unless you explicitly use \verb|communicate()| each time input is needed. It is not efficiently possible to plan for these \verb|input()| calls. Other methods of subprocess besides Popen (such as call or \verb|check_output|) may or may not be able to handle \verb|input()|, but regardless do not allow piping the standard error and so do not allow the formatting and line number swapping which we require. Therefore, we chose to use \verb|os.system| and a less sophisticated method of standard error piping.
+\end{itemize}
+\pagebreak
+\section{CSPy Header File Documentation}
+\subsection{Introduction}
+This section discusses the usage and implementation of the "\verb|pyimport|" function for using Python classes with CSPy.
+\subsection{How To Use Imports From Python}
+Importing from Python requires a \verb|.cspyh| file, known as a CSPy header file. For example, if you want to import Python's math module, you need to look at its documentation and write a .cspyh file which contains the function defintions and class definitions within the math module in a special format.
+
+The construction of header files is very similar to the syntax for writing functions. Below is a sample implementation of Python's \verb|math| module:
+\begin{verbatim}
+    :: pi : float, e : float ::
+
+    # rounding functions
+    def floor(x : float) -> float
+    def ceil(x : float) -> float
+
+    # exponential and extra functions
+    def factorial(x : int) -> int
+    def exp(x : float) -> float
+    def log(x : float, base : ?float) -> float
+    def sqrt(x : float) -> float
+    def pow(x : int, y : int) -> int
+
+    # trig functions
+    def acos(x : float) -> float
+    def asin(x : float) -> float
+    def atan(x : float) -> float
+    def atan2(x : float, y :float) -> float
+    def cos(x : float) -> float
+    def sin(x : float) -> float
+    def tan(x : float) -> float
+    def degrees(x : float) -> float
+    def radians(x : float) -> float
+\end{verbatim}
+
+Most functions in this module are omitted because we don't anticipate that introductory students would want to use functions like \verb|math.fmod(x, y)| over \verb|x % y|. The header file approach to importing from Python gives freedom to the developer to pick and choose which functions an introductory student should use.
+
+Each function you want to give access to CSPy needs to be written in a syntax CSPy can parse. Global constants use global variable syntax, and any function definition or process has to match what is returned and what parameters are given. For example, given the function \verb|floor(x)|, you need to specify its return type (\verb|float|), and what type \verb|x| is (\verb|float|).
+
+Classes are constructed in a very similar manner:
+\begin{verbatim}
+    class A:
+        ''' This is a class docstring '''
+        :: x:int, y:float ::
+        def A(x:int, y:float)
+        def show() -> tuple of (int * float)
+\end{verbatim}
+
+Header files can also contain \verb|pyimport| statements at the top of the header file in the same format as the CSPy syntax.
+
+Once you have the header files finished, importing is as simple as typing \verb|pyimport module| at the beginning of the CSPy file. Each variation on this (like \verb|from module pyimport *| or \verb|pyimport module as mod|) is supported.
+
+\subsection{How It Works}
+CSPy header files are lexed, parsed, and type checked in a very similar manner to CSPy's own lexer, parser, and type checker. Since the syntax for header files varies from CSPy's syntax, different files (\verb|cspy_header_lexer.py|, \verb|cspy_header_parser.py|, \verb|cspy_header_genenv.py|,\\ % Page overflow problem
+\verb|cspy_header_translate.py|) are used.
+
+The big difference between the backend for CSPy header files and CSPy files is that a lot of syntax is removed, such as the syntax for loops, conditionals, and the colon after a function definition. This is because the header files just need to know the function's description, not its inner workings. Otherwise, these CSPy header files look and act similarly to CSPy's own files. All of the same roles and details are in both, so there is no need to restate each file's role in the process.
+
+When an error is found, a \verb|type_error| is thrown, resulting in a CSPy Header Type Error being thrown with the line number and subsequent line as output.
+\pagebreak
+\section{CSPy Text Editor Documentation}
+\subsection{Introduction}
+This section discusses the CSPy Text Editor, predominantly built by Paul Magnus and Ines Ayara. Its backend is built off of Tkinter, and its UI/UX is based off of Sublime Text 2. It has two themes: Solarized Dark, and Solarized Light, which use the color scheme made by Ethan Schoonover (see his documentation at http://ethanschoonover.com/solarized for more information).
+\subsection{Features}
+Currently the following features are supported:
+\begin{itemize}
+\item File opening, editing, and saving (basic I/O)
+\item Copy, cut, paste, undo, redo
+\item Select all, expand selection to line, expand selection to word
+\item Find and replace
+\item Submission and execution of code to external system
+\item Configuration of font and theme
+\item CSPy syntax highlighting
+\item Tab system for handling several .cspy files at once
+\item Tracking of line number and column number
+\end{itemize}
+\subsection{Why We Made The Choices We Made}
+The previous version of an editor for the introductory course was Pynt, an online editor built by Emily Sears and Kat Fuzesi in 2015 for python programming. While it had a cloud-based setup and was a lot easier to use than emacs for beginning programmers, it tended to slow down, especially when used for the graphics projects. It also was a pain for grading purposes, due to it being slow to test more complex programs (like ones that use the cs110graphics library). So we felt that the UI/UX for our text editor shouldn't be toy-like and should allow for easy coding and execution, with keyboard shortcuts that most people were used to. 
+
+Even though our text editor runs on a GNU/Linux server, the keyboard shortcuts are bound to the program, and are similar to ones in Windows and Macintosh programs. The system avoids using bash and terminal emulation to access and make files although creation of folders is still left to the user to do through the terminal or some other means. The execution and submission of code is handled so that the user does not have to run the cspy command mentioned earlier in this document.
+
+Our UI is loosely based off of editors such as Sublime Text. We chose to design it off of Sublime Text because we perceived it to be easy to use and powerful. The intent of this was to make the user feel like they were coding in a real IDE. Yes, vim and emacs have been around for a long time and are industry standards, but both of these are complex at first glance and have a lot of features that even programmers don't use daily.
+
+Aspects of the user interface were designed to help promote good code. Each line is 79 characters long, which follows PEP 8 style guidelines. If one surpasses 79 characters, no characters will be printed. % Did we actually manage this?
+Tabs follow PEP 8 style guidelines and are replaced with 4 spaces. While the language is more responsible for teaching good habits, the UI needs to aid in this goal. As a result, syntax highlighting on CSPy commands is necessary, and was one of the first things we built into the program.
+% Add more if needed
+\subsection{Screenshots}
+% Update these screenshots before releasing this document
+These screenshots were taken when the product was in development. There may be
+differences between these screenshots and newer versions of the program or code within the program.
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{CSPyTextEditorMainScreen}
+\captionof{figure}{This shows the program when it is initalized.}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{CSPyTextEditorOpenFile}
+\captionof{figure}{This shows the program's open file prompt.}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{CSPyTextEditorSampleCode}
+\captionof{figure}{This shows how the program highlights code and automatically numbers each line.}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{CSPyTextEditorSampleCodeWithOutput}
+\captionof{figure}{This shows how the program runs files in a separate window.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{CSPyTextEditorSampleCodeWithGraphics}
+\captionof{figure}{This shows how the program runs files in a separate window, and how it runs the graphics system in tandem.}
+\end{figure}
+
+\pagebreak
+
+\section{CSPy Graphics Library Documentation}
+\subsection{Introduction}
+This section discusses the back end of the cs110graphics library, built by Matthew R. Jenkins '20, which is used in tandem with CSPy Text Editor to teach object oriented programming to beginning CS students. It is implemented in Tkinter, and is built off of a foundation by Professor Mark Bailey and subsequent improvements by Emily Sears and Kat Fuzesi in 2015.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{hierarchy}
+\captionof{figure}{This is the basic hierarchy of the graphics library.}
+\end{figure}
+
+\subsection{How The Backend Works}
+For details on how the frontend works, see the related document "CSPy Ulysses Documentation for Student and Teacher Usage".
+
+Any function that uses the cs110graphics library requires a method or class to be created with a Window object passed as one of its parameters. A Window object can be modified through Window's methods (such as setWidth, setHeight, setBackground, setTitle) or through the StartGraphicsSystem function (I personally recommend this because it's less confusing for debugging purposes).
+
+The StartGraphicsSystem function takes a function, and a bunch of optional attributes: a width, a height, a background color, and a title.  When StartGraphicsSystem is called, it creates a window (which is why the function needs to have a window object as one of its attributes) and then operates on that window line by line. Generally the only operations you would do to the window at this stage are adding and removing objects, but one can also set the width and height and background color and title using the methods I mentioned in the paragraph before this one.
+
+GraphicalObjects consist of anything that can be put onto the Tkinter Canvas object contained within a Window class. It includes Images, Text, and Fillables. GraphicalObjects can have EventHandlers added to them, their depths set, and can be moved to a specific point or by a change in x and y.
+
+Fillables consist of anything whose border and fill color can be modified. It includes Polygons, Ovals, Circles, Rectangles, and Squares. Fillables inherit GraphicalObjects, so anything that GraphicalObject does can be done to them. Fillables can be rotated, flipped, scaled, can have their fill color and border color set, and can have their border width set. 
+
+When each object is created, it gets put into an OrderedDict which keeps a tally of its depth, and a graphics list which keeps a tally of which objects are on the canvas at the moment. Each object also gets its own tag (which Tkinter modifies when any methods are run) and an alias to the window it's on. For example, when you want to set a fill color of a Circle, the user only passes a color, but the method accesses the Circle's window (through the \verb|self._window| attribute), and then operates on the tag using this window, setting the fill color to yellow.
+
+Each Fillable is made using the \verb|create_polygon| function in Tkinter. Depending on which type of object it is, its creation is different. Circles have their own generator such as the function \verb|_circle_gen| within Oval and Circle, but Rectangles and Squares generate four corner points. When each Fillable (except for polygon) is made, the window, the width, the height, the center, the top left point and bottom right point are stored.
+
+Image objects take an image location which needs to be within the current working directory, a width, a height, and a center. The image is converted into an object which Tkinter can recognize using the Python Image Library. It is then saved in the class as an image within the Image object. The original image is still left in its place. When an Image is rotated, flipped, or scaled, it refers back to this image location and does the necessary operations using the Python Image Library and then readds the object to the canvas. I'm debating adding a crop function to this class - perhaps this can be a developer recommendation?
+
+Text requires a string of text, a point size, and a center. The only things you can really do right now are set the text and point size.
+
+When a window is created, a bunch of mouse and keyboard events are bound to the Canvas object. The intent of this is for these binds to eventually be rebound by the user thorugh the EventHandler class. Each object the user makes can inherit the EventHandler object and overload all of the functions within the EventHandler class. Using these EventHandler binds, the user can gain access to the mouse location, the key being pressed, the mouse button being pressed, the description of each event, and the mouse location in relation to the computer monitor. 
+
+One of the main issues with developing the backend for this library was the Event Handling process. In Window, we pre-bind several keys to wrappers which then call default EventHandler functions. By default, EventHandler functions do nothing. When a user overwrites these, the user adds a handler, and then their class has custom binds which look for the object and then execute their overwritten event handler functions, if they exist.
+
+Mouse based binds are bound to the object that \verb|add_handler| is operated on. Once it detects whether the mouse is in bounds, it will then call its custom EventHandlers. 
+
+Timer and RunWithYieldDelay both make use of Tkinter's after command. Both do so somewhat differently. Timer requires an interval and is started and stopped by the user, whereas RunWithYieldDelay requires a function which returns a generator of int and has the keyword \verb|yield| in it.
+
+I attempted to make the comments and code as readable as possible. If you need any clarification please feel free to email me at \verb|mjenkins@hamilton.edu|.
+
+\subsection{Screenshots}
+Any and all screenshots of the Graphics Library are located in the related document "CSPy Ulysses Documentation for Student and Teacher Usage".
+
+\pagebreak
+
+\section{Future Development Recommendations}
+At the present moment, the only recommendations we can think of are improving CSPy and fixing any bugs we failed to notice, improving the graphics library by adding new functions and new features, and improving the design and implementation of the CSPy Text Editor.
+\pagebreak
+\section{Appendix 1: parser.out Grammar Rules}
+cspy parser.py:
+\begin{Verbatim}[fontsize=\footnotesize]
+Created by PLY version 3.4 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> file
+Rule 1     file -> optdoc importblock declaration_suite nonempty_block
+Rule 2     file -> optdoc importblock declaration_suite empty
+Rule 3     empty -> <empty>
+Rule 4     optdoc -> DOCSTRING NL
+Rule 5     optdoc -> empty
+Rule 6     importblock -> nonempty_importblock
+Rule 7     importblock -> empty
+Rule 8     nonempty_importblock -> singleimport
+Rule 9     singleimport -> import_statement
+Rule 10    singleimport -> pyimport_statement
+Rule 11    nonempty_importblock -> nonempty_importblock singleimport
+Rule 12    import_statement -> IMPORT IDENTIFIER NL
+Rule 13    import_statement -> IMPORT IDENTIFIER AS IDENTIFIER NL
+Rule 14    import_statement -> FROM IDENTIFIER IMPORT TIMES NL
+Rule 15    import_statement -> FROM IDENTIFIER IMPORT importlist NL
+Rule 16    importlist -> IDENTIFIER
+Rule 17    importlist -> IDENTIFIER AS IDENTIFIER
+Rule 18    importlist -> importlist COMMA importlist
+Rule 19    pyimport_statement -> PYIMPORT IDENTIFIER NL
+Rule 20    pyimport_statement -> PYIMPORT IDENTIFIER AS IDENTIFIER NL
+Rule 21    pyimport_statement -> FROM IDENTIFIER PYIMPORT TIMES NL
+Rule 22    pyimport_statement -> FROM IDENTIFIER PYIMPORT importlist NL
+Rule 23    declaration_suite -> variableblock classblock methodblock
+Rule 24    variableblock -> COLONCOLON nonempty_variableblock COLONCOLON NL
+Rule 25    variableblock -> empty empty
+Rule 26    nonempty_variableblock -> declaration
+Rule 27    nonempty_variableblock -> nonempty_variableblock COMMA nonempty_variableblock
+Rule 28    declaration -> IDENTIFIER COLON type
+Rule 29    declaration -> IDENTIFIER COLON type EQUALS expression
+Rule 30    classblock -> class_definition classblock
+Rule 31    classblock -> empty
+Rule 32    class_definition -> CLASS IDENTIFIER opt_extends COLON NL INDENT class_suite DEDENT
+Rule 33    class_suite -> optdoc declaration_suite
+Rule 34    opt_extends -> EXTENDS type
+Rule 35    opt_extends -> empty empty
+Rule 36    methodblock -> subroutine_definition methodblock
+Rule 37    methodblock -> empty
+Rule 38    subroutine_definition -> function_definition
+Rule 39    subroutine_definition -> procedure_definition
+Rule 40    function_definition -> DEF IDENTIFIER LPAREN argumentlist RPAREN ARROW type COLON suite
+Rule 41    procedure_definition -> DEF IDENTIFIER LPAREN argumentlist RPAREN COLON suite
+Rule 42    argumentlist -> nonempty_argumentlist COMMA nonempty_defaultlist
+Rule 43    argumentlist -> nonempty_argumentlist empty empty
+Rule 44    argumentlist -> empty empty empty
+Rule 45    argumentlist -> nonempty_defaultlist empty empty
+Rule 46    nonempty_argumentlist -> IDENTIFIER COLON type
+Rule 47    nonempty_argumentlist -> nonempty_argumentlist COMMA nonempty_argumentlist
+Rule 48    nonempty_defaultlist -> nonempty_defaultlist COMMA nonempty_defaultlist
+Rule 49    nonempty_defaultlist -> IDENTIFIER COLON type EQUALS expression
+Rule 50    suite -> NL INDENT optdoc block DEDENT
+Rule 51    suite -> statement_simple NL
+Rule 52    block -> variableblock nonempty_block
+Rule 53    nonempty_block -> statement_complex empty
+Rule 54    nonempty_block -> statement_complex nonempty_block
+Rule 55    statement_complex -> loop
+Rule 56    statement_complex -> conditional
+Rule 57    statement_complex -> try_except
+Rule 58    statement_complex -> statement_multi NL
+Rule 59    statement_complex -> statement_multi SEMICOLON NL
+Rule 60    statement_multi -> statement_multi SEMICOLON statement_simple
+Rule 61    statement_multi -> statement_simple
+Rule 62    statement_simple -> assignment
+Rule 63    statement_simple -> procedure_call
+Rule 64    statement_simple -> return
+Rule 65    statement_simple -> assert
+Rule 66    statement_simple -> yield
+Rule 67    statement_simple -> CONTINUE
+Rule 68    statement_simple -> BREAK
+Rule 69    statement_simple -> PASS
+Rule 70    statement_simple -> raise
+Rule 71    statement_simple -> delete
+Rule 72    raise -> RAISE IDENTIFIER
+Rule 73    raise -> RAISE function_call
+Rule 74    raise -> RAISE empty
+Rule 75    delete -> DEL expression
+Rule 76    loop -> while_loop
+Rule 77    loop -> for_loop
+Rule 78    while_loop -> WHILE expression COLON suite
+Rule 79    for_loop -> FOR IDENTIFIER IN expression COLON suite
+Rule 80    for_loop -> FOR IDENTIFIER IN expression DOTDOT expression COLON suite
+Rule 81    conditional -> IF expression COLON suite conditional_extension
+Rule 82    conditional_extension -> empty
+Rule 83    conditional_extension -> ELIF expression COLON suite conditional_extension
+Rule 84    conditional_extension -> ELSE COLON suite
+Rule 85    try_except -> TRY COLON suite exceptlist_nonempty empty empty
+Rule 86    try_except -> TRY COLON suite exceptlist_nonempty except_else empty
+Rule 87    try_except -> TRY COLON suite exceptlist_nonempty empty except_finally
+Rule 88    try_except -> TRY COLON suite exceptlist_nonempty except_else except_finally
+Rule 89    try_except -> TRY COLON suite empty empty except_finally
+Rule 90    except_simple -> EXCEPT COLON suite
+Rule 91    except_alias -> EXCEPT IDENTIFIER AS IDENTIFIER COLON suite exceptlist
+Rule 92    except_specific -> EXCEPT IDENTIFIER COLON suite exceptlist
+Rule 93    except_else -> ELSE COLON suite
+Rule 94    except_finally -> FINALLY COLON suite
+Rule 95    exceptlist_nonempty -> except_simple
+Rule 96    exceptlist_nonempty -> except_alias
+Rule 97    exceptlist_nonempty -> except_specific
+Rule 98    exceptlist -> except_simple
+Rule 99    exceptlist -> except_alias
+Rule 100   exceptlist -> except_specific
+Rule 101   exceptlist -> empty
+Rule 102   assignment -> indexing assignment_operator expression
+Rule 103   assignment -> slicing assignment_operator expression
+Rule 104   assignment -> variable assignment_operator expression
+Rule 105   assignment -> member assignment_operator expression
+Rule 106   assignment_operator -> EQUALS
+Rule 107   assignment_operator -> PLUSEQU
+Rule 108   assignment_operator -> MINUSEQU
+Rule 109   assignment_operator -> TIMESEQU
+Rule 110   assignment_operator -> DIVEQU
+Rule 111   assignment_operator -> MODEQU
+Rule 112   assignment_operator -> BITANDEQU
+Rule 113   assignment_operator -> BITOREQU
+Rule 114   assignment_operator -> BITXOREQU
+Rule 115   assignment_operator -> LSHIFTEQU
+Rule 116   assignment_operator -> RSHIFTEQU
+Rule 117   assignment_operator -> POWEQU
+Rule 118   assignment_operator -> INTDIVEQU
+Rule 119   indexing -> expression LBRACKET expression RBRACKET
+Rule 120   slicing -> expression LBRACKET expression COLON expression optslice RBRACKET
+Rule 121   slicing -> expression LBRACKET empty COLON expression optslice RBRACKET
+Rule 122   slicing -> expression LBRACKET expression COLON empty optslice RBRACKET
+Rule 123   slicing -> expression LBRACKET empty COLON empty optslice RBRACKET
+Rule 124   optslice -> empty empty
+Rule 125   optslice -> COLON empty
+Rule 126   optslice -> COLON expression
+Rule 127   procedure_call -> expression LPAREN expressionlist RPAREN
+Rule 128   return -> RETURN empty
+Rule 129   return -> RETURN expression
+Rule 130   assert -> assertnomessage
+Rule 131   assert -> assertmessage
+Rule 132   assertnomessage -> ASSERT expression
+Rule 133   assertmessage -> ASSERT expression COMMA literal
+Rule 134   yield -> YIELD expression
+Rule 135   type -> function_type
+Rule 136   type -> procedure_type
+Rule 137   type -> tuple_type
+Rule 138   type -> list_type
+Rule 139   type -> dictionary_type
+Rule 140   type -> set_type
+Rule 141   type -> frozenset_type
+Rule 142   type -> generator_type
+Rule 143   type -> member_type
+Rule 144   type -> IDENTIFIER
+Rule 145   member_type -> IDENTIFIER DOT IDENTIFIER
+Rule 146   generator_type -> GENERATOR OF type
+Rule 147   function_type -> FN LPAREN typelist RPAREN ARROW type
+Rule 148   procedure_type -> PROC LPAREN typelist RPAREN
+Rule 149   typelist -> nonempty_typelist COMMA nonempty_default_typelist
+Rule 150   typelist -> nonempty_typelist empty empty
+Rule 151   typelist -> empty empty nonempty_default_typelist
+Rule 152   typelist -> empty empty empty
+Rule 153   nonempty_typelist -> type
+Rule 154   nonempty_typelist -> nonempty_typelist COMMA nonempty_typelist
+Rule 155   nonempty_default_typelist -> QMARK type
+Rule 156   nonempty_default_typelist -> nonempty_default_typelist COMMA nonempty_default_typelist
+Rule 157   tuple_type -> tupleof
+Rule 158   tuple_type -> tupleparens
+Rule 159   tupleof -> TUPLE OF LPAREN tuple_typelist RPAREN
+Rule 160   tupleparens -> LPAREN tuple_typelist RPAREN
+Rule 161   tuple_typelist -> nonempty_tuple_typelist
+Rule 162   tuple_typelist -> empty
+Rule 163   nonempty_tuple_typelist -> type
+Rule 164   nonempty_tuple_typelist -> nonempty_tuple_typelist TIMES nonempty_tuple_typelist
+Rule 165   list_type -> listof
+Rule 166   list_type -> listbracket
+Rule 167   listof -> LIST OF type
+Rule 168   listbracket -> LBRACKET type RBRACKET
+Rule 169   set_type -> SET OF type
+Rule 170   frozenset_type -> FROZENSET OF type
+Rule 171   dictionary_type -> DICT OF LBRACKET type BITOR type RBRACKET
+Rule 172   expression -> calculation
+Rule 173   expression -> function_call
+Rule 174   expression -> grouping
+Rule 175   expression -> literal
+Rule 176   expression -> indexing
+Rule 177   expression -> slicing
+Rule 178   expression -> ternary
+Rule 179   expression -> member
+Rule 180   expression -> identity
+Rule 181   expression -> membership
+Rule 182   expression -> variable
+Rule 183   calculation -> expression PLUS expression
+Rule 184   calculation -> expression MINUS expression
+Rule 185   calculation -> expression TIMES expression
+Rule 186   calculation -> expression DIVIDE expression
+Rule 187   calculation -> expression PERCENT expression
+Rule 188   calculation -> expression INTDIV expression
+Rule 189   calculation -> expression POW expression
+Rule 190   calculation -> expression BITOR expression
+Rule 191   calculation -> expression BITAND expression
+Rule 192   calculation -> expression LSHIFT expression
+Rule 193   calculation -> expression RSHIFT expression
+Rule 194   calculation -> expression EQUALTO expression
+Rule 195   calculation -> expression NEQUALTO expression
+Rule 196   calculation -> expression LT expression
+Rule 197   calculation -> expression LE expression
+Rule 198   calculation -> expression GT expression
+Rule 199   calculation -> expression GE expression
+Rule 200   calculation -> expression REQUALTO expression
+Rule 201   calculation -> expression BOOLOR expression
+Rule 202   calculation -> expression BOOLAND expression
+Rule 203   calculation -> expression OR expression
+Rule 204   calculation -> expression AND expression
+Rule 205   calculation -> expression CARET expression
+Rule 206   expression -> MINUS expression
+Rule 207   expression -> PLUS expression
+Rule 208   expression -> TILDE expression
+Rule 209   expression -> EXMARK expression
+Rule 210   expression -> NOT expression
+Rule 211   function_call -> expression LPAREN expressionlist RPAREN
+Rule 212   expressionlist -> nonempty_expressionlist
+Rule 213   expressionlist -> empty
+Rule 214   nonempty_expressionlist -> expression
+Rule 215   nonempty_expressionlist -> nonempty_expressionlist COMMA nonempty_expressionlist
+Rule 216   grouping -> LPAREN expression RPAREN
+Rule 217   literal -> INTLITERAL
+Rule 218   literal -> FLOATLITERAL
+Rule 219   literal -> BOOLLITERAL
+Rule 220   literal -> STRINGLITERAL
+Rule 221   literal -> DOCSTRING
+Rule 222   literal -> NONE
+Rule 223   literal -> function_literal
+Rule 224   literal -> procedure_literal
+Rule 225   literal -> tuple_literal
+Rule 226   literal -> list_literal
+Rule 227   literal -> dictionary_literal
+Rule 228   literal -> set_literal
+Rule 229   function_literal -> LAMBDA LPAREN argumentlist RPAREN ARROW type COLON LPAREN expression RPAREN
+Rule 230   tuple_literal -> LPAREN tuplelist RPAREN
+Rule 231   tuplelist -> nonempty_tuple
+Rule 232   tuplelist -> empty
+Rule 233   nonempty_tuple -> singletontuple
+Rule 234   nonempty_tuple -> crosstuple
+Rule 235   singletontuple -> nonempty_expressionlist COMMA
+Rule 236   crosstuple -> nonempty_expressionlist
+Rule 237   list_literal -> LBRACKET expressionlist RBRACKET
+Rule 238   dictionary_literal -> LCURLY dictionarylist RCURLY
+Rule 239   dictionarylist -> nonempty_dictionarylist
+Rule 240   dictionarylist -> empty
+Rule 241   nonempty_dictionarylist -> expression COLON expression
+Rule 242   nonempty_dictionarylist -> nonempty_dictionarylist COMMA nonempty_dictionarylist
+Rule 243   set_literal -> LCURLY nonempty_expressionlist RCURLY
+Rule 244   variable -> IDENTIFIER
+Rule 245   ternary -> expression QMARK expression COLON expression
+Rule 246   member -> expression DOT IDENTIFIER
+Rule 247   identity -> expression IS expression
+Rule 248   identity -> expression ISNOT expression
+Rule 249   membership -> expression IN expression
+Rule 250   membership -> expression NOTIN expression
+Rule 251   variableblock -> COLONCOLON error COLONCOLON NL
+Rule 252   declaration -> IDENTIFIER COLON error EQUALS expression
+Rule 253   class_definition -> CLASS IDENTIFIER opt_generic opt_extends error NL INDENT class_suite DEDENT
+Rule 254   class_definition -> CLASS IDENTIFIER opt_generic opt_extends COLON NL INDENT error DEDENT
+Rule 255   opt_generic -> LT error GT
+Rule 256   function_definition -> DEF error LPAREN argumentlist RPAREN ARROW type COLON suite
+Rule 257   function_definition -> DEF IDENTIFIER LPAREN argumentlist error ARROW type COLON suite
+Rule 258   function_definition -> DEF IDENTIFIER LPAREN argumentlist RPAREN ARROW error COLON suite
+Rule 259   procedure_definition -> DEF error LPAREN argumentlist RPAREN COLON suite
+Rule 260   procedure_definition -> DEF IDENTIFIER LPAREN argumentlist error COLON suite
+Rule 261   nonempty_argumentlist -> error COLON type
+Rule 262   nonempty_defaultlist -> IDENTIFIER COLON error EQUALS expression
+Rule 263   while_loop -> WHILE error COLON suite
+Rule 264   for_loop -> FOR error IN expression COLON suite
+Rule 265   for_loop -> FOR IDENTIFIER IN error COLON suite
+Rule 266   for_loop -> FOR error IN expression DOTDOT expression COLON suite
+Rule 267   for_loop -> FOR IDENTIFIER IN error DOTDOT expression COLON suite
+Rule 268   for_loop -> FOR IDENTIFIER IN expression DOTDOT error COLON suite
+Rule 269   conditional -> IF error COLON suite conditional_extension
+Rule 270   conditional_extension -> ELIF error COLON suite conditional_extension
+Rule 271   except_alias -> EXCEPT error AS IDENTIFIER COLON suite exceptlist
+Rule 272   except_alias -> EXCEPT IDENTIFIER AS error COLON suite exceptlist
+Rule 273   except_specific -> EXCEPT error COLON suite exceptlist
+Rule 274   indexing -> expression LBRACKET error RBRACKET
+Rule 275   slicing -> expression LBRACKET error COLON expression optslice RBRACKET
+Rule 276   slicing -> expression LBRACKET expression COLON expression error RBRACKET
+Rule 277   procedure_call -> expression LPAREN error RPAREN
+Rule 278   function_type -> FN LPAREN error RPAREN ARROW type
+Rule 279   procedure_type -> PROC LPAREN error RPAREN
+Rule 280   dictionary_type -> DICT error LBRACKET type BITOR type RBRACKET
+Rule 281   dictionary_type -> DICT OF LBRACKET error BITOR type RBRACKET
+Rule 282   dictionary_type -> DICT OF LBRACKET type BITOR error RBRACKET
+Rule 283   tuple_type -> TUPLE error LPAREN tuple_typelist RPAREN
+Rule 284   tuple_type -> TUPLE OF LPAREN error RPAREN
+Rule 285   function_literal -> LAMBDA LPAREN error RPAREN ARROW type COLON LPAREN expression RPAREN
+Rule 286   function_literal -> LAMBDA LPAREN argumentlist RPAREN ARROW error COLON LPAREN expression RPAREN
+Rule 287   function_literal -> LAMBDA LPAREN argumentlist RPAREN ARROW type COLON LPAREN error RPAREN
+Rule 288   procedure_literal -> LAMBDA LPAREN error RPAREN COLON LPAREN statement_simple RPAREN
+Rule 289   procedure_literal -> LAMBDA LPAREN argumentlist RPAREN error LPAREN statement_simple RPAREN
+Rule 290   procedure_literal -> LAMBDA LPAREN argumentlist RPAREN COLON LPAREN error RPAREN
+Rule 291   list_literal -> LBRACKET error RBRACKET
+Rule 292   dictionary_literal -> LCURLY error RCURLY
+\end{Verbatim}
+\pagebreak
+\noindent cspy header parser.py:
+\begin{Verbatim}[fontsize=\footnotesize]
+Created by PLY version 3.4 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> file
+Rule 1     file -> optdoc importblock declaration_suite
+Rule 2     empty -> <empty>
+Rule 3     optdoc -> DOCSTRING NL
+Rule 4     optdoc -> empty
+Rule 5     importblock -> nonempty_importblock
+Rule 6     importblock -> empty
+Rule 7     nonempty_importblock -> singleimport
+Rule 8     singleimport -> pyimport_statement
+Rule 9     nonempty_importblock -> nonempty_importblock singleimport
+Rule 10    pyimport_statement -> PYIMPORT IDENTIFIER NL
+Rule 11    pyimport_statement -> PYIMPORT IDENTIFIER AS IDENTIFIER NL
+Rule 12    pyimport_statement -> FROM IDENTIFIER PYIMPORT TIMES NL
+Rule 13    pyimport_statement -> FROM IDENTIFIER PYIMPORT importlist NL
+Rule 14    importlist -> IDENTIFIER
+Rule 15    importlist -> IDENTIFIER AS IDENTIFIER
+Rule 16    importlist -> importlist COMMA importlist
+Rule 17    declaration_suite -> variableblock classblock methodblock
+Rule 18    variableblock -> COLONCOLON nonempty_variableblock COLONCOLON NL
+Rule 19    variableblock -> empty empty
+Rule 20    nonempty_variableblock -> declaration
+Rule 21    nonempty_variableblock -> nonempty_variableblock COMMA nonempty_variableblock
+Rule 22    declaration -> IDENTIFIER COLON type
+Rule 23    classblock -> class_definition classblock
+Rule 24    classblock -> empty
+Rule 25    class_definition -> CLASS IDENTIFIER opt_extends COLON NL INDENT class_suite DEDENT
+Rule 26    class_suite -> optdoc declaration_suite
+Rule 27    opt_extends -> EXTENDS type
+Rule 28    opt_extends -> empty empty
+Rule 29    methodblock -> subroutine_definition methodblock
+Rule 30    methodblock -> empty
+Rule 31    subroutine_definition -> function_definition
+Rule 32    subroutine_definition -> procedure_definition
+Rule 33    function_definition -> DEF IDENTIFIER LPAREN argumentlist RPAREN ARROW type NL
+Rule 34    procedure_definition -> DEF IDENTIFIER LPAREN argumentlist RPAREN NL
+Rule 35    argumentlist -> nonempty_argumentlist COMMA nonempty_defaultlist
+Rule 36    argumentlist -> nonempty_argumentlist empty empty
+Rule 37    argumentlist -> empty empty empty
+Rule 38    argumentlist -> nonempty_defaultlist empty empty
+Rule 39    nonempty_argumentlist -> IDENTIFIER COLON type
+Rule 40    nonempty_argumentlist -> nonempty_argumentlist COMMA nonempty_argumentlist
+Rule 41    nonempty_defaultlist -> nonempty_defaultlist COMMA nonempty_defaultlist
+Rule 42    nonempty_defaultlist -> IDENTIFIER COLON QMARK type
+Rule 43    type -> function_type
+Rule 44    type -> procedure_type
+Rule 45    type -> tuple_type
+Rule 46    type -> list_type
+Rule 47    type -> dictionary_type
+Rule 48    type -> set_type
+Rule 49    type -> frozenset_type
+Rule 50    type -> generator_type
+Rule 51    type -> IDENTIFIER
+Rule 52    function_type -> FN LPAREN typelist RPAREN ARROW type
+Rule 53    procedure_type -> PROC LPAREN typelist RPAREN
+Rule 54    typelist -> nonempty_typelist COMMA nonempty_default_typelist
+Rule 55    typelist -> nonempty_typelist empty empty
+Rule 56    typelist -> empty empty nonempty_default_typelist
+Rule 57    typelist -> empty empty empty
+Rule 58    nonempty_typelist -> type
+Rule 59    nonempty_typelist -> nonempty_typelist COMMA nonempty_typelist
+Rule 60    nonempty_default_typelist -> QMARK type
+Rule 61    nonempty_default_typelist -> nonempty_default_typelist COMMA nonempty_default_typelist
+Rule 62    tuple_type -> tupleof
+Rule 63    tuple_type -> tupleparens
+Rule 64    tupleof -> TUPLE OF LPAREN tuple_typelist RPAREN
+Rule 65    tupleparens -> LPAREN tuple_typelist RPAREN
+Rule 66    tuple_typelist -> nonempty_tuple_typelist
+Rule 67    tuple_typelist -> empty
+Rule 68    nonempty_tuple_typelist -> type
+Rule 69    nonempty_tuple_typelist -> nonempty_tuple_typelist TIMES nonempty_tuple_typelist
+Rule 70    list_type -> listof
+Rule 71    list_type -> listbracket
+Rule 72    listof -> LIST OF type
+Rule 73    listbracket -> LBRACKET type RBRACKET
+Rule 74    set_type -> SET OF type
+Rule 75    frozenset_type -> FROZENSET OF type
+Rule 76    generator_type -> GENERATOR OF type
+Rule 77    dictionary_type -> DICT OF LBRACKET type BITOR type RBRACKET
+Rule 78    variableblock -> COLONCOLON error COLONCOLON NL
+Rule 79    class_definition -> CLASS IDENTIFIER opt_extends error NL INDENT class_suite DEDENT
+Rule 80    class_definition -> CLASS IDENTIFIER opt_extends COLON NL INDENT error DEDENT
+Rule 81    function_definition -> DEF error LPAREN argumentlist RPAREN ARROW type
+Rule 82    function_definition -> DEF IDENTIFIER LPAREN argumentlist error ARROW type
+Rule 83    function_definition -> DEF IDENTIFIER LPAREN argumentlist RPAREN ARROW error
+Rule 84    procedure_definition -> DEF error LPAREN argumentlist RPAREN
+Rule 85    procedure_definition -> DEF IDENTIFIER LPAREN argumentlist error
+Rule 86    nonempty_argumentlist -> error COLON type
+Rule 87    function_type -> FN LPAREN error RPAREN ARROW type
+Rule 88    procedure_type -> PROC LPAREN error RPAREN
+Rule 89    dictionary_type -> DICT error LBRACKET type BITOR type RBRACKET
+Rule 90    dictionary_type -> DICT OF LBRACKET error BITOR type RBRACKET
+Rule 91    dictionary_type -> DICT OF LBRACKET type BITOR error RBRACKET
+\end{Verbatim}
+\end{document}

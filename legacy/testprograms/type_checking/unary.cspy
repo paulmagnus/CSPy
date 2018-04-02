@@ -1,0 +1,2 @@
+:: b:bool = True ::
+b = -b

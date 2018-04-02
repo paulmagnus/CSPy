@@ -1,0 +1,18 @@
+import Tkinter as tk
+import logging
+import time
+
+class ErrorHandler(tk.Text):
+    def __init__(self, *args, **kwargs):
+        tk.Text.__init__(self, *args, **kwargs)
+        self.config(state="disabled")
+        
+    def write(self, s):
+        self.config(state="enabled")
+        self.insert("end", s)
+        self.config(state="disabled")
+        self.update()
+
+    def flush(self):
+        pass
+

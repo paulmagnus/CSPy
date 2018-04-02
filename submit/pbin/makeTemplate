@@ -1,0 +1,274 @@
+#!/bin/bash
+
+#------------------------------------------------------------------------------#
+# makeTemplate                                                                 #
+#                                                                              #
+# Usage: makeTemplate [OPTION]... CLASS PROJECT                                #
+# Build a basic submit directory for the PROFESSOR, CLASS, and PROJECT         #
+#                                                                              #
+# OPTIONS:                                                                     #
+#   -c, --current <bool>  sets whether this project is a current project for   #
+#                         the class. <bool> can be 't', 'true', 'T', 'True',   #
+#                         'f', 'false', F', or 'False'                         #
+#   -d, --due <date>      sets the date and time that the project is due       #
+#                         if this is not set then there is no automatic        #
+#                         handling of the due date by any of the bash scripts  #
+#                         <date> must be in a form recognized by the gnu date  #
+#                         command                                              #
+#   -h, --help            print this help documentation                        #
+#   -p --prof <name>      sets the name of the professor, if this is not set   #
+#                         then the default is the current user                 #
+#   -v, --verbose         explain what is being done                           #
+#                                                                              #
+# makeTemplate can be used to build a new project submit directory or update   #
+# a project that already exists through use of the options.                    #
+#                                                                              #
+# Written by Paul Magnus '18, Ines Ayara '20, Matthew R. Jenkins '20           #
+# Summer 2017                                                                  #
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# buildDirectory dirname                                                       #
+#   This builds the given directory unless it already exists.                  #
+#------------------------------------------------------------------------------#
+
+buildDirectory()
+{
+    if [ ! -d "$1" ]; then
+        if [ $verbose ]; then
+            printf "Creating directory '$1'..."
+        fi
+        mkdir "$1"
+        if [ $verbose ]; then
+            printf "Done\n"
+        fi
+    fi
+}
+
+#------------------------------------------------------------------------------#
+# print_help                                                                   #
+#   This prints the help documentation                                         #
+#------------------------------------------------------------------------------#
+
+print_help()
+{
+    printf "Usage: makeTemplate [OPTION]... CLASS PROJECT\n"
+    printf "Build a basic submit directory for the PROFESSOR, CLASS, and PROJECT\n\n"
+    
+    printf "OPTIONS:\n"
+    printf "  -c, --current <bool>\tsets whether this project is a current project for\n"
+    printf "\t\t\tthe class. <bool> can be 't', 'true', 'T', 'True',\n"
+    printf "\t\t\t'f', 'false', 'F', or 'False'\n"
+    printf "  -d, --due <date>\tsets the date and time that the project is due\n"
+    printf "\t\t\tif this is not set then there is no automatic\n"
+    printf "\t\t\thandling of the due date by any of the bash scripts\n"
+    printf "\t\t\t<date> must be in a form recognized by the gnu date\n"
+    printf "\t\t\tcommand\n"
+    printf "  -h, --help\t\tprint this help documentation\n"
+    printf "  -p, --prof <name>\tsets the name of the professor, if this is not set\n"
+    printf "\t\t\tthen the default is the current user\n"
+    printf "  -v, --verbose\t\texplain what is being done\n"
+    printf "\n"
+    printf "makeTemplate can be used to build a new project submit directory or update\n"
+    printf "a project that already exists through use of the options.\n"
+    printf "\n"
+    printf "Written by Paul Magnus '18, Ines Ayara '20, Matthew R. Jenkins '20\n"
+    printf "Summer 2017\n"
+}
+
+# parse the different options from the input arguments
+while :; do
+    case $1 in
+        -h|--help) print_help
+            exit;;
+        -v|--verbose) verbose=true
+            shift;;
+        -c|--current) shift
+            case $1 in
+                t|true|T|True) current=true;;
+                f|false|F|False) current=false;;
+                *) printf "The -c, --current option takes 'true' or 'false' as an argument\n"
+                    exit 1;;
+            esac
+            shift;;
+        # this argumnet only needed if the current user is not the professor
+        -p|--prof) shift
+            # verify $1 is a string of letters
+            re='^[a-zA-Z]+$'
+            if ! [[ $1 =~ $re ]]; then
+                printf "makeTemplate: improper professor argument\n"
+                printf "Try 'makeTemplate --help' for more information\n"
+                exit 1
+            fi
+            professor=$1
+            shift;;
+        -d|--due) shift
+            duedate=$1
+            shift;;
+        *) break
+    esac
+done
+
+# make sure there are 2 remaining arguments
+if [ $# != 2 ]; then
+    printf "makeTemplate: missing operands\n"
+    printf "Try 'makeTemplate --help' for more information\n"
+    exit 1
+fi
+
+# professor defaults to the user
+if [ -z $professor ]; then
+    professor=$USER
+fi
+
+# verify COURSE is a number
+re='^[0-9]+$'
+if ! [[ $1 =~ $re ]]; then
+    printf "makeTemplate: improper COURSE\n"
+    printf "Try 'makeTemplate --help' for more information\n"
+    exit 1
+fi
+
+# verify PROJECT is a string of letters
+re='^[a-zA-Z]+$'
+if ! [[ $2 =~ $re ]]; then
+    printf "makeTemplate: improper PROJECT\n"
+    printf "Try 'makeTemplate --help' for more information\n"
+    exit 1
+fi
+
+course=$1
+project=$2
+
+# Get directory of script, resolving links
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+# make sure this program is in submit/pbin
+if [ "${DIR##*/}" != 'pbin' ]; then
+    printf "Verify script must be in directory 'submit/pbin'\n"
+    printf "Verify script is currently in '$DIR'\n"
+    exit 1
+fi
+
+dirname="${DIR%/*}"
+if [ "${dirname##*/}" != 'submit' ]; then
+    printf "Verify script must be in directory 'submit/pbin'\n"
+    printf "Verify script is currently in '$DIR'\n"
+    exit 1
+fi
+
+# build directories as needed
+buildDirectory "$dirname/$professor"
+buildDirectory "$dirname/$professor/$course"
+buildDirectory "$dirname/$professor/$course/$project"
+buildDirectory "$dirname/$professor/$course/$project/tests"
+buildDirectory "$dirname/$professor/$course/$project/students"
+
+projectDir="$dirname/$professor/$course/$project"
+
+# add 'current' file for the course if it does not exist
+if [ ! -f "$dirname/$professor/$course/current" ]; then
+    if [ $verbose ]; then
+        printf "Creating file '$dirname/$professor/$course/current'..."
+    fi
+    # default of no current projects
+    touch "$dirname/$professor/$course/current"
+    if [ $verbose ]; then
+        printf "Done\n"
+    fi
+fi
+
+# add or remove the project from 'current' based on the -c, --current option
+if [ $current -a $current == true ]; then
+    grep -q -F "$project" "$dirname/$professor/$course/current" || (
+        if [ $verbose ]; then
+            printf "Adding $project to current projects..."
+        fi
+        printf "$project\n" >> "$dirname/$professor/$course/current"
+        if [ $verbose ]; then
+            printf "Done\n"
+        fi)
+fi
+
+if [ $current -a $current == false ]; then
+    if grep -q -F "$project" "$dirname/$professor/$course/current"; then
+        if [ $verbose ]; then
+            printf "Removing $project from current projects..."
+        fi
+        sed -i "/$project/d" "$dirname/$professor/$course/current"
+        if [ $verbose ]; then
+            printf "Done\n"
+        fi
+    fi
+fi
+
+# create or update duedate file
+if [ -n "$duedate" ]; then
+    normalizedDuedate="$(date --date="$duedate" +%Y-%m-%d\ %H:%M:%S)"
+    printf "$normalizedDuedate" > "$projectDir/duedate"
+fi
+
+# create 'required_files' if it does not exist
+# the default is a file containing only the character * which means 
+# grab all files in the folder for submission
+if [ ! -f "$projectDir/required_files" ]; then
+    if [ $verbose ]; then
+        printf "Creating file '$projectDir/required_files'..."
+    fi
+    # default of no current projects
+    printf "*" > "$projectDir/required_files"
+    if [ $verbose ]; then
+        printf "Done\n"
+    fi
+fi
+
+# create 'optional_files' if it does not exist
+# the default is no optional_files
+if [ ! -f "$projectDir/optional_files" ]; then
+    if [ $verbose ]; then
+        printf "Creating file '$projectDir/optional_files'..."
+    fi
+    # default to no optional files
+    touch "$projectDir/optional_files"
+    if [ $verbose ]; then
+        printf "Done\n"
+    fi
+fi
+
+# create 'run_all_tests' if it does not exist and set its permissions to 775
+# The default is a bash script that prints out "No tests to run\n" but this
+# should be changed in most cases to a script designed to run any submission
+# tests.
+# 
+# During the submission script, 'run_all_tests' will be executed with one
+# argument - the folder that contains the programs that were just submitted.
+# This folder will be 'submit/$professor/$course/$project/students/$USER'
+if [ ! -f "$projectDir/tests/run_all_tests" ]; then
+    if [ $verbose ]; then
+        printf "Creating file '$projectDir/tests/run_all_tests'..."
+    fi
+    # default no tests
+    testfile="$projectDir/tests/run_all_tests"
+    printf '#!/bin/bash\nprintf \"No tests to run\\n\"\n' > $testfile
+    printf "\n" >> $testfile
+    printf "# In most cases this script should be replaced or modified to a script\n" >> $testfile
+    printf "# designed to run any submission tests which can be placed in the same\n" >> $testfile
+    printf "# folder as this file.\n" >> $testfile
+    printf "#\n" >> $testfile
+    printf "# During the submission script, this file will be executed with one\n" >> $testfile
+    printf "# argument - the folder that contains the programs that were just submitted\n" >> $testfile
+    printf "# This folder will be 'submit/$professor/$course/$project/students/$USER'\n" >> $testfile
+    printf "# All file names given in 'required_files' will be present in the given\n" >> $testfile
+    printf "# folder and any files in 'optional_files' that were found will be present\n" >> $testfile
+    printf "# in the given folder also\n" >> $testfile
+    chmod 755 "$projectDir/tests/run_all_tests"
+    if [ $verbose ]; then
+        printf "Done\n"
+    fi
+fi

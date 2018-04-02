@@ -1,0 +1,19 @@
+from graphicsLibrary import *
+import random
+
+def colorGen():
+    r = lambda: random.randint(0,255)
+    return '#%02X%02X%02X' % (r(),r(),r())
+
+def main():
+    Board = Window()
+    Board.Window(1920, 1080)
+    for i in range(1000000):
+        Rect = Rectangle()
+        Rect.Rectangle(random.randint(0,100), random.randint(0,100), (random.randint(0,1920), random.randint(0,1080)))
+        Board.add(Rect)
+        #Rect.setFillColor(colorGen())
+        #Rect.setBorderColor(colorGen())
+    StartGraphicsEngine(Board)
+
+main()

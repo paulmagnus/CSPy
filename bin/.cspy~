@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#------------------------------------------------------------------------------#
+# cspy_editor.sh                                                               #
+#                                                                              #
+# This shell script runs a CSPy program. It takes one argument, a .cspy file.  #
+# This program should be called in a new terminal window and will exit the     #
+# the terminal window when the program is done.                                #
+#                                                                              #
+# Written by Paul Magnus '18, Ines Ayara '20, Matthew R. Jenkins '20           #
+# Summer 2017                                                                  #
+#------------------------------------------------------------------------------#
+
+# set terminal size
+printf '\033[8;40;100t'
+
+# color escape sequences
+RED='\e[41m'
+WHITE='\e[97m'
+DEFAULT='\e[0m'
+
+# extend color to end of line
+CLREOL='\x1B[K'
+
+# run CSPy program, highlighting errors in red
+/home/acampbel/CSPy-shared/ulysses/bin/cspy "$1" 2> >(while IFS='' read line; do
+    echo -e "${RED}${WHITE}${line}${CLREOL}${DEFAULT}" >&2
+    done)
+
+# leave the terminal window open until the user presses a key
+printf "Press enter to exit"
+read -n 1 -s
+exit

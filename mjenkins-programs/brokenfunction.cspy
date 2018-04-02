@@ -1,0 +1,4 @@
+def brokenfunction(x:int):
+    print(x + "is the number!")
+
+brokenfunction(1)

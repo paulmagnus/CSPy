@@ -1,0 +1,7 @@
+:: y:string ::
+
+def foo(x:int) -> int:
+    return x 
+
+y = foo(7)
+

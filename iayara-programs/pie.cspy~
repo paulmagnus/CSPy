@@ -1,0 +1,16 @@
+'''pie'''
+
+:: spd : int, numslistan : int, numslicew : int, dpb : int, standneeded : int,
+surfneeded : int, piesneeded : int ::
+
+spd = toint(input("Diameter of standard size pie?:"))
+numslistan = toint(input("How many slices are in a standard size pie:"))
+numslicew = toint(input("How many standard slices do you want?"))
+dpb = toint(input("What is the diameter of the pies you will buy?"))
+
+
+standneeded = math.ceil(numslicew / numslistan)
+surfneeded = standneeded * pi * ((spd / 2)**2)
+piesneeded = math.ceil(surfneeded / pi * ((dpb / 2)**2))
+
+print("You will need to buy", piesneeded, dpb, "-inch diameter pies")

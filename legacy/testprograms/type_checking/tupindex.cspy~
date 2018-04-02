@@ -1,0 +1,4 @@
+:: t: tuple (int * int * string) = (1, 2, "hello"), i:int ::
+
+i = t[1]
+  

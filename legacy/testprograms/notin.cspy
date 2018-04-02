@@ -1,0 +1,13 @@
+'''notin.cspy'''
+
+:: a : list of int = [1,2,3] ::
+
+if 1 in a:
+   print("1 is in the list!")
+
+if 1 not in a:
+   print("1 is in the list!")
+
+if 4 not in a:
+   print("4 is NOT in the list!")
+

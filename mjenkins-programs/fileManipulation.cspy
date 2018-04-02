@@ -1,0 +1,10 @@
+def main():
+    ::myfile:file::
+    myfile = open('hi.txt', 'r+')
+    string = myfile.read()
+    string = string.replace("E", "bananahammock")
+    myfile.write(string)
+
+main()
+
+

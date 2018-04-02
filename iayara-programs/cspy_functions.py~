@@ -1,0 +1,142 @@
+from Tkinter import *
+
+filename = "Untitled"
+
+def copy(texteditor):
+    " Copies a string from the text editor"""
+    texteditor.clipboard_clear()
+    text = text_editor1.get("sel.first", "sel.last")
+    texteditor.clipboard_append(text)
+    
+def cut(texteditor):
+    """ Cuts a string from the text editor """
+    copy(texteditor)
+    texteditor.delete("sel.first", "sel.last")
+
+def paste(texteditor):
+    """ Pastes a previously copied/cut string to the text editor """
+    text = texteditor.selection_get(selection='CLIPBOARD')
+    texteditor.insert('insert', text)
+    cline = 1
+    while cline != int(texteditor.index(END).split('.')[0]):
+        syn_highlight(text_edit, cline)
+        cline += 1
+
+def undo(texteditor):
+    texteditor.edit_undo()
+
+def redo(texteditor):
+    texteditor.edit_redo()
+
+def exit(root):
+    " Exits the window """
+    root.destroy()
+
+def key_control_a(text):
+    """ Selects all the text in the window """
+    text.tag_remove(SEL, "1.0", END)
+    text.tag_add(SEL, "1.0", END)
+    text.mark_set(INSERT, END)
+    text.see(INSERT)
+    return 'break'
+
+def newFile():
+    """ Creates a new file/tab """
+    global filename
+    filename = "Untitled"                                                          
+    new_page = Frame(nb)                                                       #Create a new frame
+    new_status_bar = StatusBar(new_page)                             #Add a status bar to the frame 
+    new_status_bar.pack(side=BOTTOM, fill=X)
+    new_scrollbar = Scrollbar(new_page)                                 #Add a scrollbar to the frame
+    new_scrollbar.pack(side=RIGHT, fill=BOTH)
+    new_text_edit = Text_editor(new_page, new_status_bar)  #Add a text to the frame
+    new_text_edit.config(foreground = 'white')
+    new_text_edit.pack()
+    new_text_edit.focus()   
+    new_scrollbar.config(command=new_text_edit.yview)
+    new_text_edit.config(yscrollcommand=new_scrollbar.set)
+    nb.add(child= new_page, text=filename + "      ")             #Add the frame to a new tab 
+      
+def saveFile():
+    """ Save the changes to a pre-existing file """
+    global filename
+    if filename == "Untitled":
+        saveas()
+    else: 
+        current_frame = nb.children[nb.select().split('.')[2]]
+        for key, val in current_frame.children.iteritems():
+            if isinstance(val, Text):
+                text = val
+        
+        if text == None:
+            print("Something is wrong!")
+
+        t = text.get("0.0", END)
+        f = open(filename, 'w')
+        f.write(t)
+        f.close()
+
+def saveas():
+    """ Save a new file """
+    f = asksaveasfile(mode='w', defaultextension='.cspy')
+    if f == None:
+        return
+    global filename
+    filename = f.name
+    match = re.match('.*/(?P<name>[^/]+)$', filename)
+    str = match.group('name')
+    nb.tab(nb.select(), text = str+ "    ") 
+    current_frame = nb.children[nb.select().split('.')[2]]
+    for key, val in current_frame.children.iteritems():
+        if isinstance(val, Text):
+            text = val
+            
+    if text == None:
+        print("Something is wrong!")
+
+    t = text.get("0.0", END)
+    try:
+        f.write(t.rstrip())
+        filename = f.name
+    except:
+        showerror(title="Oops!", message="Unable to save file...")
+
+def openFile():
+    """ Open a pre-existing file """
+    f = askopenfile(parent=root, mode='rb', title="Select a file")
+    if file != None:
+        global filename
+        filename = f.name
+        match = re.match('.*/(?P<name>[^/]+)$', filename)
+        str = match.group('name')
+        new_page = Frame(nb)
+        new_status_bar = StatusBar(new_page)
+        new_status_bar.pack(side=BOTTOM, fill=X)
+        new_scrollbar = Scrollbar(new_page)
+        new_scrollbar.pack(side=RIGHT, fill=BOTH)
+        new_text_edit = Text_editor(new_page, new_status_bar)
+        new_text_edit.config(foreground = 'white')
+        new_text_edit.pack()
+        new_text_edit.focus()   
+        new_scrollbar.config(command=new_text_edit.yview)
+        new_text_edit.config(yscrollcommand=new_scrollbar.set)
+        nb.add(child= new_page, text=str + "      ")
+        t = f.read()
+        new_text_edit.insert("1.0", t)
+        cline = 1
+        while cline != int(new_text_edit.index(END).split('.')[0]):
+            syn_highlight(new_text_edit, cline)
+            cline += 1
+        f.close()
+
+def run():
+    """ Runs the program to a terminal window"""
+    filename = nb.tab(nb.select(), "text")
+    print(filename)
+    process = subprocess.Popen(["/home/acampbel/CSPy-shared/ulysses/bin/cspy_terminal.sh", 
+                                "/home/acampbel/CSPy-shared/ulysses/iayara-programs/"+filename],
+                               stdout = subprocess.PIPE)
+    out, err = process.communicate()
+    print "Error:", err
+
+    print "Out:", out

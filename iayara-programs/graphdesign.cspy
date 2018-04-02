@@ -1,0 +1,23 @@
+'''Graphic designer'''
+
+def main():
+    :: cx : int, cy : int, sl : int, x : int, y : int, nsl : int ::
+
+    cx = toint(input("Enter center x coordinate"))
+    cy = toint(input("Enter center y coordinate"))
+    sl = toint(input("Enter side length:"))
+    x = toint(input("Enter point x coordinate:"))
+    y = toint(input("Enter point y coordinate:"))
+    nsl = toint(input("Enter new side length")) 
+
+    
+    
+
+
+
+
+main()
+
+
+
+

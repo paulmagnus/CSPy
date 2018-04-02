@@ -1,0 +1,10 @@
+def a():
+    :: ans : int ::
+    while ans != 2:
+        try:
+            ans = toint(input("What do you want? "))
+        except ValueError:
+            pass
+		 
+a()
+

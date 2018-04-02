@@ -1,0 +1,6 @@
+import graphicsLibrary
+
+def main(win):
+    print 'hi'
+
+StartGraphicsSystem(main)

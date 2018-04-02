@@ -1,0 +1,708 @@
+    :: x : int, m : M ::
+TYPE
+[None]
+s_type Type: int
+    :: x : int, m : M ::
+s_type typ: int
+    :: x : int, m : M ::
+DECLARATION_SIMPLE
+[None, False]
+    :: x : int, m : M ::
+VARIABLEBLOCK_SINGLE
+[False]
+    :: x : int, m : M ::
+TYPE
+[None]
+s_type Type: M
+    :: x : int, m : M ::
+s_type typ: M
+    :: x : int, m : M ::
+DECLARATION_SIMPLE
+[None, False]
+    :: x : int, m : M ::
+VARIABLEBLOCK_SINGLE
+[False]
+    :: x : int, m : M ::
+VARIABLEBLOCK_MULTI
+[False, False]
+    def M(y : int, new : M):
+TYPE
+[None]
+s_type Type: int
+    def M(y : int, new : M):
+s_type typ: int
+    def M(y : int, new : M):
+ARGUMENTLIST_SINGLE
+[None, False]
+    def M(y : int, new : M):
+TYPE
+[None]
+s_type Type: M
+    def M(y : int, new : M):
+s_type typ: M
+    def M(y : int, new : M):
+ARGUMENTLIST_SINGLE
+[None, False]
+    def M(y : int, new : M):
+ARGUMENTLIST_MULTI
+[False, False]
+    def M(y : int, new : M):
+EMPTY
+[]
+    def M(y : int, new : M):
+ARGUMENTLIST
+[False, False]
+    def M():
+EMPTY
+[]
+    def M():
+EMPTY
+[]
+    def M():
+ARGUMENTLIST
+[False, False]
+    def add(new : M):
+TYPE
+[None]
+s_type Type: M
+    def add(new : M):
+s_type typ: M
+    def add(new : M):
+ARGUMENTLIST_SINGLE
+[None, False]
+    def add(new : M):
+EMPTY
+[]
+    def add(new : M):
+ARGUMENTLIST
+[False, False]
+    :: x : int, m : M ::
+TYPE
+[None]
+s_type Type: int
+    :: x : int, m : M ::
+s_type typ: int
+    :: x : int, m : M ::
+TYPE
+[None]
+s_type Type: M
+    :: x : int, m : M ::
+s_type typ: M
+    def M(y : int, new : M):
+TYPE
+[None]
+s_type Type: int
+    def M(y : int, new : M):
+s_type typ: int
+    def M(y : int, new : M):
+ARGUMENTLIST_SINGLE
+[None, False]
+    def M(y : int, new : M):
+TYPE
+[None]
+s_type Type: M
+    def M(y : int, new : M):
+s_type typ: M
+    def M(y : int, new : M):
+ARGUMENTLIST_SINGLE
+[None, False]
+    def M(y : int, new : M):
+ARGUMENTLIST_MULTI
+[False, False]
+    def M(y : int, new : M):
+EMPTY
+[]
+    def M(y : int, new : M):
+ARGUMENTLIST
+[False, False]
+    def M(y : int, new : M):
+TYPE
+[None]
+s_type Type: int
+    def M(y : int, new : M):
+s_type typ: int
+    def M(y : int, new : M):
+TYPE
+[None]
+s_type Type: M
+    def M(y : int, new : M):
+s_type typ: proc (int, M)
+    def M():
+EMPTY
+[]
+    def M():
+EMPTY
+[]
+    def M():
+ARGUMENTLIST
+[False, False]
+    def add(new : M):
+TYPE
+[None]
+s_type Type: M
+    def add(new : M):
+s_type typ: [proc (int, M), proc ()]
+    def add(new : M):
+ARGUMENTLIST_SINGLE
+[None, False]
+    def add(new : M):
+EMPTY
+[]
+    def add(new : M):
+ARGUMENTLIST
+[False, False]
+    def add(new : M):
+TYPE
+[None]
+s_type Type: M
+    def add(new : M):
+s_type typ: [proc (int, M), proc ()]
+def a():
+EMPTY
+[]
+def a():
+EMPTY
+[]
+def a():
+ARGUMENTLIST
+[False, False]
+    :: m : M ::
+TYPE
+[None]
+s_type Type: M
+    :: m : M ::
+s_type typ: M
+Environment: {'a': proc (), 'M': M}
+class M:
+EMPTY
+[]
+class M:
+DOCSTRING
+[False]
+class M:
+EMPTY
+[]
+class M:
+EMPTY
+[]
+Environment: {'x': int, 'M': [proc (int, M), proc ()], 'm': M, 'add': proc (M)}
+class M:
+EMPTY
+[]
+class M:
+EMPTY
+[]
+    :: x : int, m : M ::
+EMPTY
+[]
+    :: x : int, m : M ::
+DOCSTRING
+[False]
+    :: x : int, m : M ::
+TYPE
+[None]
+s_type Type: int
+    :: x : int, m : M ::
+s_type typ: int
+    :: x : int, m : M ::
+DECLARATION_SIMPLE
+[None, False]
+    :: x : int, m : M ::
+VARIABLEBLOCK_SINGLE
+[False]
+    :: x : int, m : M ::
+TYPE
+[None]
+s_type Type: M
+    :: x : int, m : M ::
+s_type typ: [proc (int, M), proc ()]
+    :: x : int, m : M ::
+DECLARATION_SIMPLE
+[None, False]
+    :: x : int, m : M ::
+VARIABLEBLOCK_SINGLE
+[False]
+    :: x : int, m : M ::
+VARIABLEBLOCK_MULTI
+[False, False]
+    def M(y : int, new : M):
+EMPTY
+[]
+    def M(y : int, new : M):
+TYPE
+[None]
+s_type Type: int
+    def M(y : int, new : M):
+s_type typ: int
+    def M(y : int, new : M):
+ARGUMENTLIST_SINGLE
+[None, False]
+    def M(y : int, new : M):
+TYPE
+[None]
+s_type Type: M
+    def M(y : int, new : M):
+s_type typ: [proc (int, M), proc ()]
+    def M(y : int, new : M):
+ARGUMENTLIST_SINGLE
+[None, False]
+    def M(y : int, new : M):
+ARGUMENTLIST_MULTI
+[False, False]
+    def M(y : int, new : M):
+EMPTY
+[]
+    def M(y : int, new : M):
+ARGUMENTLIST
+[False, False]
+        x = 5
+EMPTY
+[]
+        x = 5
+DOCSTRING
+[False]
+Environment: {'y': int, 'new': M}
+        x = 5
+EMPTY
+[]
+        x = 5
+VARIABLE
+[None]
+        x = 5
+LITERAL_INT
+[None]
+        x = 5
+ASSIGNMENT
+[False, None, False]
+        x = 5
+STATEMENT_SINGLE
+[False]
+        m.add(new)
+VARIABLE
+[None]
+        m.add(new)
+MEMBER
+[False, None]
+        m.add(new)
+VARIABLE
+[None]
+        m.add(new)
+EXPRESSIONLIST_SINGLE
+[False]
+        m.add(new)
+PROCEDURE_CALL
+[False, False]
+PROC: [proc (M)]
+PARAMS: [M]
+        m.add(new)
+STATEMENT_SINGLE
+[False]
+
+EMPTY
+[]
+        m.add(new)
+
+BLOCK
+[False, False]
+        x = 5
+        m.add(new)
+
+BLOCK
+[False, False]
+        x = 5
+        m.add(new)
+
+BLOCK_WITH_ENVIRONMENT
+[False, False]
+    def M(y : int, new : M):
+        x = 5
+        m.add(new)
+
+SUITE_BLOCK
+[False, False]
+    def M(y : int, new : M):
+        x = 5
+        m.add(new)
+
+PROCEDURE_DEFINITION
+[None, False, False]
+    def M():
+EMPTY
+[]
+    def M():
+EMPTY
+[]
+    def M():
+ARGUMENTLIST
+[False, False]
+        print('hi')
+EMPTY
+[]
+        print('hi')
+DOCSTRING
+[False]
+Environment: {}
+        print('hi')
+EMPTY
+[]
+        print('hi')
+VARIABLE
+[None]
+        print('hi')
+LITERAL_STRING
+[None]
+        print('hi')
+EXPRESSIONLIST_SINGLE
+[False]
+        print('hi')
+PROCEDURE_CALL
+[False, False]
+PROC: [proc (string)]
+PARAMS: [string]
+        print('hi')
+STATEMENT_SINGLE
+[False]
+
+EMPTY
+[]
+        print('hi')
+
+BLOCK
+[False, False]
+        print('hi')
+
+BLOCK_WITH_ENVIRONMENT
+[False, False]
+    def M():
+        print('hi')
+
+SUITE_BLOCK
+[False, False]
+    def M():
+        print('hi')
+
+PROCEDURE_DEFINITION
+[None, False, False]
+    def add(new : M):
+TYPE
+[None]
+s_type Type: M
+    def add(new : M):
+s_type typ: [proc (int, M), proc ()]
+    def add(new : M):
+ARGUMENTLIST_SINGLE
+[None, False]
+    def add(new : M):
+EMPTY
+[]
+    def add(new : M):
+ARGUMENTLIST
+[False, False]
+        m = new
+EMPTY
+[]
+        m = new
+DOCSTRING
+[False]
+Environment: {'new': M}
+        m = new
+EMPTY
+[]
+        m = new
+VARIABLE
+[None]
+        m = new
+VARIABLE
+[None]
+        m = new
+ASSIGNMENT
+[False, None, False]
+        m = new
+STATEMENT_SINGLE
+[False]
+
+EMPTY
+[]
+        m = new
+
+    # def add(y : int):
+    #     x = y
+
+BLOCK
+[False, False]
+        m = new
+
+    # def add(y : int):
+    #     x = y
+
+BLOCK_WITH_ENVIRONMENT
+[False, False]
+    def add(new : M):
+        m = new
+
+    # def add(y : int):
+    #     x = y
+
+SUITE_BLOCK
+[False, False]
+    def add(new : M):
+        m = new
+
+    # def add(y : int):
+    #     x = y
+
+PROCEDURE_DEFINITION
+[None, False, False]
+
+EMPTY
+[]
+    def add(new : M):
+        m = new
+
+    # def add(y : int):
+    #     x = y
+
+METHODBLOCK
+[False, False]
+    def M():
+        print('hi')
+
+    def add(new : M):
+        m = new
+
+    # def add(y : int):
+    #     x = y
+
+METHODBLOCK
+[False, False]
+    def M(y : int, new : M):
+        x = 5
+        m.add(new)
+
+    def M():
+        print('hi')
+
+    def add(new : M):
+        m = new
+
+    # def add(y : int):
+    #     x = y
+
+METHODBLOCK
+[False, False]
+    :: x : int, m : M ::
+    def M(y : int, new : M):
+        x = 5
+        m.add(new)
+
+    def M():
+        print('hi')
+
+    def add(new : M):
+        m = new
+
+    # def add(y : int):
+    #     x = y
+
+DECLARATION_SUITE
+[False, False, False]
+    :: x : int, m : M ::
+    def M(y : int, new : M):
+        x = 5
+        m.add(new)
+
+    def M():
+        print('hi')
+
+    def add(new : M):
+        m = new
+
+    # def add(y : int):
+    #     x = y
+
+CLASS_SUITE
+[False, False]
+class M:
+    :: x : int, m : M ::
+    def M(y : int, new : M):
+        x = 5
+        m.add(new)
+
+    def M():
+        print('hi')
+
+    def add(new : M):
+        m = new
+
+    # def add(y : int):
+    #     x = y
+
+CLASS_DEFINITION
+[None, False, False, False]
+def a():
+EMPTY
+[]
+class M:
+    :: x : int, m : M ::
+    def M(y : int, new : M):
+        x = 5
+        m.add(new)
+
+    def M():
+        print('hi')
+
+    def add(new : M):
+        m = new
+
+    # def add(y : int):
+    #     x = y
+
+def a():
+CLASSBLOCK
+[False, False]
+def a():
+EMPTY
+[]
+def a():
+EMPTY
+[]
+def a():
+ARGUMENTLIST
+[False, False]
+    :: m : M ::
+EMPTY
+[]
+    :: m : M ::
+D[?1034hhi
+OCSTRING
+[False]
+Environment: {'m': M}
+    :: m : M ::
+TYPE
+[None]
+s_type Type: M
+    :: m : M ::
+s_type typ: M
+    :: m : M ::
+DECLARATION_SIMPLE
+[None, False]
+    :: m : M ::
+VARIABLEBLOCK_SINGLE
+[False]
+    print('hi')
+VARIABLE
+[None]
+    print('hi')
+LITERAL_STRING
+[None]
+    print('hi')
+EXPRESSIONLIST_SINGLE
+[False]
+    print('hi')
+PROCEDURE_CALL
+[False, False]
+PROC: [proc (string)]
+PARAMS: [string]
+    print('hi')
+STATEMENT_SINGLE
+[False]
+
+EMPTY
+[]
+    print('hi')
+
+BLOCK
+[False, False]
+    :: m : M ::
+    print('hi')
+
+BLOCK_WITH_ENVIRONMENT
+[False, False]
+def a():
+    :: m : M ::
+    print('hi')
+
+SUITE_BLOCK
+[False, False]
+def a():
+    :: m : M ::
+    print('hi')
+
+PROCEDURE_DEFINITION
+[None, False, False]
+a()
+EMPTY
+[]
+def a():
+    :: m : M ::
+    print('hi')
+
+a()
+METHODBLOCK
+[False, False]
+class M:
+    :: x : int, m : M ::
+    def M(y : int, new : M):
+        x = 5
+        m.add(new)
+
+    def M():
+        print('hi')
+
+    def add(new : M):
+        m = new
+
+    # def add(y : int):
+    #     x = y
+
+def a():
+    :: m : M ::
+    print('hi')
+
+a()
+DECLARATION_SUITE
+[False, False, False]
+a()
+VARIABLE
+[None]
+a()
+EMPTY
+[]
+a()
+PROCEDURE_CALL
+[False, False]
+PROC: [proc ()]
+PARAMS: []
+a()
+STATEMENT_SINGLE
+[False]
+
+EMPTY
+[]
+a()
+
+BLOCK
+[False, False]
+class M:
+    :: x : int, m : M ::
+    def M(y : int, new : M):
+        x = 5
+        m.add(new)
+
+    def M():
+        print('hi')
+
+    def add(new : M):
+        m = new
+
+    # def add(y : int):
+    #     x = y
+
+def a():
+    :: m : M ::
+    print('hi')
+
+a()
+
+FILE
+[False, False, False, False]

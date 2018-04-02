@@ -1,0 +1,29 @@
+def scalePoint():
+    ::	cx : int,
+    	cy : int,
+    	sideLen : int,
+   	px : int,
+    	py : int,
+    	newLen : int,
+	dx : float,
+	dy : float,
+	scale : float ::
+    
+    cx = toint(input("Enter center x coordinate: "))
+    cy = toint(input("Enter center y coordinate: "))
+    sideLen = toint(input("Enter side length: "))
+    px = toint(input("Enter point x coordinate: "))
+    py = toint(input("Enter point y coordinate: "))
+    newLen = toint(input("Enter new side length: "))
+
+    scale = tofloat(newLen) / tofloat(sideLen)
+    dx = tofloat(px - cx) * scale
+    dy = tofloat(py - cy) * scale
+    px = round(tofloat(cx) + dx)
+    py = round(tofloat(cy) + dy)
+    print("After changing the side length from " +\
+    		 tostring(sideLen) + " to " + tostring(newLen) +\
+		 " the new point is: (" + tostring(toint(px)) + ", " +\
+		 tostring(toint(py)) + ")")
+
+scalePoint()

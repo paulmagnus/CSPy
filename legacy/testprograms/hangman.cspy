@@ -1,0 +1,185 @@
+""" hangman.cspy : a game of hangman """
+
+:: images:list of string = ['''
+   +---+
+   |   |
+       |
+       |
+       |
+       |
+ =========''', 
+'''
+   +---+
+   |   |
+   O   |
+       |
+       |
+       |
+ =========''', 
+'''
+   +---+
+   |   |
+   O   |
+   |   |
+       |
+       |
+ =========''', 
+'''
+   +---+
+   |   |
+   O   |
+  /|   |
+       |
+       |
+ =========''', 
+'''
+   +---+
+   |   |
+   O   |
+  /|\  |
+       |
+       |
+ =========''', 
+'''
+   +---+
+   |   |
+   O   |
+  /|\  |
+  /    |
+       |
+ =========''', 
+'''
+   +---+
+   |   |
+   O   |
+  /|\  |
+  / \  |
+       |
+ ========='''] ::
+
+class HangmanGame:
+    """ A Hangman Game """
+
+    :: hangmans:list of string, words:list of string ::
+    
+    def HangmanGame():
+        """ Create a new Hangman game """
+        hangmans = images
+        words = ["JIGSAW", "KAZOO", "BOOKWORM", "GAZEBO"]
+
+
+
+    def displayHangman(guesseswrong:int):
+        """ Display a Hangman image """
+        print(hangmans[guesseswrong])
+
+
+
+    def askquestion(question:string) -> string:
+        """ Ask a yes or no question """
+        ::response:string = ""::
+
+        while response not in ("y", "n"):
+            response = input(question)
+        return response
+
+
+    
+    def askletter(letters:string) -> string:
+        """ Ask for a letter """
+        :: letter:string = "" ::
+
+        while (len(letter) != 1) or (not letter.isalpha()) or (letter not in letters):
+            letter = input("\nGuess a letter : ").upper()
+
+            if (letter not in letters) and (len(letter) == 1) and (letter.isalpha()):
+                 print("\nYou've already guessed the letter '" + letter + "'.")
+                
+
+        return letter
+                  
+
+    def playround(word:string):
+        """ Play a round of hangman to guess the word """
+        :: guess:string = "",  
+           maxguess:int = 6,
+           guesseswrong:int = 0,
+           letters:string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" ::
+
+        for c in word:
+            guess += "_"
+
+        while (guess != word) and (guesseswrong != maxguess):
+            :: letter:string ::
+
+            displayHangman(guesseswrong)
+            print("\n  " + guess)
+
+            letter = askletter(letters)
+
+            if letter in word:
+                :: count:int = 0 ::
+                for i in range(len(word)):
+                    if word[i] == letter:
+                        guess = guess[:i] + letter + guess[i+1:]
+                        count += 1
+                print("\nHooray! There are " + tostring(count) + "'" + \
+                      letter + "'s in the word.")
+
+            else:
+                print("\nSorry, '" + letter + "' is not in the word.")
+                guesseswrong += 1
+
+            letters = letters.replace(letter, "")
+
+
+        displayHangman(guesseswrong)
+        print("\n  " + guess)
+        if guess == word:
+            print("\nCongratulations! You guessed the word!")
+        else:
+            print("\nSorry! You ran out of guesses!")
+
+
+    def playgame():
+        """ Play a game of hangman for multiple rounds """
+        :: playing:string = "y", word:int = 0 ::
+
+
+        while (playing == "y") and (word != len(words)):
+            playround(words[word])
+            playing = askquestion("\nWould you like to play again with a different word? ")
+            word += 1
+            
+            
+def main():
+    :: game:HangmanGame = HangmanGame() ::
+    game.playgame()
+
+main()
+
+                
+                
+
+
+                        
+                    
+                
+                
+                
+                
+
+
+            
+            
+            
+
+  
+
+        
+        
+
+
+
+
+

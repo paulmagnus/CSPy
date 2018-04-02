@@ -1,0 +1,470 @@
+#!/bin/bash
+
+#------------------------------------------------------------------------------#
+# submit                                                                       #
+#                                                                              #
+# Usage: submit [OPTION]... PROJECT                                            #
+# This script submits files for evaluation                                     #
+#                                                                              #
+# Mandatory arguments to long operations are mandatory for short options too   #
+#   -c, --course <number>         sets the number of the student's course      #
+#   --folder <path>               sets the folder to be submitted              #
+#   -f, --force                   do not ask for confirmation                  #
+#   -h, --help                    print this help documentation                #
+#   -i, --interactive             use interactive mode to input unkown data    #
+#   -p, --professor <name>        sets the name of the student's professor     #
+#   -s, --silent                  hide non-error messages                      #
+#   -v, --verbose                 explain what is being done                   #
+#                                                                              #
+# If course and professor are not set then they will be determined based on    #
+# the current course environment of the user. If folder is not set it will     #
+# default to the current working directory.                                    #
+#                                                                              #
+# The -s, --silent and -v, --verbose options cannot be set at the same time    #
+#                                                                              #
+# Written by Paul Magnus '18, Ines Ayara '20, Matthew R. Jenkins '20           #
+# Summer 2017                                                                  #
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# verifyDirectory directoryName                                                #
+#   Determines if 'directoryName' exists and is a directory. If it is not, an  #
+#   error is printed and the program exits with an error code of 1.            #
+#------------------------------------------------------------------------------#
+
+verifyDirectory()
+{
+    if [ ! -d $1 ]; then
+        printf "Submit error:\n"
+        printf "Directory '$1' could not be found\n"
+        exit 1
+    fi
+}
+
+#------------------------------------------------------------------------------#
+# verifyFile filename                                                          #
+#   Determines if 'filename' exists. If it does not, an error is printed and   #
+#   the program exits with an error code of 1.                                 #
+#------------------------------------------------------------------------------#
+
+verifyFile()
+{
+    if [ ! -f $1 ]; then
+        printf "Submit error:\n"
+        printf "File '$1' could not be found\n"
+        exit 1
+    fi
+}
+
+#------------------------------------------------------------------------------#
+# verifyCurrent projectName                                                    #
+#   Determines whether the given project is current for the class and user     #
+#   based on the 'current' file and the 'duedate' files. If the project is not #
+#   a current project for the user, the script prints an error and exits.      #
+#   Otherwise, the script returns 1.                                           #
+#------------------------------------------------------------------------------#
+
+verifyCurrent()
+{
+    local line
+    while IFS='' read -r line || [[ -n "$line" ]]; do
+        if [ $line == $1 ]; then
+            # found the correct project
+            return 1
+        fi
+    done < "$dirname/$professor/$course/current"
+
+    # check for a user specific current file
+    if [ -f "$dirname/$professor/$course/current+$USER" ]; then
+        while IFS='' read -r line || [[ -n "$line" ]]; do
+            if [ $line == $1 ]; then
+                # found the correct project
+                return 1
+            fi
+        done < "$dirname/$professor/$course/current+$USER"
+    fi
+
+    # check based on duedate files
+
+    if [ ! -d "$dirname/$professor/$course/$project" ]; then
+        printf "Submit Error:\n"
+        printf "The project '$1' is not current for your class\n"
+        exit 1
+    fi
+
+    # check for project duedate
+    if [ -f "$dirname/$professor/$course/$project/duedate" ]; then
+        IFS='' read -ra line < "$dirname/$professor/$course/$project/duedate"
+        current_time=$(date +%s)
+        due_time=$(date --date="$line" +%s)
+
+        diff=$(expr $due_time - $current_time)
+
+        if [[ $diff =~ ^[0-9]+$ ]]; then
+            printf "project duedate\n"
+            return 1
+        fi
+    fi
+
+    # check for student extension duedate
+    if [ -f "$dirname/$professor/$course/$project/$USER-duedate" ]; then
+        IFS='' read -ra line < "$dirname/$professor/$course/$project/$USER-duedate"
+        current_time=$(date +%s)
+        due_time=$(date --date="$line" +%s)
+        
+        diff=$(expr $due_time - $current_time)
+
+        if [[ $diff =~ ^[0-9]+$ ]]; then
+            printf "student duedate\n"
+            return 1
+        fi
+    fi
+
+    # course is not current
+    printf "Submit Error:\n"
+    printf "The project '$1' is not current for your class\n"
+    exit 1
+}
+
+#------------------------------------------------------------------------------#
+# print_help                                                                   #
+#   This prints the help documentation for the submit system.                  #
+#------------------------------------------------------------------------------#
+
+print_help()
+{
+    printf "Usage: submit [OPTION]... PROJECT\n"
+    printf "This script submits files for evaluation\n\n"
+
+    printf "Mandatory arguments to long operations are mandatory for short options too\n"
+    printf "  -c, --course <number>\t\tsets the number of the student's course\n"
+    printf "  --folder <path>\t\tsets the folder to be submitted\n"
+    printf "  -f, --force\t\t\tdo not ask for confirmation\n"
+    printf "  -h, --help\t\t\tprint this help documentation\n"
+    printf "  -i, --interactive\t\tuse interactive mode to input unkown data\n"
+    printf "  -p, --professor <name>\tsets the name of student's professor\n"
+    printf "  -s, --silent\t\t\thide non-error messages\n"
+    printf "  -v, --verbose\t\t\texplain what is being done\n"
+    printf "\n"
+    printf "If course and professor are not set then they will be determined based on\n"
+    printf "the current course environment of the user. If folder is not set it will\n"
+    printf "default to the current working directory.\n"
+    printf "\n"
+    printf "The -s, --silent and -v, --verbose options cannot be set at the same time\n"
+    printf "\n"
+    printf "Written by Paul Magnus '18, Ines Ayara '20, Matthew R. Jenkins '20\n"
+    printf "Summer 2017\n"
+}
+
+# parse the arguments
+while :; do
+    case $1 in
+        -h|--help) print_help
+            exit;;
+        -p|--professor) shift
+            professor=$1
+            shift;;
+        -c|--course) shift
+            course=$1
+            shift;;
+        --folder) shift
+            folder=$1
+            shift;;
+        -v|--verbose) verbose=true
+            if [ $silent ]; then
+                printf "Silent and verbose cannot both be set\n"
+                exit 1
+            fi
+            shift;;
+        -f|--force) force=true
+            shift;;
+        -s|--silent) silent=true
+            if [ $verbose ]; then
+                printf "Silent and verbose cannot both be set\n"
+                exit 1
+            fi
+            shift;;
+        -i|--interactive) interactive=true
+            shift;;
+        *) break
+    esac
+done
+
+# check the number of arguments
+if [ $# != 1 ]; then
+    if [ ! $interactive ]; then
+        printf "submit: missing operands\n"
+        printf "Try 'submit --help' for more information\n"
+        exit 1
+    else
+        read -p "Project name: " project
+    fi
+else
+    project=$1
+fi
+
+# professor flag not set
+if [ -z $professor ]; then
+    if [ $interactive ]; then
+        read -p "Professor's username: " professor
+    else
+        echo $PROFESSOR
+        if [ -z $PROFESSOR ]; then
+            printf "submit: professor could not be determined\n"
+            printf "Make sure that the course environment is set or give the professor as an arguemnt\n"
+            printf "Try 'submit --professor <name> PROJECT' to set the professor name\n"
+            printf "Try 'submit --help' for more information\n"
+            exit 1
+        else
+            professor=$PROFESSOR
+        fi
+    fi
+fi
+
+# class flag not set
+if [ -z $course ]; then
+    if [ $interactive ]; then
+        read -p "Course number: " course
+    else
+        if [ -z $COURSE ]; then
+            printf "submit: course could not be determined\n"
+            printf "Make sure that the course environment is set or give the course as an argument\n"
+            printf "Try 'submit --class <number> PROJECT' to set the class number\n"
+            printf "Try 'submit --help' for more information\n"
+            exit 1
+        else
+            course=$COURSE
+        fi
+    fi
+fi
+
+# folder flag not set
+if [ -z $folder ]; then
+    if [ $interactive ]; then
+        printf "Folder to submit (pwd submits the current directory):\n"
+        read folder
+
+        if [ $folder == "pwd" ]; then
+            folder=$PWD
+        fi
+    else
+        folder=$PWD
+    fi
+fi
+
+# ask the user for verification of submission data
+if [ ! $force ]; then
+
+    printf "\n"
+    printf "Username: $USER\n"
+    printf "Project: $project\n"
+    printf "Course: $course\n"
+    printf "Professor: $professor\n"
+    printf "Submit folder: $folder\n"
+    
+    while true; do
+        read -p "Is the above correct for your submission? " yn
+        case $yn in
+            [Yy]* ) break;;
+            [Nn]* ) exit;;
+            * ) printf "Please answer yes or no.\n";;
+        esac
+    done
+
+    printf "\n"
+
+fi
+
+# VERIFY FOLDERS EXIST
+
+# Get directory of script, resolving links
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+
+# currently in a submit/bin directory
+if [ "${DIR##*/}" != 'bin' ]; then
+    printf "Submit Error: Submit script should be in directory 'submit/bin'\n"
+    printf "Submit is currently in '$DIR'\n"
+    exit 1
+fi
+
+dirname="${DIR%/*}"
+if [ "${dirname##*/}" != 'submit' ]; then
+    printf "Submit Error: Submit script should be in directory 'submit/bin'\n"
+    printf "Submit is currently in '$DIR'\n"
+    exit 1
+fi
+
+# verify required submission files
+verifyDirectory "$dirname/$professor"
+
+verifyDirectory "$dirname/$professor/$course"
+verifyFile "$dirname/$professor/$course/current"
+
+verifyCurrent $project
+
+verifyDirectory "$dirname/$professor/$course/$project"
+
+projectDir="$dirname/$professor/$course/$project"
+
+verifyFile "$projectDir/required_files"
+verifyFile "$projectDir/optional_files"
+verifyDirectory "$projectDir/students"
+verifyDirectory "$projectDir/tests"
+verifyFile "$projectDir/tests/run_all_tests"
+
+# verify that run_all_tests is executable
+
+if [ ! -x "$projectDir/tests/run_all_tests" ]; then
+    printf "File '$projectDir/tests/run_all_tests' is not executable\n"
+    printf "Tests could not be run\n"
+    
+    exit 1
+fi
+
+# verify that user folder exists
+
+if [ ! -d "$projectDir/students/$USER" ]; then
+    mkdir "$projectDir/students/$USER"
+fi
+
+if [ ! $silent ]; then
+    printf "Copying files...\n"
+fi
+
+tmpdir="/tmp/$USER-submit-$course-$professor-$project"
+mkdir $tmpdir
+
+#------------------------------------------------------------------------------#
+# removeTemp                                                                   #
+#   This is used to clean up the temporary folder created above.               #
+#------------------------------------------------------------------------------#
+
+removeTemp()
+{
+    if [ -d $tmpdir ]; then
+        rm -r $tmpdir
+    fi
+}
+
+# Copy required files
+if [ $verbose ]; then
+    printf "\nCopying required files\n"
+fi
+
+while IFS='' read -r line || [[ -n "$line" ]]; do
+    # if line is * then copy all files
+    if [ "$line" == "*" ]; then
+        if [ $verbose ]; then
+            printf "Copying all files\n"
+        fi
+        cp -R "$folder/." $tmpdir
+        break
+    fi
+
+    # verify file exists
+    if [ -f "$folder/$line" ]; then
+        if [ ! $silent ]; then
+            printf "Copied '$line'\n"
+        fi
+        cp "$folder/$line" "$tmpdir/$line"
+    elif [ -d "$folder/$line" ]; then
+        if [ ! $silent ]; then
+            printf "Copied '$line'\n"
+        fi
+        cp -r "$folder/$line" "$tmpdir/$line"
+    else
+        printf "Error: Required file '$line' does not exist in '$folder'\n"
+        removeTemp
+        exit 1
+    fi
+done < "$projectDir/required_files"
+
+# copy any optional files
+verifyFile "$projectDir/optional_files"
+if [ $verbose ]; then
+    printf "Copying optional files\n"
+fi
+
+while IFS='' read -r line || [[ -n "$line" ]]; do
+    # if line is * then copy all files
+    if [ "$line" == "*" ]; then
+        if [ $verbose ]; then
+            printf "Copying all files\n"
+        fi
+        cp -R "$folder/." $tmpdir
+        break
+    fi
+
+    # verify file exists
+    if [ -f "$folder/$line" ]; then
+        if [ ! $silent ]; then
+            printf "Copied '$line'\n"
+        fi
+        cp "$folder/$line" "$tmpdir/$line"
+    elif [ -d "$folder/$line" ]; then
+        if [ ! $silent ]; then
+            printf "Copied '$line'\n"
+        fi
+        cp -r "$folder/$line" "$tmpdir/$line"
+    fi
+done < "$projectDir/optional_files"
+
+# make the student directory if it does not exist
+if [ ! -d "$projectDir/students/$USER" ]; then
+    mkdir "$projectDir/students/$USER"
+fi
+
+# create a new submit directory
+name="submit"
+if [ -d "$projectDir/students/$USER/$name" ]; then
+    i=1
+    while [ -d "$projectDir/students/$USER/$name-$i" ]; do
+        let i++
+    done
+fi
+
+if [ -z $i ]; then
+    submitDir="$projectDir/students/$USER/$name"
+else
+    submitDir="$projectDir/students/$USER/$name-$i"
+fi
+
+mkdir $submitDir
+
+# print submit time to '$USER/submit-time'
+if [ -z $i ]; then
+    printf 'submit 0: ' >> "$projectDir/students/$USER/submit-time"
+else
+    printf "submit $i: " >> "$projectDir/students/$USER/submit-time"
+fi
+printf "$(date)\n" >> "$projectDir/students/$USER/submit-time"
+
+# clear all emacs specific files
+rm -f $tmpdir/*~
+rm -f $tmpdir/#*#
+
+if [ -d "$projectDir/students/$USER/last-submit" ]; then
+    rm -r "$projectDir/students/$USER/last-submit"
+fi
+
+# copy files from tmp to user's project directory
+cp -R "$tmpdir/." "$submitDir"
+cp -R "$tmpdir/." "$projectDir/students/$USER/last-submit"
+removeTemp
+
+if [ ! $silent ]; then
+    printf "Finished copying files\n\n"
+fi
+
+"$projectDir/tests/run_all_tests" "$submitDir"
+
+if [ ! $silent ]; then
+    printf "\nSubmission complete\n"
+fi

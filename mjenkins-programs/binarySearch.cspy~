@@ -1,0 +1,8 @@
+def main():
+    ::list:list of int, set:set::
+    list = [1, 5, 3, 7, 324, 5, 2, 3, 4, 7, 23, 4, 5, 1, 23, 4, 7, 24, 5]
+    list.sort()
+    set = makeset(list)
+    print(set)
+
+main()

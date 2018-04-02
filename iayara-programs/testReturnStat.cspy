@@ -1,0 +1,12 @@
+def foo(x : int) -> int:
+    if(x == 2):
+        return 2
+    elif( x == 3):
+        print("hi")   
+    else:
+        return 5
+
+print(foo(5))
+         
+
+

@@ -1,0 +1,24 @@
+# Problem 1 from the 2017 AP Test
+
+class Digits:
+    :: digits : list of int = []::
+    def Digits(num : int):
+        assert num >= 0
+        while num != 0:
+            digits = [num % 10] + digits
+            num = num // 10
+
+    def isStrictlyIncreasing() -> bool:
+        :: last : int = 0 ::
+        for digit in digits:
+            if digit < last:
+                return False
+            last = digit
+
+    def getDigitList() -> list of int:
+        return digits
+
+def main():
+    :: d : Digits ::
+    d = Digits(0)
+    print(tostring(d.getDigitList()))

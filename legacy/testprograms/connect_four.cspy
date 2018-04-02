@@ -1,0 +1,294 @@
+'''connect_four.cspy'''
+
+:: X : string = "X",
+   O : string = "O",
+   EMPTY : string = " ",
+   TIE : string = "TIE",
+   NUM_ROWS : int = 6,
+   NUM_COLS : int = 8 ::
+
+
+def display_instruct():
+    '''Display game instructions.'''
+
+    print("""
+Welcome to Connect Four, pitiful human.
+In order for you to have a chance, I'll explain the rules.
+The board has six rows and seven columns:
+        
+           |   |   |   |   |   |
+	 --------------------------
+	   |   |   |   |   |   |  
+	 --------------------------
+	   |   |   |   |   |   |  
+	 --------------------------
+	   |   |   |   |   |   |  
+	 --------------------------
+	   |   |   |   |   |   |  
+	 --------------------------
+	   |   |   |   |   |   |  
+	 --------------------------
+	 1   2   3   4   5   6   7
+
+We take turns placing one of our pieces (X or O) onto the board.
+
+When it's your turn, you pick a column, and your piece will go
+into the lowest vacant row of that column.
+
+To win, get four of your pieces connected together:
+in a row, in a column, or diagonally. 
+
+Prepare yourself. It's time to start.  
+        """)
+
+def ask_yes_no(question : string) -> string:
+    '''Ask a yes or no question, return the response.'''
+    :: response : string ::
+    while response not in ("y", "n"):
+        print("\nAnswer y or n.")
+        response = input(question)
+
+    return response
+
+
+def ask_number(question : string, l : int, h : int) -> int:
+    '''Ask for a number within a range, return response as an int.
+       Using "range" in Python sense - e.g. to ask for a number
+       between 1 and 7, call ask_number with low=1 and high=8.'''
+
+    :: response : int, numbers : list of int, low : string, high : string ::
+
+    for n in range(l, h):
+        numbers.append(n)
+
+    low = tostring(l)
+    high = tostring(h-1)
+
+    while response not in numbers:
+        print("\nPlease enter a number between " + low + " and " + high + ": ")
+        response = toint(input(question))
+
+    return response
+
+
+def pieces() -> tuple of (string * string):
+    '''Determine if player or computer goes first.'''
+    :: go_first : string = ask_yes_no("Do you require the first move? "), 
+       human : string, 
+       computer : string ::
+
+    if go_first == "y":
+        print("\nThen take the first move. You will need it.")
+        human = X
+        computer = O
+
+    else:
+        print("\nYour bravery will be your undoing... I will go first.")
+        computer = X
+        human = O
+
+    return (computer, human)
+
+
+def empty_board() -> [[string]]:
+    '''Create empty game board. Board is 6 rows and 8 columns. 
+       Extra column is to allow user input. Column 0 is not used.'''
+
+    :: empty_board : [[string]], c : list of string ::
+
+    for r in range(NUM_ROWS):
+        c = []
+        for k in range(NUM_COLS):
+            c.append(EMPTY)
+        empty_board.append(c)
+
+    return empty_board
+
+
+def display_board(board : [[string]]):
+    '''Display game board on screen.'''
+
+    for r in range(NUM_ROWS):
+        print_row(board, r)
+    print("\t 1   2   3   4   5   6   7")
+    print("\n")
+
+
+def print_row(board : [[string]], num : int):
+    '''Print specified row from current board.'''
+
+    :: row : list of string = board[num] ::
+    print("\n\t" + row[1] + " | " + row[2] + " | " + row[3] + " | " + row[4] +\
+              " | " + row[5] + " | " + row[6] + " | " + row[7])
+    print("\t--------------------------")
+
+
+def legal_moves(board : [[string]]) -> [int]:
+    '''Create list of column numbers into which legal moves can be made.'''
+    :: legal_moves : [int] ::
+
+    for r in range(1, NUM_COLS):
+        if (board[0][r] == EMPTY):
+            legal_moves.append(r)
+
+    return legal_moves
+
+
+def winner(board : [[string]]) -> string:
+    '''Determine the game winner, using the connect 4 board as a parameter.
+       If there is no winner, the function will return the empty string if 
+       moves are still available. Else it will return TIE. If there is a
+       winner return X or O to indicate which player won.'''
+
+    for r in range(NUM_ROWS):
+        for c in range(NUM_COLS - 3):
+            if board[r][c] == board[r][c+1] and board[r][c] == board[r][c+2] and\
+                    board[r][c] == board[r][c+3] and board[r][c] != EMPTY:
+                return board[r][c]
+
+    for c in range(NUM_COLS):
+        for r in range(NUM_ROWS - 3):
+            if board[r][c] == board[r+1][c] and board[r][c] == board[r+2][c] and\
+                    board[r][c] == board[r+3][c] and board[r][c] != EMPTY:
+                return board[r][c]
+
+    for r in range(NUM_ROWS - 3):
+        for c in range(NUM_COLS - 3):
+            if board[r][c] == board[r+1][c+1] and board[r][c] == board[r+2][c+2] and\
+                    board[r][c] == board[r+3][c+3] and board[r][c] != EMPTY:
+                return board[r][c]
+
+    for r in range(NUM_ROWS - 3):
+        for c in range(NUM_COLS - 1, 0, -1):
+            if board[r][c] == board[r+1][c-1] and board[r][c] == board[r+2][c-2] and\
+                    board[r][c] == board[r+3][c-3] and board[r][c] != EMPTY:
+                return board[r][c]
+
+    if legal_moves(board) != []:
+        return ""
+
+    else:
+        return TIE
+
+
+def human_move(board : [[string]]) -> int:
+    '''Get human move.'''
+
+    :: legals : [int] = legal_moves(board) , move : int ::
+
+    print("LEGAL MOVES:")
+    print(legals)
+
+    while move not in legals:
+        move = ask_number("Which column will you move to? ", 1, NUM_COLS)
+        if move not in legals:
+            print("\nThat row is already full, nerdling. Choose another.\n")
+
+    print("Human moving to column " + tostring(move))
+    return move
+
+def computer_move(board : [[string]]) -> int:
+    '''Make computer move.'''
+
+    :: col : int ::
+
+    col = ask_number("Where should the 'computer' move? ", 1, 8)
+    print("Computer moving to column " + tostring(col))
+    return col
+
+def get_move_row(board : [[string]], col : int) -> int:
+    :: column : [int] ::
+
+    for r in range(NUM_ROWS):
+        if board[r][col] == EMPTY:
+            column.append(r)
+
+    return column[-1]
+
+
+def next_turn(turn : string) -> string:
+    '''Switch turns.'''
+
+    print("That was turn: " + turn)
+
+    if turn == X:
+        return O
+    else:
+        return X
+
+
+def congrat_winner(the_winner : string, computer : string, human : string):
+    '''Congratulate the winner.'''
+
+    if the_winner != TIE:
+        print(the_winner + " won!\n")
+    else:
+        print("It's a tie!\n")
+
+    if the_winner == computer:
+        print("As I predicted, human, I am triumphant once more.  \n" +\
+              "Proof that computers are superior to humans in all regards.")
+
+    elif the_winner == human:
+        print("No, no! It cannot be!  Somehow you tricked me, human. \n" +\
+              "But never again! I, the computer, so swear it!")
+
+    elif the_winner == TIE:
+        print("You were most lucky, human, and somehow managed to tie me. \n" +\
+              "Celebrate today... for this is the best you will ever achieve.")
+
+
+def end_game() -> bool:
+    '''Play again?'''
+
+    :: response : string = ask_yes_no("Do you want to play again? ") ::
+
+    return response == "y"
+
+
+
+def main():
+    :: still_playing : bool = True ::
+
+    display_instruct()
+
+    while still_playing:
+        :: computer : string, human : string, turn : string,
+           board : [[string]], the_winner : string, 
+           t : tuple of (string * string) ::
+        
+        t = pieces()
+        computer = t[0]
+        human = t[1]
+        turn = X
+        board = empty_board()
+        display_board(board)
+
+        while winner(board) == "":
+            print("Next up is: " + turn)
+
+            if turn == human:
+                :: col : int, row : int ::
+
+                col = human_move(board)
+                row = get_move_row(board, col)
+                board[row][col] = human
+
+            else:
+                :: col : int, row : int ::
+
+                col = computer_move(board)
+                row = get_move_row(board, col)
+                board[row][col] = computer
+                
+            display_board(board)
+            turn = next_turn(turn)
+
+        the_winner = winner(board)
+        congrat_winner(the_winner, computer, human)
+        still_playing = end_game()
+
+
+main()
+
+

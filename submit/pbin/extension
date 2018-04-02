@@ -1,0 +1,134 @@
+#!/bin/bash
+
+#------------------------------------------------------------------------------#
+# extension                                                                    #
+#                                                                              #
+# Usage: extension [OPTION]... STUDENT CLASS PROJECT DATE                      #
+# Gives the STUDENT an extension on PROJECT for CLASS until DATE, default      #
+# professor is the current user                                                #
+#                                                                              #
+# OPTIONS:                                                                     #
+#   -h, --help            print this help documentation                        #
+#   -p, --prof <name>     sets the professor to <name>                         #
+#                                                                              #
+# Written by Paul Magnus '18, Ines Ayara '20, Matthew R. Jenkins '20           #
+# Summer 2017                                                                  #
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# verifyDirectory directoryName                                                #
+#   Determines if 'directoryName' exists and is a directory. If it is not, an  #
+#   error is printed and the program exits with an error code of 1.            #
+#------------------------------------------------------------------------------#
+
+verify_directory ()
+{
+    if [ ! -d $1 ]; then
+        printf "Directory $1 could not be found\n"
+        exit 1
+    fi
+}
+
+#------------------------------------------------------------------------------#
+# print_help                                                                   #
+#   This prints the help documentation                                         #
+#------------------------------------------------------------------------------#
+
+print_help()
+{
+    # prints the help documentation
+    printf "Usage: extension [OPTION]... STUDENT CLASS PROJECT DATE\n"
+    printf "Gives the STUDENT an extension on PROJECT for CLASS until DATE, default\n"
+    printf "professor is the current user\n"
+    printf "\n"
+    printf "OPTIONS:\n"
+    printf "  -h, --help\t\tprint this help documentation\n"
+    printf "  -p, --prof <name>\tsets the professor to <name>\n"
+    printf "\n"
+    printf "Written by Paul Magnus '18, Ines Ayara '20, Matthew R. Jenkins '20\n"
+    printf "Summer 2017\n"
+}
+
+# parse the different options from the input arguments
+while :; do
+    case $1 in
+        -h|--help) print_help
+            exit;;
+        -p|--prof) shift
+            professor=$1
+            shift;;
+        *) break
+    esac
+done
+
+# verify that there are 4 arguments left
+if [ $# != 4 ]; then
+    printf "extension: missing operands\n"
+    printf "Try 'extension --help' for more information\n"
+    exit 1
+fi
+
+# default the professor to the current user
+if [ -z $professor ]; then
+    professor=$USER
+fi
+
+# check that the student variable is a string of letters
+re='^[a-zA-Z]+$'
+if ! [[ $1 =~ $re ]]; then
+    printf "extension: STUDENT must be a username\n"
+    printf "Try 'extension --help' for more information\n"
+    exit 1
+fi
+
+# check that the project name is a string of letters
+if ! [[ $3 =~ $re ]]; then
+    printf "extension: PROJECT must be a string of letters\n"
+    printf "Try 'extension --help' for more information\n"
+    exit 1
+fi
+
+# check that the course is a string of numbers
+re='^[0-9]+$'
+if ! [[ $2 =~ $re ]]; then
+    printf "extension: COURSE must be a number\n"
+    printf "Try 'extension --help' for more information\n"
+    exit 1
+fi
+
+student=$1
+course=$2
+project=$3
+duedate=$4
+
+# Get directory of script, resolving links
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+# make sure this program is in submit/pbin
+if [ "${DIR##*/}" != 'pbin' ]; then
+    printf "Verify script must be in directory 'submit/pbin'\n"
+    printf "Verify script is currently in '$DIR'\n"
+    exit 1
+fi
+
+dirname="${DIR%/*}"
+if [ "${dirname##*/}" != 'submit' ]; then
+    printf "Verify script must be in directory 'submit/pbin'\n"
+    printf "Verify script is currently in '$DIR'\n"
+    exit 1
+fi
+
+verify_directory "$dirname/$professor"
+verify_directory "$dirname/$professor/$course"
+verify_directory "$dirname/$professor/$course/$project"
+studentFile="$dirname/$professor/$course/$project/$student-duedate"
+
+# print duedate to the student's duedate file
+normalizedDuedate="$(date --date="$duedate" +%Y-%m-%d\ %H:%M:%S)"
+printf "$normalizedDuedate" > "$studentFile"

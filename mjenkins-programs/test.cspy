@@ -1,0 +1,11 @@
+def a(x:string)->string:
+    return x[1:]+x[0]+"ay"
+
+def b(x:string)->string:
+    return x[-3]+x[0:-3]
+
+print(a("tired"))
+print(b(a("tired")))
+
+
+

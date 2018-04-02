@@ -1,0 +1,29 @@
+from cs110graphics pyimport *
+
+class TrafficLight extends EventHandler:
+    def TrafficLight(win:Window):
+        ::red:Circle, yellow:Circle, green:Circle, boundary:Rectangle::
+        red = Circle(win, 50, (200, 100))
+        yellow = Circle(win, 50, (200, 200))
+        green = Circle(win, 50, (200, 300))
+        boundary = Rectangle(win, 100, 300, (200, 200))
+        win.add(red)
+        win.add(yellow)
+        win.add(green)
+        win.add(boundary)
+        red.set_fill_color("Red")
+        yellow.set_fill_color("Yellow")
+        green.set_fill_color("Green")
+        boundary.set_fill_color("Black")
+        red.set_depth(1)
+        yellow.set_depth(1)
+        green.set_depth(1)
+
+
+def main(win:Window):
+    ::light:TrafficLight, img:Image::
+    light = TrafficLight(win)
+
+StartGraphicsSystem(main)
+
+

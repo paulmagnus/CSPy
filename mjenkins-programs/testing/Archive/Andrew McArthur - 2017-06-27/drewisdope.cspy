@@ -1,0 +1,7 @@
+def two_lists(l1:list of int, l2:list of int) -> list of int:
+    l = l1[:]
+    
+    return [1]
+
+print(two_lists([1,2,3,4,5],[2,4,6,8]))
+

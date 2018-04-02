@@ -1,0 +1,40 @@
+from graphicsLibrary import *
+import random
+
+def colorGen():
+    r = lambda: random.randint(0,255)
+    return '#%02X%02X%02X' % (r(),r(),r())
+
+def main():
+    Board = Window()
+    Board.Window(700, 480)
+    Point = Polygon()
+    Checker = Circle()
+    for i in range(16):
+        Point.Polygon((i*50,0), (i*50+25,240), (i*50+50,0))
+        Board.add(Point)
+        Point.setFillColor("Grey")
+        Point.setBorderColor("Black")
+        Point.setBorderWidth(2)
+    for i in range(16):
+        Point.Polygon((i*50,480), (i*50+25,240), (i*50+50,480))
+        Board.add(Point)
+        Point.setFillColor("Grey")
+        Point.setBorderColor("Black")
+        Point.setBorderWidth(2)
+    for i in range(3):
+        Checker.Circle(25, (675 - (i * 50), 455))
+        Board.add(Checker)
+        Checker.setFillColor("White")
+    for i in range(3):
+        Checker.Circle(25, (675 - (i * 50), 25))
+        Board.add(Checker)
+        Checker.setFillColor("Black")
+        Checker.setBorderColor("White")
+    Bar = Rectangle()
+    Bar.Rectangle(50, 480, (350, 240))
+    Board.add(Bar)
+    Bar.setFillColor("Black")
+    StartGraphicsEngine(Board)
+
+main()

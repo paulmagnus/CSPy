@@ -1,0 +1,4 @@
+class A:
+    def A()
+    def A(x : int)
+    def A(x : int, y : int)

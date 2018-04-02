@@ -1,0 +1,40 @@
+'''Computing Grade Average'''
+
+def main():
+
+    :: numGrades : int, letterG : string,  weight : int, 
+    avg : list of tuple of (int * int), grade : list of tuple of (string * int),    summ : int = 0, gradeNum : int, total : int = 0, x : int = 0 ::
+
+    grade = [("A+", 98), ("A", 95), ("A-", 91), ("B+", 88), ("B", 85),
+          ("B-", 81), ("C+", 78), ("C", 75), ("C-", 71), ("D+", 68), ("D", 65),
+          ("D-", 61), ("F", 55)]
+
+    avg = [(97, 98), (93, 96), (90, 92), (87, 89), (83, 86), (80, 82), (77, 97),
+          (73, 76), (70, 72), (67, 69), (63, 66), (60, 62), (0, 59)]
+
+   
+    numGrades = toint(input("How many grades do you want to enter?"))
+    for i in 1..numGrades:
+        letterG = input("Enter letter grade #" + tostring(i))
+        
+        for j in grade:
+            if j[0] == letterG:
+               gradeNum = j[1]
+        
+        weight = toint(input("Enter the relative weight for this grade"))
+        summ += gradeNum * weight
+        total += weight       
+    
+    print("Weighted average:" + tostring(tofloat(summ / total)) + "%")
+    for i in avg:
+        if (summ/total) in range(i[0], i[1]):
+          print("Letter grade:" + grade[x][0]) 
+        x += 1
+
+
+
+main()
+
+
+
+

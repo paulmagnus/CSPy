@@ -1,0 +1,11 @@
+'''imp_a.cspy'''
+# testing with imp_b and imp_main
+
+from imp_b import *
+
+
+def divide(x: int, y: int):
+    print(x / y)
+    print(msg)    # imported from imp_b
+
+

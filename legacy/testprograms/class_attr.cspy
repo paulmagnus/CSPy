@@ -1,0 +1,64 @@
+'''class.cspy'''
+# Simple CSPy example of user classes and super classes
+
+class Pet:
+    :: name:string, age:string, species:string, loved:bool = True ::
+
+    def Pet(n:string, a:string, sp:string):
+        name = n
+        age = a
+        species = sp
+
+    def setName(n:string):
+        name = n
+
+    def setAge(a:string):
+        age = a
+    
+    def setSpecies(s:string):
+        species = s
+
+    def getName() -> string:
+        return name
+    
+    def getAge() -> string:
+        return age
+
+    def getSpecies() -> string:
+        :: age : string ::
+        age = "4"
+        return species
+
+class Dog extends Pet:
+    :: breed:string ::
+
+#    def Dog():
+#        Pet.Pet("", "", "Dog")
+
+    def setBreed(b:string):
+        breed = b
+        print(name)
+
+def main():
+    :: myPet:Pet = Pet("Pumpkin", "13", "cat"), myDog:Dog = Dog() ::
+    
+    print(myPet.getName() + " is a " + myPet.getSpecies() +\ 
+          " and is " + myPet.getAge() + " years old.")
+    if (myPet.loved):
+        print("And I love " + myPet.getName() + "!\n")
+
+    myDog.setName("Callie")
+    myDog.setSpecies("dog")
+    myDog.setBreed("Border Collie")
+    print(myDog.getName())
+    print(myDog.getSpecies())
+    print(myDog.breed)
+
+    if (myDog.loved):
+        print("And I love " + myDog.getName() + "!\n")
+
+
+main()
+
+
+

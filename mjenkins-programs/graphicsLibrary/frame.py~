@@ -1,0 +1,29 @@
+import Tkinter as tk
+
+
+class Frame:
+    def __init__(self, master = None):
+        self.frame = tk.Frame(master)
+
+    def setBackground(color):
+        self.frame.config(bg = color)
+    
+    def setBorderWidth(bw):
+        self.frame.config(borderwidth = bw)
+
+    def setHeight(h):
+        self.frame.config(height = h)
+    
+    def setWidth(w):
+        self.frame.config(width = w)
+
+    def highlightBackground(color):
+        self.frame.config(hightlightcolor = color)
+
+    def setPadx():
+        
+
+    def setPady():
+        pass
+
+    

@@ -1,0 +1,222 @@
+\documentclass{article}
+\usepackage{enumitem}
+\usepackage{authblk}
+\usepackage{fullpage}
+\usepackage{tikz}
+\usetikzlibrary{trees}
+
+\begin{document}
+\title{Hamilton College Submission System\\Documentation for Professors}
+\author{Paul Magnus '18, Ines Ayara '20, and Matthew R. Jenkins '20, advised by Alistair Campbel}
+\maketitle{}
+
+\section{Scripts}
+\subsection{Student Scripts}
+All student scripts are in the \verb|submit/bin| folder.
+\begin{itemize}
+\item \verb|submit| - This is the submission script that students will use.
+
+\item \verb|timeleft| - This script allows the student to check how much longer they have until the project is due.
+
+\item \verb|submit_terminal| - This script is mainly intended for use with editors such as the CSPy editor. This opens up a new xterm window and runs submit in the new terminal.
+
+\item \verb|.submit| - This is a hidden script run by submit\_terminal. It is not intended to be called directly.
+
+\item \verb|.csTemplate| - This is a template for setting the student's course environment to work with this submit system. This script should not be called directly but instead be edited for each course and renamed as such.
+
+\end{itemize}
+
+\subsection{Professor Scripts}
+All professor scripts are in the \verb|submit/pbin| folder.
+\begin{itemize}
+\item \verb|makeTemplate| - This script creates a simple submission directory. It can also be used for minor edits to the submission directory. Most edits not supported by this script must be done manually.
+
+\item \verb|extension| - This script gives a single student an extension on the given project.
+
+\item \verb|verify| - This verifies that the course directory was built correctly. It only checks directories and files that could have been built with the makeTemplate script.
+
+\item \verb|submitAs| - This allows a professor to submit a project as any student.
+\end{itemize}
+\pagebreak
+\section{submit}
+This is the main script of the submission system. Students will use this script to submit a project.
+The usage and optional arguments are explained below as they are shown when \verb|submit --help| is run.
+\begin{verbatim}
+Usage: submit [OPTION]... PROJECT
+This script submits files for evaluation
+
+Mandatory arguments to long operations are mandatory for short options too
+  -c, --course <number>         sets the number of the student's course
+  --folder <path>               sets the folder to be submitted
+  -f, --force                   do not ask for confirmation
+  -h, --help                    print this help documentation
+  -i, --interactive             use interactive mode to input unkown data
+  -p, --professor <name>        sets the name of the student's professor
+  -s, --silent                  hide non-error messages
+  -v, --verbose                 explain what is being done
+
+If course and professor are not set then they will be determined based on
+the current course environment of the user. If folder is not set it will
+default to the current working directory.
+
+The -s, --silent and -v, --verbose options cannot be set at the same time
+\end{verbatim}
+Most users will want to use either \verb|submit PROJECT| or \verb|submit -f PROJECT|. If the student is not currently in a course environment they will need to set the course and professor arguments or use interactive mode.
+
+\section{timeleft}
+This script allows students to check on the remaining time for a project. This script will only work correctly for projects in which a \verb|duedate| file exists in the project directory. Otherwise, this script will tell the student that the project does not have a current duedate. The usage and optional arguments are explained below as they are shown when \verb|timeleft --help| is run.
+\begin{verbatim}
+Usage: timeleft [OPTION]... PROJECT
+Prints the time remaining on the current PROJECT for the user
+
+OPTIONS:
+  -c, --course <number>         sets the current course number, if not set
+                                the default comes from the course environment
+  -h, --help                    print this help documentation
+  -p, --professor <name>        sets the name of the student's professor
+\end{verbatim}
+If the student is currently in a course environment, they will only need to call \verb|timeleft PROJECT| as the other arguments allow for control when the course environment is not set.
+
+\section{submit\_terminal}
+This script is primarily intended for use by the CSPy editor and any similar editors that are to be built in the future. This script opens up a new xterm window and runs the submit script in that window. The same arguments can be passed to \verb|submit_terminal| as can be sent to \verb|submit|.
+
+\section{.submit}
+This script should not be called directly. It is used by \verb|submit_terminal| to create a better interface when the new terminal is used.
+
+\section{.csTemplate}
+This file is a template of a course environment script for use with this submission system.
+This script is not intended to be used directly but should be changed for each course.
+Most sections of code in this template are optional and are marked as such in the script itself.
+Only 3 pieces of the code are marked as VITAL and must be present for the submission script to work correctly as explained below.
+This script was built by Paul Magnus '18 based off of the course environment scripts written by Professor Alistair Campbell and Professor Mark Bailey.
+
+\subsection*{COURSE}
+This is necessary for any course environmnet so that the \$COURSE variable is set properly. The code is as follows
+\begin{verbatim}
+export COURSE=110
+printf "Setting CS$COURSE programming environment...\n"
+\end{verbatim}
+The important part of this script is the first line. The number after \verb|COURSE=| must be the Hamilton Computer Science course number.
+
+\subsection*{PROFESSOR}
+This is necessary for any course environment so that the \$PROFESSOR variable is set properly. The code is as follows
+\begin{verbatim}
+export PROFESSOR=acampbel
+\end{verbatim}
+Similarly to the COURSE assignment, this must be changed to reflect the professor of the course. The name after \verb|PROFESSOR=| is the username of the professor collecting the project submissions. This may or may not be the actual professor for the student's section of the course depending on how project submission should work for the given course.
+\pagebreak
+\subsection*{PATH}
+This section of code gives the user access to the current directory so that the \verb|submit| and \verb|timeleft| scripts can be run at any time by the student. As long as the course environment script is in the \verb|submit/bin| folder with the other student scripts, this code should not need to be changed. The code is as follows
+\begin{verbatim}
+# Get directory of script, resolving links
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+printf "    Adding submission programs to environment\n"
+export PATH="$DIR:$PATH"
+\end{verbatim}
+The first 8 lines of this code is a very helpful script that gets the exact location of this script even if there are links and references used. This directory is then added to the user's \$PATH variable that is used by the system when searching for executable files in the bash terminal.
+
+\section{makeTemplate}
+This script creates an empty submission directory. By default the system will take all files in the current directory when submit is called and no tests will be run. The project can be made into a currently submittable project by using the \verb|-c, --current| or by setting the duedate using \verb|-d, --due|. Students can submit to a project either if it is current or if the duedate is in the future. Please do not use both current and duedate on the same project as it will be submittable as long as either one allows. The \verb|-p, --prof| argument is in case the current user is not the same as the professor creating this submit directory. The help documentation for the script is as follows
+\begin{verbatim}
+Usage: makeTemplate [OPTION]... CLASS PROJECT
+Build a basic submit directory for the PROFESSOR, CLASS, and PROJECT
+
+OPTIONS:
+  -c, --current <bool>  sets whether this project is a current project for
+                        the class. <bool> can be 't', 'true', 'T', 'True',
+                        'f', 'false', F', or 'False'
+  -d, --due <date>      sets the date and time that the project is due
+                        if this is not set then there is no automatic
+                        handling of the due date by any of the bash scripts
+                        <date> must be in a form recognized by the gnu date
+                        command
+  -h, --help            print this help documentation
+  -p --prof <name>      sets the name of the professor, if this is not set
+                        then the default is the current user
+  -v, --verbose         explain what is being done
+
+makeTemplate can be used to build a new project submit directory or update
+a project that already exists through use of the options.
+\end{verbatim}
+\section{extension}
+This script gives one student an extension on the given project. This will allow the student to submit the project until the extension date. The usage is shown in the help documentation below.
+\begin{verbatim}
+Usage: extension [OPTION]... STUDENT CLASS PROJECT DATE
+Gives the STUDENT an extension on PROJECT for CLASS until DATE, default
+professor is the current user
+
+OPTIONS:
+  -h, --help            print this help documentation
+  -p, --prof <name>     sets the professor to <name>
+\end{verbatim}
+
+\section{verify}
+This script checks that the submit directory is built correctly. This can only check for the existance of files and their permissions and this only checks for the base required files for submit to work properly. The usage is shown in the help documentation below.
+\begin{verbatim}
+This program is intended to be run by the professor to verify that their
+directory is set up in a way that the submit program will be able to use
+without errors.
+
+Usage: verify [OPTION]... PROFESSOR CLASS PROJECT
+Verify all files for PROFESSOR, CLASS, and PROJECT exist
+
+OPTIONS:
+  -f, --fix             fix any errors that are detected, if possible
+  -h, --help            print this help documentation
+  -v, --verbose         explain what is being done
+\end{verbatim}
+\pagebreak
+\section{submitAs}
+This script allows a professor to submit a project as any user. This script will still submit even if the project is not current and/or the duedate has passed. The usage is shown in the help documentation below.
+\begin{verbatim}
+Usage: submitAs [OPTION]... USER PROJECT
+This script submits files for evaluation as the given user
+
+Mandatory arguments to long operations are mandatory for short options too
+  -c, --course <number>         sets the number of the student's course
+  --folder <path>               sets the folder to be submitted
+  -f, --force                   do not ask for confirmation
+  -h, --help                    print this help documentation
+  -i, --interactive             use interactive mode to input unkown data
+  -p, --professor <name>        sets the name of the student's professor
+  -s, --silent                  hide non-error messages
+  -v, --verbose                 explain what is being done
+
+If course and professor are not set then they will be determined based on
+the current course environment of the user. If folder is not set it will
+default to the current working directory.
+
+The -s, --silent and -v, --verbose options cannot be set at the same time
+\end{verbatim}
+\pagebreak
+\section{Manual Edits}
+For the following explanation we will use an example project created using \verb|makeTemplate| for CS110 with Professor Campbell for the bots project.
+\subsection{Required and Optional Files}
+By default, submit will copy all files from the student's current working directory when submitting. This is controlled by \verb|required\_files| and \verb|optional\_files|. For our example, both of these files are in \verb|submit/acampbel/110/bots|. Submit will require the user to have all files listed in \verb|required\_files| in order to submit. Furthermore, it will copy over all files listed in \verb|optional\_files| if they exist in the user's current working directory. If at any point in \verb|required\_files| or \verb|optional\_files| a line contains only a \*, then all remaining files from the user's current working directory will be copied and no further checks will be made for required files. An example of this is shown below.\\ \\
+required\_files:
+\begin{verbatim}
+bots.cspy
+bots_supplement.cspy
+\end{verbatim}
+optional\_files:
+\begin{verbatim}
+bots_optional.cspy
+\end{verbatim}
+When submitting, this will ensure that the user has \verb|bots.cspy| and \verb|bots_supplement.cspy| in order to submit. Also, if the user has \verb|bots_optional.cspy|, that file will be submitted as well.
+
+\subsection{Test Script}
+If the created project should have any tests evaluated on it these should be handled in the \verb|run_all_tests| file. This file is automatically generated by makeTemplate but does not run any tests on the submitted code.
+
+To edit this file for our example project we go to the file \verb|submit/acampbel/110/bots/tests/run_all_tests|. At the end of the submit script, this file recieves one argument: the folder containing the recently submitted project. The code in this file should be changed to a bash script that will run tests on the folder given as an argument.
+
+\section{Student Submit Folders}
+Inside of the project folder there is a directory named \verb|students|. When a student submits, their submission is placed in here. The most recent submission is stored in a folder named \verb|students/username/last-submit|. This is the folder that is sent to \verb|run_all_tests|. Also, a new submit folder is made. If it is the first submission this folder is \verb|students/username/submit| and if it is not then it is named \verb|students/username/submit-1| with the number incrementing with each new submission. In this way, all submissions are retained and the most recent submission is also easily accessable. Furthemore, the file \verb|students/username/submit-time| keeps track of the submission time of each submission folder. This allows for an alternative way to find when a student submitted the project besides checking the time when the folder was modified/created in case that changes for some reason.
+
+\end{document}

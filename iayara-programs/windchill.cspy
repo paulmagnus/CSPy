@@ -1,0 +1,24 @@
+int x 
+int y
+'''windchill.cspy'''
+
+def windchill():
+    
+    :: tempstr : string, temp : float, wstr : string, ws : float, wc : float ::
+
+    print("Welcome to the windchill program")
+    tempstr = input("Enter the temperature:")
+    wstr = input("Enter the sind speed")
+
+    temp = tofloat(tempstr)
+    ws = tofloat(wstr)     
+
+    wc = 0.0817 * (3.71 * ws ** 0.5 + 5.81 - 0.25 * ws) * (temp-91.4) + 91.4
+    
+    print("The windchill is:", wc)
+
+
+windchill()
+    
+
+

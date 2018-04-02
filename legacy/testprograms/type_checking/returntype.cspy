@@ -1,0 +1,7 @@
+:: y:string, z:int = 7 ::
+
+def foo(x:int) -> int:
+    return x 
+
+y = foo(z)
+

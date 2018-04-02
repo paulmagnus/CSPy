@@ -1,0 +1,170 @@
+""" contact.cspy : a contact directory using a dictionary  """
+
+class Directory:
+    :: directory:dict of [string|dict of [string|string]], owner:string ::
+
+    def Directory(name:string):
+        """ Create a blank directory belonging to name """
+        directory = {}
+        owner = name
+
+    def lookup():
+        """ Lookup a name in the current directory """
+        :: information:dict of [string|string], name:string ::
+
+        if directory == {}:
+            print("\nThere are currently no contacts in your directory.\n")
+
+        else:
+            name = input("\nEnter the name of the contact to lookup : ")
+
+            try:
+                information = directory[name]
+            except ValueError:
+                information = {}
+
+            if information == {}:
+                print("\n" + name.title() + " is not in your directory.\n")
+            else:
+                print(name.title())
+                print("________________")
+                contactinfo(information)  
+        
+                    
+    def contactinfo(information:dict of [string|string]):
+        """ Print out contact information """
+        for i in information.keys():
+            print(i + " : " + information[i]) 
+
+
+    def add():
+        """ Add a new contact to the current directory """
+        :: name:string ::
+
+        name = input("\nEnter the name of the contact to add : ")
+
+        if name in directory:
+            print("\n" + name.title() + " is already in your directory.\n")
+
+        else:
+            :: information:dict of [string|string] = {} ::
+
+            for item in ["Phone Number", "E-Mail", "Home Address"]:
+                :: response:string ::
+                response = input("\n" + name.title() + "'s " + item + " : ")
+                information[item] = response
+
+            directory[name] = information
+
+                
+    def delete():
+        """ Delete a contact from the current directory """
+        :: name:string ::
+
+        name = input("\nEnter the name of the contact to delete : ")
+
+        try:
+            del directory[name]
+          
+        except KeyError:
+            print("\n" + name + " is not in your contact directory.\n")
+
+    
+    def edit():
+        """ Edit the information of a contact in the current directory """
+        :: name:string ::
+
+        name = input("\nEnter the name of the contact to edit : ")
+
+        if name not in directory:
+            print("\n" + name.title() + " is not in your directory.\n")
+
+        else:
+            :: newinformation:dict of [string|string] = {} ::
+
+            for item in ["Phone Number", "E-Mail", "Home Address"]:
+                :: response:string ::
+                response = askquestion("\nDo you want to change " + name.title() + "'s " + item + "? ")
+
+                if response == "y":
+                    response = input("Please enter " + name.title() + "'s  new " + item + " : ")
+                    newinformation[item] = response
+
+                else:
+                    newinformation[item] = directory[name][item]
+
+            directory[name] = newinformation
+
+    
+    def view():
+        """ View the current contact directory """
+        :: contacts:list of string::
+
+        if directory == {}:
+            print("\nThere are currently not contacts in your directory.\n")
+
+        else:
+            print("\n" + owner.title() + "'s Contacts")
+            contacts = directory.keys()
+            contacts.sort()
+            for name in contacts:
+                print("\n" + name.title())
+                contactinfo(directory[name])
+            
+
+    def menu():
+        print("""
+Please choose an option from the menu below.
+
+    0 - Exit
+    1 - Look Up a Contact
+    2 - Add a Contact
+    3 - Delete a Contact
+    4 - Edit a Contact
+    5 - View Contact List
+
+    """)
+
+
+def askquestion(question:string) -> string:
+    """ Ask a yes or no question """
+    ::response:string = ""::
+
+    while response not in ("y", "n"):
+        response = input(question)
+    return response
+
+
+def askrange(question:string, start:int, stop:int) -> int:
+    """ Ask for a number within the given range """
+    :: response:int ::
+
+    response = -1
+    while response not in range(start, stop):
+        try:
+            response = toint(input(question))
+        except ValueError:
+            response = -1
+    return response
+
+
+def main():
+    """ Creates an interactive, contact directory """
+    :: directory:Directory, owner:string, response:int = -1, 
+       functions: list of proc ()::
+
+    print("Welcome to your contact directory!\n")
+    owner = input("Please enter your name : ")
+    directory = Directory(owner)
+    functions = [directory.lookup, directory.add, directory.delete, 
+                 directory.edit, directory.view]
+
+    while response != 0:
+        directory.menu()
+        response = askrange("Please enter your choice (0-5) : ", 0, 6)
+        if response != 0:
+            functions[response-1]()
+                    
+main()
+
+    

@@ -1,0 +1,27 @@
+'''test_slice.cspy'''
+::  L : list of int = [0,1,2,3,4,5],
+    P : list of list of int = [[0,1,2],[3,4,5],[6,7,8]],
+    y : string,
+    z : tuple of (string * int * string)  ::
+
+print(L[2:4])
+print(L[:3]) 
+print(L[3:]) 
+print(L[:])  
+print(L[ : :2])
+print(P[ : :2])
+print(P[: :])
+
+print(L[3])
+L[3] += 4
+print(L[3])
+
+y = "hello"
+print(y)
+print(y[0])
+print(y[:4])
+
+z = ("first", 2, "third")
+print(z)
+print(z[1])
+print(z[:2])

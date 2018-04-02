@@ -1,0 +1,9 @@
+def main():
+    ::myfile:file::
+    myfile = open('/home/acampbel/CSPy-shared/ulysses/jenkins-programs/hi.txt', 'r+')
+    string = myfile.read()
+    print(string)
+    string = string.replace("E", "bananahammock")
+    myfile.write(string)
+
+main()

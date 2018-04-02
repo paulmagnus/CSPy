@@ -1,0 +1,1360 @@
+# -----------------------------------------------------------------------------
+# graphicsLibrary.py
+# Matthew R. Jenkins '20
+# Summer 2017
+#
+# Contains a CSPy-friendly version of a Tkinter based graphics library.
+# -----------------------------------------------------------------------------
+from Tkinter import *  # for pretty much everything graphics related
+import math  # for rotate
+import inspect  # for event handling
+from PIL import Image as image  # for Image class
+from PIL import ImageTk as itk  # for Image class
+
+
+# -----------------------------------------------------------------------------
+# class Window:
+# This window acts as a canvas which other objects can be put onto.
+# Parameters (All optional because Window constructor should only be run in
+# StartGraphicsSystem and in the function the user runs in their function):
+# width - int - Width of canvas. (default: 400)
+# height - int - Height of canvas. (default: 400)
+# background - str - Background color of canvas. Can be either the name of
+#                    a color ("yellow"), or a hex code ("#FFFF00").
+#                    (default: "white")
+# name - str - The title of the window. (default: "Graphics Library")
+# first_function - proc(Window) - When the window is created, it runs this
+#                                function after everything is run.
+#                                (default: None)
+# master - unknown type - necessary for the creation of the Tkinter widgets.
+#                         (default: None)
+# -----------------------------------------------------------------------------
+class Window:
+    def __init__(self, width, height, background, name, first_function=None,
+                 master=None):
+        assert isinstance(width, int) and isinstance(height, int) \
+            and isinstance(background, str) and isinstance(name, str)
+        self._width = width
+        self._height = height
+        self._background = background
+        self._name = name
+        self._first_function = first_function
+
+        # self._graphics contains a running tally of what objects are on the
+        # canvas
+        # [0] = depth, [1] = tag, [2] = object ID
+        self._graphics = []
+
+        # initalizing a frame and canvas using tkinter
+        self._root = Tk()
+        self._frame = Frame(master)
+        self._frame.pack()
+        self._canvas = Canvas(self._frame)
+        self._canvas.pack()
+        self._canvas.focus_set()
+
+        # using our built in functions to set height, width, and background
+        self.set_height(height)
+        self.set_width(width)
+        self.set_title(name)
+        self.set_background(background)
+
+        # event handling binds - by default these bind to an empty eventhandler
+        self._canvas.bind("<Key>", self._key_press_wrapper)
+        self._canvas.bind("<KeyRelease>", self._key_release_wrapper)
+        self._canvas.bind("<Enter>", self._mouse_enter_wrapper)
+        self._canvas.bind("<Leave>", self._mouse_leave_wrapper)
+        self._canvas.bind("<Motion>", self._mouse_move_wrapper)
+        self._canvas.bind("<Button-1>", self._mouse_press_wrapper)
+        self._canvas.bind("<Button-2>", self._mouse_press_wrapper)
+        self._canvas.bind("<Button-3>", self._mouse_press_wrapper)
+        self._canvas.bind("<ButtonRelease-1>", self._mouse_release_wrapper)
+        self._canvas.bind("<ButtonRelease-2>", self._mouse_release_wrapper)
+        self._canvas.bind("<ButtonRelease-3>", self._mouse_release_wrapper)
+
+        # running first function
+        self._first_function(self)
+
+    # -------------------------------------------------------------------------
+    # def add(self, graphic (GraphicalObject) )
+    # Adds an object of type GraphicalObject to the Window object.
+    # -------------------------------------------------------------------------
+    def add(self, graphic):
+        assert isinstance(graphic, GraphicalObject)
+        graphic._add_to()
+
+    # -------------------------------------------------------------------------
+    # def _key_press_wrapper(self, event(tkEvent) )
+    # Wraps a tkEvent into an Event class and then looks through the list of
+    # graphics and executes its handler if it exists.
+    # -------------------------------------------------------------------------
+    def _key_press_wrapper(self, event):
+        tkEvent = Event(event)
+        # iterate through our list of graphics and then call the function
+        # handle_key_press if object inherits eventhandler
+        for graphic in self._graphics:
+            if isinstance(graphic[1], EventHandler):
+                graphic[1].handle_key_press(tkEvent)
+
+    # -------------------------------------------------------------------------
+    # def _key_release_wrapper(self, event(tkEvent) )
+    # Wraps a tkEvent into an Event class and then looks through the list of
+    # graphics and executes its handler if it exists.
+    # -------------------------------------------------------------------------
+    def _key_release_wrapper(self, event):
+        tkEvent = Event(event)
+        # iterate through our list of graphics and then call the function
+        # handke_key_release if object inherits eventhandler
+        for graphic in self._graphics:
+            if isinstance(graphic[1], EventHandler):
+                graphic[1].handke_key_release(tkEvent)
+
+    # -------------------------------------------------------------------------
+    # def _mouse_enter_wrapper(self, event(tkEvent) )
+    # Wraps a tkEvent into an Event class and then looks through the list of
+    # graphics and executes its handler if it exists.
+    # -------------------------------------------------------------------------
+    def _mouse_enter_wrapper(self, event):
+        tkEvent = Event(event)
+        # iterate through our list of graphics and then call the function
+        # handle_mouse_enter if object inherits eventhandler
+        for graphic in self._graphics:
+            if isinstance(graphic[1], EventHandler):
+                graphic[1].handle_mouse_enter(tkEvent)
+
+    # -------------------------------------------------------------------------
+    # def _mouse_leave_wrapper(self, event(tkEvent) )
+    # Wraps a tkEvent into an Event class and then looks through the list of
+    # graphics and executes its handler if it exists.
+    # -------------------------------------------------------------------------
+    def _mouse_leave_wrapper(self, event):
+        tkEvent = Event(event)
+        # iterate through our list of graphics and then call the function
+        # handle_mouse_leave if object inherits eventhandler
+        for graphic in self._graphics:
+            if isinstance(graphic[1], EventHandler):
+                graphic[1].handle_mouse_leave(tkEvent)
+
+    # -------------------------------------------------------------------------
+    # def _mouse_move_wrapper(self, event(tkEvent) )
+    # Wraps a tkEvent into an Event class and then looks through the list of
+    # graphics and executes its handler if it exists.
+    # -------------------------------------------------------------------------
+    def _mouse_move_wrapper(self, event):
+        tkEvent = Event(event)
+        # iterate through our list of graphics and then call the function
+        # handle_mouse_move if object inherits eventhandler
+        for graphic in self._graphics:
+            if isinstance(graphic[1], EventHandler):
+                graphic[1].handle_mouse_move(tkEvent)
+
+    # -------------------------------------------------------------------------
+    # def _mouse_press_wrapper(self, event(tkEvent) )
+    # Wraps a tkEvent into an Event class and then looks through the list of
+    # graphics and executes its handler if it exists.
+    # -------------------------------------------------------------------------
+    def _mouse_press_wrapper(self, event):
+        tkEvent = Event(event)
+        # iterate through our list of graphics and then call the function
+        # handle_mouse_press if object inherits eventhandler
+        for graphic in self._graphics:
+            if isinstance(graphic[1], EventHandler):
+                graphic[1].handle_mouse_press(tkEvent)
+
+    # -------------------------------------------------------------------------
+    # def _mouse_release_wrapper(self, event(tkEvent) )
+    # Wraps a tkEvent into an Event class and then looks through the list of
+    # graphics and executes its handler if it exists.
+    # -------------------------------------------------------------------------
+    def _mouse_release_wrapper(self, event):
+        tkEvent = Event(event)
+        # iterate through our list of graphics and then call the function
+        # handle_mouse_release if object inherits eventhandler
+        for graphic in self._graphics:
+            if isinstance(graphic[1], EventHandler):
+                graphic[1].handle_mouse_release(tkEvent)
+
+    # -------------------------------------------------------------------------
+    # def remove(self, graphic (GraphicalObject) )
+    # Removes an object of type GraphicalObject to the Window object, assuming
+    # the object being deleted exists.
+    # -------------------------------------------------------------------------
+    def remove(self, graphic):
+        assert isinstance(graphic, GraphicalObject) and \
+            [graphic._depth, graphic._tag, graphic] in self._graphics
+        graphic._remove_from(self)
+        self._graphics.remove([graphic._depth, graphic._tag, graphic])
+        graphic._tag = None
+        graphic._enabled = False
+
+    # -------------------------------------------------------------------------
+    # def set_backgroundColor(self, color (str) )
+    # Sets the background color of the canvas.
+    # --------------------------------------------------------------------------
+    def set_background(self, background):
+        assert isinstance(background, str)
+        self._background = background
+        self._canvas.configure(bg=background)
+
+    # -------------------------------------------------------------------------
+    # def set_height(self, height (int) )
+    # Sets the height of the canvas.
+    # -------------------------------------------------------------------------
+    def set_height(self, height):
+        assert isinstance(height, int)
+        self._height = height
+        self._canvas.configure(height=height)
+
+    # -------------------------------------------------------------------------
+    # def set_title(self, title (str) )
+    # Sets the title of the window holding the canvas.
+    # -------------------------------------------------------------------------
+    def set_title(self, name):
+        assert isinstance(name, str)
+        self._name = name
+        self._root.title(name)
+
+    # -------------------------------------------------------------------------
+    # def set_width(self, height (int) )
+    # Sets the width of the canvas.
+    # -------------------------------------------------------------------------
+    def set_width(self, width):
+        assert isinstance(width, int)
+        self._width = width
+        self._canvas.configure(width=width)
+
+    # -------------------------------------------------------------------------
+    # def _update_tag(self, graphic (GraphicalObject) )
+    # Whenever an object is updated through external functions, its tag is
+    # overwritten. This function goes into self._graphics and replaces the old
+    # tag with a newer one, as well as replacing its depth with a newer one.
+    # -------------------------------------------------------------------------
+    def _update_tag(self, graphic):
+        for item in self._graphics:
+            if item[2] == graphic:
+                item[1] = graphic._tag
+                item[0] = graphic._depth
+
+
+# -----------------------------------------------------------------------------
+# def StartGraphicsSystem(function (proc), width (int), height(int),
+#                       background (str), name (str))
+# This initalizes the graphics engine.
+# -----------------------------------------------------------------------------
+def StartGraphicsSystem(first_function, width=400, height=400,
+                        background="white", name="Graphics Window"):
+    win = Window(width, height, background, name, first_function)
+    try:
+        while True:
+            win._canvas.update()
+            win._canvas.after(200)
+    except TclError:
+        pass
+
+
+# -----------------------------------------------------------------------------
+# class Event:
+# An event which gets bound to an object. Used by EventHandler objects.
+#
+# Required Parameters:
+# event - TkEvent - The event which the user want applied an an object.
+# -----------------------------------------------------------------------------
+class Event:
+    def __init__(self, event):
+        self._type = event.type
+        self._location = (event.x, event.y)
+        self._rootLocation = (event.x_root, event.y_root)
+        self._keysym = event.keysym
+        self._num = event.num
+
+    # -------------------------------------------------------------------------
+    # def get_button(self)
+    # Returns the mouse button that is attached to the event. Returns None if
+    # the button fails to exist (like if the Event handles a key press).
+    # -------------------------------------------------------------------------
+    def get_button(self):
+        if self._num == "??":
+            return None
+        numTranslation = {
+            1: "Left Mouse Button",
+            2: "Middle Mouse Button",
+            3: "Right Mouse Button"
+        }
+        return numTranslation[self._num]
+
+    # -------------------------------------------------------------------------
+    # def get_description(self)
+    # Returns the description of the event.
+    # -------------------------------------------------------------------------
+    def get_description(self):
+        descriptionTranslation = {
+            '2': "Key Press",
+            '3': "Key Release",
+            '4': "Mouse Press",
+            '5': "Mouse Release",
+            '6': "Mouse Move",
+            '7': "Mouse Enter",
+            '8': "Mouse Leave",
+        }
+        return descriptionTranslation[self._type]
+
+    # -------------------------------------------------------------------------
+    # def get_key(self)
+    # Returns the keyboard key that is attached to the event. Returns None if
+    # the key fails to exist (like if the Event handles a mouse press).
+    # -------------------------------------------------------------------------
+    def get_key(self):
+        if self._keysym == "??":
+            return None
+        return self._keysym
+
+    # -------------------------------------------------------------------------
+    # def get_mouse_location(self)
+    # Returns a tuple of the x and y coordinates of the mouse location in the
+    # canvas.
+    # -------------------------------------------------------------------------
+    def get_mouse_location(self):
+        return self._location
+
+    # -------------------------------------------------------------------------
+    # def get_root_mouse_location(self)
+    # Returns a tuple of the x and y coordinates of the mouse location in the
+    # monitor.
+    # -------------------------------------------------------------------------
+    def get_root_mouse_location(self):
+        return self._rootLocation
+
+
+# -----------------------------------------------------------------------------
+# class EventHandler:
+# Handles an event. These are overloaded by the user, so by default they're
+# empty except for the pass command.
+# -----------------------------------------------------------------------------
+class EventHandler:
+    def __init__(self):
+        pass
+
+    # -------------------------------------------------------------------------
+    # def handle_key_press(self, event(Event) )
+    # Handles a key press.
+    # -------------------------------------------------------------------------
+    def handle_key_press(self, event):
+        pass
+
+    # -------------------------------------------------------------------------
+    # def handke_key_release(self, event(Event) )
+    # Handles a key release.
+    # -------------------------------------------------------------------------
+    def handke_key_release(self, event):
+        pass
+
+    # -------------------------------------------------------------------------
+    # def handle_mouse_enter(self, event(Event) )
+    # Handles when a mouse enters an object.
+    # -------------------------------------------------------------------------
+    def handle_mouse_enter(self, event):
+        pass
+
+    # -------------------------------------------------------------------------
+    # def handle_mouse_leave(self, event(Event) )
+    # Handles when a mouse leaves an object
+    # -------------------------------------------------------------------------
+    def handle_mouse_leave(self, event):
+        pass
+
+    # -------------------------------------------------------------------------
+    # def handle_mouse_move(self, event(Event) )
+    # Handles a mouse move.
+    # -------------------------------------------------------------------------
+    def handle_mouse_move(self, event):
+        pass
+
+    # -------------------------------------------------------------------------
+    # def handle_mouse_press(self, event(Event) )
+    # Handles a mouse press.
+    # -------------------------------------------------------------------------
+    def handle_mouse_press(self, event):
+        pass
+
+    # -------------------------------------------------------------------------
+    # def handle_mouse_release(self, event(Event) )
+    # Handles a mouse release.
+    # -------------------------------------------------------------------------
+    def handle_mouse_release(self, event):
+        pass
+
+
+# -----------------------------------------------------------------------------
+# def call_handler(handler(EventHandler), event(Event))
+# "Overwrites" the event handler and calls an external EventHandler.
+# -----------------------------------------------------------------------------
+def call_handler(handler, event):
+    # checks if argument count is > 1 and then appends the event to the handler
+    # if it is
+    arg_count = len(inspect.getargs(handler.__code__)[0])
+    if arg_count == 1:
+        handler()
+    else:
+        handler(event)
+
+
+# -----------------------------------------------------------------------------
+# class GraphicalObject:
+# This window is a parent class of any object which can be put into Window.
+# No constructor exists in this class, but its methods are used by other
+# objects that extend/inherit this class.
+# -----------------------------------------------------------------------------
+class GraphicalObject:
+    def __init__(self):
+        self._depth = 50
+        self._center = (200, 200)
+        self._has_handlers = False
+
+    # -------------------------------------------------------------------------
+    # def add_handler(self, handler_object(GraphicalObject))
+    # Adds a handler to the graphical object.
+    # -------------------------------------------------------------------------
+    def add_handler(self, handler_object):
+        def key_press(event):
+            tkEvent = Event(event)
+            call_handler(handler_object.handle_key_press, tkEvent)
+
+        def key_release(event):
+            tkEvent = Event(event)
+            call_handler(handler_object.handke_key_release, tkEvent)
+
+        def mouse_enter(event):
+            tkEvent = Event(event)
+            call_handler(handler_object.handle_mouse_enter, tkEvent)
+
+        def mouse_leave(event):
+            tkEvent = Event(event)
+            call_handler(handler_object.handle_mouse_leave, tkEvent)
+
+        def mouse_move(event):
+            tkEvent = Event(event)
+            call_handler(handler_object.handle_mouse_move, tkEvent)
+
+        def mouse_press(event):
+            tkEvent = Event(event)
+            call_handler(handler_object.handle_mouse_press, tkEvent)
+
+        def mouse_release(event):
+            tkEvent = Event(event)
+            call_handler(handler_object.handle_mouse_release, tkEvent)
+
+        self._parent_object = handler_object
+        self._has_handlers = True
+
+        # These duplicates are necessary to allow support for multiple mouse
+        # buttons.
+
+        types = ["<Key>", "<KeyRelease>", "<Enter>", "<Leave>",
+                 "<Motion>", "<Button-1>", "<Button-2>", "<Button-3>",
+                 "<ButtonRelease-1>", "<ButtonRelease-2>", "<ButtonRelease-3>"]
+
+        funcs = [key_press, key_release, mouse_enter, mouse_leave, mouse_move,
+                 mouse_press, mouse_press, mouse_press,
+                 mouse_release, mouse_release, mouse_release]
+
+        # goes through each bind and binds it to canvas if it's a key object
+        # and binds it to the graphical object if it's not a key object
+        for i in range(len(types)):
+            if "Key" in types[i]:
+                self._window._canvas.bind(types[i], funcs[i])
+            else:
+                self._window._canvas.tag_bind(self._tag, types[i], funcs[i])
+
+    # -------------------------------------------------------------------------
+    # def get_center(self)
+    # Returns the center of the graphical object.
+    # -------------------------------------------------------------------------
+    def get_center(self):
+        return self._center
+
+    # -------------------------------------------------------------------------
+    # def get_depth(self)
+    # Returns the depth of the graphical object.
+    # -------------------------------------------------------------------------
+    def get_depth(self):
+        return self._depth
+
+    # -------------------------------------------------------------------------
+    # def move(self, dx (int), dy (int) )
+    # Moves a graphical object dx pixels horizontally and dy pixels vertically.
+    # -------------------------------------------------------------------------
+    def move(self, dx, dy):
+        assert isinstance(dx, int) and isinstance(dy, int)
+        self._center = (self._center[0] + dx, self._center[1] + dy)
+        # goes through each point and increments it by dx or dy depending if
+        # its index is even or odd
+        for i in range(len(self._points)):
+                self._points[i] = (self._points[i][0] + dx,
+                                   self._points[i][1] + dy)
+        self._refresh()
+
+    # -------------------------------------------------------------------------
+    # def move_to(self, point (tuple of int * int) )
+    # Moves a graphical object to a point.
+    # -------------------------------------------------------------------------
+    def move_to(self, point):
+        assert isinstance(point, tuple) and len(point) == 2
+        difference = (self._center[0] - point[0], self._center[1] - point[1])
+        self._center = point
+        # goes through each point and increments it by dx or dy depending if
+        # its index is even or odd
+        for i in range(len(self._points)):
+                self._points[i] = (self._points[i][0] - difference[0],
+                                   self._points[i][1] - difference[1])
+        self._refresh()
+
+    # -------------------------------------------------------------------------
+    # def _refresh(self)
+    # Removes and adds an object after it's been changed.
+    # -------------------------------------------------------------------------
+    def _refresh(self):
+        # since this is run for every object we need a special case if the
+        # object is a graphical object and not a fillable
+            # in that case, we remove it and readd it without using any canvas
+            # operators, add handlers if they exist, and return
+        if isinstance(self, Text) or isinstance(self, Image):
+            self._remove_from(self._window)
+            self._add_to()
+            self._window._update_tag(self)
+            if self._has_handlers:
+                self.add_handler(self._parent_object)
+        else:
+            # from here on out we're assuming fillables only.
+            # we remove the object from the window, and then if the object is
+            # disabled we readd it with the HIDDEN state, otherwise just readd
+            # it
+            self._remove_from(self._window)
+            if self._enabled is False:
+                self._tag = self._window._canvas.create_polygon(
+                    *self._points,
+                    width=self.get_border_width(),
+                    fill=self.get_fill_color(),
+                    outline=self.get_border_color(),
+                    state=HIDDEN
+                )
+            else:
+                self._tag = self._window._canvas.create_polygon(
+                    *self._points,
+                    width=self.get_border_width(),
+                    fill=self.get_fill_color(),
+                    outline=self.get_border_color()
+                )
+
+            # we then update the tag, and then readd handlers if they exist.
+            # if we don't then the object will only run once and then not again
+            self._window._update_tag(self)
+            if self._has_handlers:
+                self.add_handler(self._parent_object)
+
+    # -------------------------------------------------------------------------
+    # def _remove_from(self, window (Window) )
+    # Removes a graphical object from the canvas.
+    # -------------------------------------------------------------------------
+    def _remove_from(self, window):
+        window._canvas.delete(self._tag)
+
+    # -------------------------------------------------------------------------
+    # def set_depth(self, depth)
+    # Sets the depth of the GraphicalObject.
+    # -------------------------------------------------------------------------
+    def set_depth(self, depth):
+        assert isinstance(depth, int)
+        self._depth = depth
+        self._window._update_tag(self)
+        self._window._graphics.sort()
+        # get rid of all objects and readd them in depth order
+        for graphic in reversed(self._window._graphics):
+            graphic[2]._refresh()
+
+
+# -----------------------------------------------------------------------------
+# class Fillable:
+# This window is a parent class of any object which can have its colors
+# modified.
+# No constructor exists in this class, but its methods are used by other
+# objects that extend/inherit this class.
+# -----------------------------------------------------------------------------
+class Fillable(GraphicalObject):
+    def __init__(self):
+        GraphicalObject.__init__(self)
+        self._border_color = "black"
+        self._border_width = 2
+        self._fill_color = ""
+        self._pivot = self._center
+
+    # -------------------------------------------------------------------------
+    # def get_border_color(self)
+    # Returns the border color of a Fillable.
+    # -------------------------------------------------------------------------
+    def get_border_color(self):
+        return self._border_color
+
+    # -------------------------------------------------------------------------
+    # def get_border_width(self)
+    # Returns the border width of a Fillable.
+    # -------------------------------------------------------------------------
+    def get_border_width(self):
+        return self._border_width
+
+    # -------------------------------------------------------------------------
+    # def get_fill_color(self)
+    # Returns the depth of a Fillable.
+    # -------------------------------------------------------------------------
+    def get_fill_color(self):
+        return self._fill_color
+
+    # -------------------------------------------------------------------------
+    # def get_pivot(self)
+    # Returns the pivot point of a Fillable.
+    # -------------------------------------------------------------------------
+    def get_pivot(self):
+        return self._pivot
+
+    # -------------------------------------------------------------------------
+    # def rotate(self, degrees (int) )
+    # Rotates the object.
+    # -------------------------------------------------------------------------
+    def rotate(self, degrees):
+        assert isinstance(degrees, int)
+        radians = (math.pi / 180) * degrees
+        for i in range(len(self._points)):
+            self._points[i] = _rotate_helper(self._points[i],
+                                             radians,
+                                             self._pivot)
+        self.move_to(self._center)
+        self._refresh()
+
+    # -------------------------------------------------------------------------
+    # def scale(self, factor (float) )
+    # Scales the Fillable up or down depending on the factor.
+    # -------------------------------------------------------------------------
+    def scale(self, factor):
+        assert isinstance(factor, float)
+        temp_center = self._center
+        self.move_to((0, 0))
+        for i in range(len(self._points)):
+            temp_tuple = ((self._points[i][0] * factor,
+                          self._points[i][1] * factor))
+            self._points[i] = temp_tuple
+        self.move_to(temp_center)
+        self._center = temp_center
+        self._refresh()
+
+    # -------------------------------------------------------------------------
+    # def set_border_color(self, color (str) )
+    # Sets the border color of the Fillable.
+    # -------------------------------------------------------------------------
+    def set_border_color(self, color):
+        assert isinstance(color, str)
+        self._border_color = color
+        self._window._canvas.itemconfigure(self._tag, outline=color)
+
+    # -------------------------------------------------------------------------
+    # def set_border_width(self, width (int) )
+    # Sets the border width of the Fillable.
+    # -------------------------------------------------------------------------
+    def set_border_width(self, width):
+        assert isinstance(width, int)
+        self._border_width = width
+        self._window._canvas.itemconfigure(self._tag, width=width)
+
+    # -------------------------------------------------------------------------
+    # def set_fill_color(self, color (str) )
+    # Sets the fill color of the Fillable.
+    # -------------------------------------------------------------------------
+    def set_fill_color(self, color):
+        assert isinstance(color, str)
+        self._fill_color = color
+        self._window._canvas.itemconfigure(self._tag, fill=color)
+
+    # -------------------------------------------------------------------------
+    # def set_pivot(self, pivot (tuple of int * int) )
+    # Sets the pivot point of the Fillable.
+    # -------------------------------------------------------------------------
+    def set_pivot(self, pivot):
+        assert isinstance(pivot, tuple) and len(pivot) == 2
+        self._pivot = pivot
+
+
+# -----------------------------------------------------------------------------
+# def _rotate_helper(point (tuple of int * int), angle (int),
+#                    pivot (tuple of int * int) )
+# Aids in rotation.
+# -----------------------------------------------------------------------------
+def _rotate_helper(point, angle, pivot):
+    assert isinstance(point, tuple) and len(point) == 2
+    assert isinstance(angle, float)
+    assert isinstance(pivot, tuple) and len(pivot) == 2
+    point = (point[0] - pivot[0], point[1] - pivot[1])
+    newX = (point[0] * math.cos(angle)) + (point[1] * math.sin(angle))
+    newY = (point[1] * math.cos(angle)) - (point[0] * math.sin(angle))
+    return (newX + pivot[0], newY + pivot[1])
+
+
+# -----------------------------------------------------------------------------
+# class Image:
+# An image, which can be added to a Window object.
+#
+# Required Parameters:
+# image_loc - str - The name of an image within the current working directory.
+# (If the current working directory is /foo/bar, then the image the user
+# want to use has to be in that directory. There is no support for using
+# internet links at this time.)
+#
+# Optional Parameters:
+# center - tuple of int * int - sets the center of the Image.
+# (default: (200, 200))
+# width - int - sets the width of the image. (default: 25)
+# height - int - sets the height of the image. (default: 25)
+# -----------------------------------------------------------------------------
+class Image(GraphicalObject):
+    def __init__(self, window, image_loc, width=100, height=100,
+                 center=(200, 200)):
+        assert isinstance(window, Window) and image_loc is not "" \
+            and isinstance(width, int) and isinstance(height, int) \
+            and isinstance(center, tuple) and len(center) == 2
+        self._window = window
+        GraphicalObject.__init__(self)
+        self._image_loc = image_loc
+        self._center = center
+        self._width = width
+        self._height = height
+
+        self._img = _image_gen(self._image_loc, self._width, self._height)
+
+        self._angle = 0
+        self._enabled = False
+        self._tag = self._window._canvas.create_image(self._center[0],
+                                                      self._center[1],
+                                                      image=self._img,
+                                                      state=HIDDEN)
+        self._window._graphics.append([self._depth, self._tag, self])
+
+    # -------------------------------------------------------------------------
+    # def _add_to(self)
+    # Adds a graphical object to the canvas.
+    # -------------------------------------------------------------------------
+    def _add_to(self):
+        self._tag = self._window._canvas.create_image(self._center[0],
+                                                      self._center[1],
+                                                      image=self._img)
+        self._enabled = True
+
+    # -------------------------------------------------------------------------
+    # def move(self, dx (int), dy (int) )
+    # Moves a graphical object dx pixels horizontally and dy pixels vertically.
+    # -------------------------------------------------------------------------
+    def move(self, dx, dy):
+        assert isinstance(dx, int) and isinstance(dy, int)
+        self._center = (self._center[0] + dx, self._center[1] + dy)
+        self._remove_from(self._window)
+        self._img = _image_gen(self._image_loc, self._width, self._height)
+        self._refresh()
+
+    # -------------------------------------------------------------------------
+    # def move_to(self, point (tuple of int * int) )
+    # Moves a graphical object to a point.
+    # -------------------------------------------------------------------------
+    def move_to(self, point):
+        assert isinstance(point, tuple) and len(point) == 2
+        self._center = point
+        self._remove_from(self._window)
+        self._img = _image_gen(self._image_loc, self._width, self._height)
+        self._refresh()
+
+    # -------------------------------------------------------------------------
+    # def resize(self, width (int) , height (int) )
+    # Resizes the Image. Depending on whether the object is rotated, it is
+    # either resized and rerotated or just resized.
+    # -------------------------------------------------------------------------
+    def resize(self, width, height):
+        assert isinstance(width, int) and isinstance(height, int)
+        self._width = width
+        self._height = height
+        if self._angle != 0:
+            self.rotate(0)
+        else:
+            self._remove_from(self._window)
+            self._img = _image_gen(self._image_loc, width, height)
+            self._refresh()
+
+    # -------------------------------------------------------------------------
+    # def rotate(self, degrees (int) )
+    # Rotates an object by degrees. (NOTE: While the other functions that
+    # handle rotation convert to radians, this one does not. I blame PIL.
+    # -------------------------------------------------------------------------
+    def rotate(self, degrees):
+        assert isinstance(degrees, int)
+        self._angle += degrees
+        if self._angle >= 360:
+            self._angle = self._angle % 360
+        self._remove_from(self._window)
+        img_temp = image.open(self._image_loc)
+        img_temp = img_temp.convert('RGBA')
+        img_temp = img_temp.resize((self._width, self._height),
+                                   image.ANTIALIAS)
+        img_temp = img_temp.rotate(self._angle)
+        self._img = itk.PhotoImage(img_temp)
+        self._refresh()
+
+    # -------------------------------------------------------------------------
+    # def scale(self, factor (float) )
+    # Scales the image according to the factor. Depending on whether the object
+    # is rotated, the object is either rotated or resized afterwards.
+    # -------------------------------------------------------------------------
+    def scale(self, factor):
+        assert isinstance(factor, float)
+        self._width = int(self._width * factor)
+        self._height = int(self._height * factor)
+        if self._angle != 0:
+            self.rotate(self._angle)
+        else:
+            self.resize(self._width, self._height)
+
+    # -------------------------------------------------------------------------
+    # def size(self)
+    # Returns a tuple of the width and height of the image.
+    # -------------------------------------------------------------------------
+    def size(self):
+        return (self._width, self._height)
+
+
+# -----------------------------------------------------------------------------
+# def _image_gen(image_loc (str), width (int), height (int) )
+# Creates a resized image and returns an image of type itk.PhotoImage.
+# -----------------------------------------------------------------------------
+def _image_gen(image_loc, width, height):
+    img_temp = image.open(image_loc)
+    img_temp = img_temp.resize((width, height), image.ANTIALIAS)
+    return itk.PhotoImage(img_temp)
+
+
+# -----------------------------------------------------------------------------
+# class Text:
+# Text which can be added to a Window object.
+#
+# Required Parameters:
+# text - str - The text which is displayed.
+#
+# Optional Parameters:
+# center - tuple of int * int - sets the center of the Image.
+# (default: (200, 200))
+# width - int - sets the size of the text. (default: 12)
+# -----------------------------------------------------------------------------
+class Text(GraphicalObject):
+    def __init__(self, window, text, size=12, center=(200, 200)):
+        assert isinstance(window, Window) and text is not "" \
+            and isinstance(size, int) and isinstance(center, tuple) \
+            and len(center) == 2
+        self._window = window
+        GraphicalObject.__init__(self)
+        self._text = text
+        self._center = center
+        self._size = size
+        self._enabled = False
+        self._tag = self._window._canvas.create_text(self._center[0],
+                                                     self._center[1],
+                                                     text=str(self._text),
+                                                     font=("Helvetica",
+                                                           self._size),
+                                                     state=HIDDEN)
+        self._window._graphics.append([self._depth, self._tag, self])
+
+    # -------------------------------------------------------------------------
+    # def _add_to(self)
+    # Adds a graphical object to the canvas.
+    # -------------------------------------------------------------------------
+    def _add_to(self):
+        self._tag = self._window._canvas.create_text(self._center[0],
+                                                     self._center[1],
+                                                     text=str(self._text),
+                                                     font=("Helvetica",
+                                                           self._size))
+        self._enabled = True
+
+    # -------------------------------------------------------------------------
+    # def move(self, dx (int), dy (int) )
+    # Moves a graphical object dx pixels horizontally and dy pixels vertically.
+    # -------------------------------------------------------------------------
+    def move(self, dx, dy):
+        assert isinstance(dx, int) and isinstance(dy, int)
+        self._center = (self._center[0] + dx, self._center[1] + dy)
+        self._window._canvas.coords(self._tag,
+                                    (self._center[0], self._center[1]))
+
+    # -------------------------------------------------------------------------
+    # def move_to(self, point (tuple of int * int) )
+    # Moves a graphical object to a point.
+    # -------------------------------------------------------------------------
+    def move_to(self, point):
+        assert isinstance(point, tuple) and len(point) == 2
+        self._center = point
+        self._window._canvas.coords(self._tag,
+                                    self._center[0],
+                                    self._center[1])
+
+    # -------------------------------------------------------------------------
+    # def set_size(self, size (int) )
+    # Sets the point size of the text.
+    # -------------------------------------------------------------------------
+    def set_size(self, size):
+        assert isinstance(size, int)
+        self._size = size
+        self._window._canvas.itemconfigure(self._tag, font=("Helvetica",
+                                                            self._size))
+
+    # -------------------------------------------------------------------------
+    # def set_text(self, text (str) )
+    # Sets the text.
+    # -------------------------------------------------------------------------
+    def set_text(self, text):
+        assert isinstance(text, string)
+        self._text = text
+        self._window._canvas.itemconfigure(self._tag, text=self._text)
+
+
+# -----------------------------------------------------------------------------
+# class Polygon:
+# A Polygon, which can be added to a Window object.
+#
+# Required Parameters:
+# points - list of tuples of int * int - each tuple corresponds to an xy point
+# which are drawn and automatically merged. In the process of making the
+# Polygon, the list of tuples of int * int is turned into a list of ints
+# to make averaging a center point easier.
+# -----------------------------------------------------------------------------
+class Polygon(Fillable):
+    def __init__(self, window, points):
+        assert isinstance(window, Window)
+        self._window = window
+        Fillable.__init__(self)
+        self._points = points
+        self._center = _list_average(self._points)
+        self._enabled = False
+        self._tag = self._window._canvas.create_polygon(
+            *self._points,
+            width=self.get_border_width(),
+            fill=self.get_fill_color(),
+            outline=self.get_border_color(),
+            state=HIDDEN
+        )
+        self._window._graphics.append([self._depth, self._tag, self])
+
+    # -------------------------------------------------------------------------
+    # def _add_to(self)
+    # Adds a graphical object to the canvas.
+    # -------------------------------------------------------------------------
+    def _add_to(self):
+        self._window._canvas.itemconfigure(self._tag, state=NORMAL)
+        self._enabled = True
+
+
+# -----------------------------------------------------------------------------
+# def _list_average(points - list of ints)
+# Averages each x value and each y value in the list and returns it.
+# -----------------------------------------------------------------------------
+def _list_average(points):
+    points = [i[j] for i in points for j in range(len(i))]
+    pointsX = points[0:len(points):2]
+    pointsY = points[1:len(points):2]
+    return (float(sum(pointsX)) / (len(pointsX)),
+            float(sum(pointsY)) / (len(pointsY)))
+
+
+# -----------------------------------------------------------------------------
+# class Circle:
+# A circle, which can be added to a Window object.
+#
+# Optional Parameters:
+# radius - int - sets the radius of the Circle. (default: 40)
+# center - tuple - sets the center of the Circle. (default: (200, 200))
+#
+# For the sake of making the code a little less redundant, each object from
+# here on out has a width, a height, a center, a topLeft corner, and a
+# bottomRight corner.
+# -----------------------------------------------------------------------------
+class Circle(Fillable):
+    def __init__(self, window, radius=40, center=(200, 200)):
+        assert isinstance(window, Window) and isinstance(radius, int) \
+            and isinstance(center, tuple) and len(center) == 2
+        self._window = window
+        Fillable.__init__(self)
+        self._width = radius
+        self._height = radius
+        self._center = center
+        self._top_left = (self._center[0] - self._width,
+                          self._center[1] - self._height)
+        self._bottom_right = (self._center[0] + self._width,
+                              self._center[1] + self._height)
+
+        self._points = []
+        self._circle_gen()
+        self._enabled = False
+        self._tag = self._window._canvas.create_polygon(
+            *self._points,
+            width=self.get_border_width(),
+            fill=self.get_fill_color(),
+            outline=self.get_border_color(),
+            state=HIDDEN
+        )
+        self._window._graphics.append([self._depth, self._tag, self])
+
+    # -------------------------------------------------------------------------
+    # def _add_to(self)
+    # Adds a graphical object to the canvas.
+    # -------------------------------------------------------------------------
+    def _add_to(self):
+        self._window._canvas.itemconfigure(self._tag, state=NORMAL)
+        self._enabled = True
+
+    # -------------------------------------------------------------------------
+    # def _circle_gen(self)
+    # Generates a circle.
+    # -------------------------------------------------------------------------
+    def _circle_gen(self):
+        xAxis = round(self._bottom_right[0] - self._top_left[0]) / 2
+        yAxis = round(self._bottom_right[1] - self._top_left[1]) / 2
+        for i in range(500):
+            theta = (math.pi * 2) * float(i) / 500
+            x1 = xAxis * math.cos(theta)
+            y1 = yAxis * math.sin(theta)
+            x = round((x1 * math.cos(0)) + (y1 * math.sin(0)))
+            y = round((y1 * math.cos(0)) - (x1 * math.sin(0)))
+            self._points.append((x + self._center[0], y + self._center[1]))
+
+    # -------------------------------------------------------------------------
+    # def set_radius(self, radiusX (int), radiusY (int) )
+    # Sets the radius of the Circle.
+    # --------------------------------------------------------------------------
+    def set_radius(self, radius):
+        assert isinstance(radius, int)
+        self._width = radius
+        self._height = radius
+        self._top_left = (self._center[0] - self._width,
+                          self._center[1] - self._height)
+        self._bottom_right = (self._center[0] + self._width,
+                              self._center[1] + self._height)
+
+        self._points = []
+        self._circle_gen()
+        self._refresh()
+
+
+# -----------------------------------------------------------------------------
+# class Oval:
+# An oval, which can be added to a Window object.
+#
+# Optional Parameters:
+# radiusX - int - sets the radius of the Oval. (default: 40)
+# radiusY - int - sets the radius of the Oval. (default: 60)
+# center - tuple - sets the center of the Oval. (default: (200, 200))
+# -----------------------------------------------------------------------------
+class Oval(Fillable):
+    def __init__(self, window, radiusX=40, radiusY=60, center=(200, 200)):
+        assert isinstance(window, Window) and isinstance(radiusX, int) \
+            and isinstance(radiusY, int) and isinstance(center, tuple) \
+            and len(center) == 2
+        self._window = window
+        Fillable.__init__(self)
+        self._width = radiusX
+        self._height = radiusY
+        self._center = center
+        self._top_left = (self._center[0] - self._width,
+                          self._center[1] - self._height)
+        self._bottom_right = (self._center[0] + self._width,
+                              self._center[1] + self._height)
+
+        self._points = []
+        self._circle_gen()
+
+        self._enabled = False
+        self._tag = self._window._canvas.create_polygon(
+            *self._points,
+            width=self.get_border_width(),
+            fill=self.get_fill_color(),
+            outline=self.get_border_color(),
+            state=HIDDEN
+        )
+        self._window._graphics.append([self._depth, self._tag, self])
+
+    # -------------------------------------------------------------------------
+    # def _add_to(self)
+    # Adds a graphical object to the canvas.
+    # -------------------------------------------------------------------------
+    def _add_to(self):
+        self._window._canvas.itemconfigure(self._tag, state=NORMAL)
+        self._enabled = True
+
+    # -------------------------------------------------------------------------
+    # def _circle_gen(self)
+    # Generates a circle.
+    # -------------------------------------------------------------------------
+    def _circle_gen(self):
+        xAxis = round(self._bottom_right[0] - self._top_left[0]) / 2
+        yAxis = round(self._bottom_right[1] - self._top_left[1]) / 2
+        for i in range(500):
+            theta = (math.pi * 2) * float(i) / 500
+            x1 = xAxis * math.cos(theta)
+            y1 = yAxis * math.sin(theta)
+            x = round((x1 * math.cos(0)) + (y1 * math.sin(0)))
+            y = round((y1 * math.cos(0)) - (x1 * math.sin(0)))
+            self._points.append((x + self._center[0], y + self._center[1]))
+
+    # -------------------------------------------------------------------------
+    # def set_radii(self, radiusX (int), radiusY (int) )
+    # Sets the horizontal and vertical radii of the Oval.
+    # -------------------------------------------------------------------------
+    def set_radii(self, radiusX, radiusY):  
+        assert isinstance(radiusX, int) and isinstance(radiusY, int)
+        self._width = radiusX
+        self._height = radiusY
+        self._top_left = (self._center[0] - self._width,
+                          self._center[1] - self._height)
+        self._bottom_right = (self._center[0] + self._width,
+                              self._center[1] + self._height)
+
+        self._points = []
+        self._circle_gen()
+        self._refresh()
+
+
+# -----------------------------------------------------------------------------
+# class Square:
+# A square, which can be added to a Window object.
+#
+# Optional Parameters:
+# side_length - int - sets the side length of the Square. (default: 40)
+# center - tuple - sets the center of the Square. (default: (200, 200))
+# -----------------------------------------------------------------------------
+class Square(Fillable):
+    def __init__(self, window, side_length=40, center=(200, 200)):
+        assert isinstance(window, Window) and isinstance(side_length, int) \
+            and isinstance(center, tuple) and len(center) == 2
+        self._window = window
+        Fillable.__init__(self)
+        self._width = side_length
+        self._height = side_length
+        self._center = center
+        self._top_left = (self._center[0] - self._width,
+                          self._center[1] - self._height)
+        self._bottom_right = (self._center[0] + self._width,
+                              self._center[1] + self._height)
+
+        # this is necessary for rendering every object as a polygon
+        self._points = [self._top_left,
+                        (self._center[0] + self._width,
+                         self._center[1] - self._height),
+                        self._bottom_right,
+                        (self._center[0] - self._width,
+                         self._center[1] + self._height)]
+
+        self._enabled = False
+        self._tag = self._window._canvas.create_polygon(
+            *self._points,
+            width=self.get_border_width(),
+            fill=self.get_fill_color(),
+            outline=self.get_border_color(),
+            state=HIDDEN
+        )
+        self._window._graphics.append([self._depth, self._tag, self])
+
+    # -------------------------------------------------------------------------
+    # def _add_to(self)
+    # Adds a graphical object to the canvas.
+    # -------------------------------------------------------------------------
+    def _add_to(self):
+        self._window._canvas.itemconfigure(self._tag, state=NORMAL)
+        self._enabled = True
+
+    # -------------------------------------------------------------------------
+    # def set_radius(self, side_length (int) )
+    # Sets the side length of the Square.
+    # -------------------------------------------------------------------------
+    def set_side_length(self, side_length):
+        assert isinstance(side_length, int)
+        self._width = side_length
+        self._height = side_length
+        self._top_left = (self._center[0] - self._width,
+                          self._center[1] - self._height)
+        self._bottom_right = (self._center[0] + self._width,
+                              self._center[1] + self._height)
+
+        self._points = [self._top_left,
+                        (self._center[0] + self._width,
+                         self._center[1] - self._height),
+                        self._bottom_right,
+                        (self._center[0] - self._width,
+                         self._center[1] + self._height)]
+        self._refresh()
+
+
+# -----------------------------------------------------------------------------
+# class Rectangle:
+# A rectangle, which can be added to a Window object.
+#
+# Optional Parameters:
+# width - int - sets the width of the Square. (default: 40)
+# height - int - sets the height of the Square. (default: 40)
+# center - tuple - sets the center of the Square. (default: (200, 200))
+# -----------------------------------------------------------------------------
+class Rectangle(Fillable):
+    def __init__(self, window, width=40, height=60, center=(200, 200)):
+        assert isinstance(window, Window) and isinstance(width, int) \
+            and isinstance(height, int) and isinstance(center, tuple) \
+            and len(center) == 2
+        self._window = window
+        Fillable.__init__(self)
+        self._width = width
+        self._height = height
+        self._center = center
+        self._top_left = (self._center[0] - self._width,
+                          self._center[1] - self._height)
+        self._bottom_right = (self._center[0] + self._width,
+                              self._center[1] + self._height)
+
+        self._points = [self._top_left,
+                        (self._center[0] + self._width,
+                         self._center[1] - self._height),
+                        self._bottom_right,
+                        (self._center[0] - self._width,
+                         self._center[1] + self._height)]
+
+        self._enabled = False
+        self._tag = self._window._canvas.create_polygon(
+            *self._points,
+            width=self.get_border_width(),
+            fill=self.get_fill_color(),
+            outline=self.get_border_color(),
+            state=HIDDEN
+        )
+        self._window._graphics.append([self._depth, self._tag, self])
+
+    # -------------------------------------------------------------------------
+    # def _add_to(self)
+    # Adds a graphical object to the canvas.
+    # -------------------------------------------------------------------------
+    def _add_to(self):
+        self._window._canvas.itemconfigure(self._tag, state=NORMAL)
+        self._enabled = True
+
+    # -------------------------------------------------------------------------
+    # def set_side_lengths(self, width (int), height (int) )
+    # Sets the width and height of the Rectangle.
+    # -------------------------------------------------------------------------
+    def set_side_lengths(self, width, height):
+        assert isinstance(width, int) and isinstance(height, int)
+        self._width = width
+        self._height = height
+        self._top_left = (self._center[0] - self._width,
+                          self._center[1] - self._height)
+        self._bottom_right = (self._center[0] + self._width,
+                              self._center[1] + self._height)
+
+        self._points = [self._top_left,
+                        (self._center[0] + self._width,
+                         self._center[1] - self._height),
+                        self._bottom_right,
+                        (self._center[0] - self._width,
+                         self._center[1] + self._height)]
+        self._refresh()
+
+
+# -----------------------------------------------------------------------------
+# class Timer:
+# A class which continually runs a function after a delay.
+#
+# Required Parameters:
+# window - Window - the window which the timer will use to start and stop the
+# animation.
+# interval - int - the time (in milliseconds) that the function will _refresh.
+# func - function - the function which will be run.
+# -----------------------------------------------------------------------------
+class Timer:
+    def __init__(self, window, interval, func):
+        assert isinstance(window, Window) and isinstance(interval, int)
+        self._window = window
+        self._func = func
+        self._interval = interval
+
+    # -------------------------------------------------------------------------
+    # def set_function(self, func(proc) )
+    # Sets the function which is going to be run.
+    # -------------------------------------------------------------------------
+    def set_function(self, func):
+        self._func = func
+
+    # -------------------------------------------------------------------------
+    # def set_interval(self, interval (int) )
+    # Sets the interval between executions of the function.
+    # -------------------------------------------------------------------------
+    def set_interval(self, interval):
+        assert isinstance(interval, int)
+        self._interval = interval
+
+    # -------------------------------------------------------------------------
+    # def start(self)
+    # Starts the timer.
+    # -------------------------------------------------------------------------
+    def start(self):
+        self._func()
+        self._tag = self._window._root.after(self._interval, self.start)
+
+    # -------------------------------------------------------------------------
+    # def stop(self)
+    # Stops the timer.
+    # -------------------------------------------------------------------------
+    def stop(self):
+        self._window._root.after_cancel(self._tag)
+
+
+# -----------------------------------------------------------------------------
+# def runWithYieldDelay(window (Window), func (function))
+# A wrapper for the RunWithYieldDelay class. CSPy doesn't like the syntax which
+# the old graphics library used for the RunWithYieldDelay function, so this is
+# required.
+# -----------------------------------------------------------------------------
+def RunWithYieldDelay(window, func):
+    _RunWithYieldDelay(window, func)
+
+
+# -----------------------------------------------------------------------------
+# class _RunWithYieldDelay:
+# A class which uses a function which returns a generator to rerun until the
+# generator stops generating numbers.
+#
+# Required Parameters:
+# window - Window - the window which the object with yield delay is on.
+# func - function() -> generator of int - a function with a few necessary
+# parameters which allow it to run with yield delay. A function needs to return
+# a generator of int, needs a yield statement with an int which represents the
+# delay (in milliseconds), and it needs a raise StopIteration statement at the
+# end of the function.
+# -----------------------------------------------------------------------------
+class _RunWithYieldDelay:
+    def __init__(self, window, func):
+        assert isinstance(window, Window)
+        self._func = func()
+        self._window = window
+        self._run()
+
+    # -------------------------------------------------------------------------
+    # def run(self)
+    # Starts the run with yield delay.
+    # -------------------------------------------------------------------------
+    def _run(self):
+        try:
+            delay = next(self._func)
+            if delay is None:
+                delay = 1000
+        except StopIteration:
+            delay = 0
+
+        if delay > 0:
+            self._tag = self._window._root.after(delay, self.run)
+        else:
+            self._window._root.after_cancel(self._tag)

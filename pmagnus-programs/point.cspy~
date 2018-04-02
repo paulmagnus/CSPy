@@ -1,0 +1,30 @@
+'''
+def map(lst : list of float, f : fn (float) -> float) -> list of float:
+    :: ret : list of float ::
+    ret = []
+    for element in lst:
+        ret.append(f(element))
+    return ret
+'''	
+
+def scalePoint():
+    ::	cx : int,
+    	cy : int,
+    	sideLen : int,
+   	px : int,
+    	py : int,
+    	newLen : int,
+	ray : list of float,
+	scale : float ::
+    
+    cx = toint(input("Enter center x coordinate: "))
+    cy = toint(input("Enter center y coordinate: "))
+    sideLen = toint(input("Enter side length: "))
+    px = toint(input("Enter point x coordinate: "))
+    py = toint(input("Enter point y coordinate: "))
+    newLen = toint(input("Enter new side length: "))
+
+    
+    scale = tofloat(newLen) / tofloat(sideLen)
+
+scalePoint()

@@ -1,0 +1,9 @@
+import pickle
+
+f = open(argv[1])
+lst = pickle.load(f)
+
+for key in lst:
+    print(key + " : " + lst[key])
+
+f.close()

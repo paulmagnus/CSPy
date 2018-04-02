@@ -1,0 +1,112 @@
+return True always:
+
+return False always:
+
+
+pass what was returned:
+
+
+special:
+
+
+TBD:
+FILE                                            N/A
+EMPTY                                           False
+DOCSTRING                                       False
+IMPORTBLOCK_SINGLE                              N/A
+IMPORTBLOCK_MULTI                               N/A
+IMPORT_SIMPLE                                   N/A
+IMPORT_ALIAS                                    N/A
+IMPORT_BULK                                     N/A
+IMPORT_DISCRETE                                 N/A
+IMPORTLIST_SIMPLE                               N/A
+IMPORTLIST_ALIAS                                N/A
+IMPORTLIST_MULTI                                N/A
+DECLARATION_SUITE                               N/A
+VARIABLEBLOCK_SINGLE                            N/A
+VARIABLEBLOCK_MULTI                             N/A
+DECLARATION_SIMPLE                              N/A
+DECLARATION_INITIALIZE                          N/A
+CLASSBLOCK                                      N/A
+CLASS_DEFINITION                                N/A
+CLASS_SUITE                                     N/A
+GENERICLIST_SINGLE                              N/A
+GENERICLIST_MULTI                               N/A
+METHODBLOCK                                     N/A
+FUNCTION_DEFINITION                             N/A
+PROCEDURE_DEFINITION                            N/A
+ARGUMENTLIST                                    N/A
+ARGUMENTLIST_SINGLE                             N/A
+ARGUMENTLIST_MULTI                              N/A
+DEFAULTLIST_MULTI                               N/A
+DEFAULTLIST_SINGLE                              N/A
+SUITE_BLOCK                                     OR
+SUITE_INLINE                                    OR
+BLOCK_WITH_ENVIRONMENT                          OR
+BLOCK                                           OR
+STATEMENT_MULTI                                 OR
+STATEMENT_SINGLE                                OR
+RAISE                                           False
+DELETE                                          False
+WHILELOOP                                       False
+FORLOOP_ITER                                    False
+FORLOOP_COUNT                                   False
+CONDITIONAL                                     False
+CONDITIONAL_ELIF                                False
+CONDITIONAL_ELSE                                OR
+TRY_EXCEPT                                      SPECIAL
+EXCEPT_SIMPLE                                   OR
+EXCEPT_ALIAS                                    OR
+EXCEPT_SPECIFIC                                 OR
+EXCEPT_ELSE                                     OR
+EXCEPT_FINALLY                                  OR
+ASSIGNMENT                                      False
+INDEXING                                        False
+SLICING                                         False
+PROCEDURE_CALL                                  False
+RETURN                                          True
+ASSERT_NOMSG                                    False
+ASSERT_MSG                                      False
+TYPE                                            False
+FUNCTION_TYPE                                   False
+PROCEDURE_TYPE                                  False
+GENERIC_TYPE                                    False
+TYPELIST                                        False
+TYPELIST_SINGLE                                 False
+TYPELIST_MULTI                                  False
+DEFAULT_TYPELIST_SINGLE                         False
+DEFAULT_TYPELIST_MULTI                          False
+TUPLE_TYPE                                      False
+TUPLE_TYPELIST_SINGLE                           False
+TUPLE_TYPELIST_MULTI                            False
+LIST_TYPE                                       False
+SET_TYPE                                        False
+FROZENSET_TYPE                                  False
+DICTIONARY_TYPE                                 False
+CALCULATION_BINARYOPERATOR                      False
+CALCULATION_UNARYOPERATOR                       False
+FUNCTION_CALL                                   False
+EXPRESSIONLIST_SINGLE                           False
+EXPRESSIONLIST_MULTI                            False
+GROUPING                                        False
+LITERAL_INT                                     False
+LITERAL_FLOAT                                   False
+LITERAL_BOOL                                    False
+LITERAL_STRING                                  False
+LITERAL_NONE                                    False
+LITERAL_FUNCTION                                False
+LITERAL_TUPLE                                   False
+TUPLE_SINGLE                                    False
+MULTI_TUPLE                                     False
+LITERAL_LIST                                    False
+LITERAL_DICTIONARY                              False
+DICTIONARYLIST_SINGLE                           False
+DICTIONARYLIST_MULTI                            False
+LITERAL_SET                                     False
+VARIABLE                                        False
+TERNARY                                         False
+MEMBER                                          False
+IS_IDENTITY                                     False
+IS_NOT_IDENTITY                                 False
+IN_MEMBER                                       False
+NOTIN_MEMBER                                    False

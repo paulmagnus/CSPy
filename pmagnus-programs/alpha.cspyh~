@@ -1,0 +1,3 @@
+class A:
+    :: sum : int ::
+    def A(x : ?int, y : ?int)

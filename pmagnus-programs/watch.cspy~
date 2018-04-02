@@ -1,0 +1,8 @@
+def main():
+    :: intime : string
+       ::
+    
+    intime = input("What time does your upside-down watch read (hours:minutes)? ")
+    print(len(intime))
+
+main()

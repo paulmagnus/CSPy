@@ -1,0 +1,16 @@
+# Problem 4 from the 2017 AP Test
+
+class Position:
+    :: row : int, column : int ::
+    def Position(r : int, c : int):
+        row = r
+        column = c
+    def toString() -> string:
+        return "(" + tostring(row) + ", " + tostring(column) + ")"
+
+def findPosition(num : int, lst : [[int]]) -> Position:
+    for r in range(len(lst)):
+        for c in range(len(lst[r])):
+            if lst[r][c] == num:
+                return Position(r, c)
+    return Position(-1, -1)

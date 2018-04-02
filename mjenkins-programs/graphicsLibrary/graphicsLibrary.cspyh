@@ -1,0 +1,57 @@
+class GraphicalObject:
+    def getCenter() -> tuple of ((int * int))
+    def getDepth() -> int
+    def move(dx:int, dy:int)
+    def moveTo(point:tuple of ((int * int)))
+    def setDepth(depth:int)
+
+class Window:
+    :: width:int, height:int, background:string, name:string, currentObjects:[tuple of (int * GraphicalObject * int)] ::
+    def Window(width:int, height:int, background:string, name:string)
+    def add(graphic:GraphicalObject)
+    def remove(graphic:GraphicalObject)
+    def setBackgroundColor(color:string)
+    def setHeight(height:int)
+    def setTitle(name:int)
+    def setWidth(width:int)
+
+class Fillable extends GraphicalObject:
+    def getBorderColor() -> string
+    def getBorderWidth() -> int
+    def getDepth() -> int
+    def getFillColor() -> string
+    def rotate(degrees:int) 
+    def scale(factor:int) 
+    def setBorderColor(color:string)
+    def setBorderWidth(width:int)
+    def setFillColor(color:string)
+
+class Image extends GraphicalObject:
+    :: image_loc:string, center:tuple of (int * int), width:int, height:int ::
+    def Image(image_loc:string, center:tuple of (int * int), width:int, height:int)
+
+class Text extends GraphicalObject:
+    :: text:string, center:tuple of (int * int), size:int ::
+    def Text(text:string, center:tuple of (int * int), size:int)
+
+class Circle extends Fillable:
+    :: width:int, height:int, center:tuple of (int * int) ::
+    def Circle(radius:int, center:tuple of (int * int))
+
+class Oval extends Fillable:
+    :: width:int, height:int, center:tuple of (int * int) ::
+    def Oval(radiusX:int, radiusY:int, center:tuple of (int * int))
+
+class Square extends Fillable:
+    :: sideLength:int, center:tuple of (int * int) ::
+    def Square(sideLength:int, center:tuple of (int * int))
+
+class Rectangle extends Fillable:
+    :: width:int, height:int, center:tuple of (int * int) ::
+    def Rectangle(width:int, height:int, center:tuple of (int * int))
+
+class Polygon extends Fillable:
+    :: points:[tuple of (int * int)] ::
+    def Polygon(points:[tuple of (int * int)])
+
+def StartGraphicsEngine(window:Window)

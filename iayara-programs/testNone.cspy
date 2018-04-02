@@ -1,0 +1,34 @@
+class Node:
+    :: Val : int, Next : Node ::
+    def Node(val : int, next : Node):
+        Val = val
+        Next = next 
+
+class Stack:
+      :: front : Node ::
+                               
+      def Stack():
+          front = None
+
+      def push(x : int):
+          front = Node(x, front) 
+      
+      def top() -> int:
+          return front.Val
+
+      def pop():
+          front = front.Next
+
+      def empty() -> bool:
+          return front == None
+      
+      
+def main():
+    :: s : Stack ::
+    s.push(5)
+    print(s.top())
+    print(s.empty())
+
+
+main()
+

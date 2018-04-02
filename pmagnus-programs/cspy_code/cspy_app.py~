@@ -1,0 +1,14 @@
+from Tkinter import *
+from ttk import*
+from cspy_texteditor import *
+from cspy_searchbox import *
+from cspy_statusbar import *
+from cspy_notebook import * 
+from cspy_menu import *
+from cspy_window import *
+
+
+if __name__ == '__main__':
+  
+    app = App("CSPy Text Editor", 650, 450)
+  

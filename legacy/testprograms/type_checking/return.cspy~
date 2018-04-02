@@ -1,0 +1,6 @@
+:: x:int = 1, y:float = 3.2, z:string = "a", p:int ::
+
+p = x + y
+z = x + y
+
+

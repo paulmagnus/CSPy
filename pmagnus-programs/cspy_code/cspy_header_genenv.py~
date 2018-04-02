@@ -1,0 +1,67 @@
+#------------------------------------------------------------------------------#
+# cspy_header_genenv.py                                                        #
+#                                                                              #
+# Written by Paul Magnus '18, Ines Ayara '20, Matthew R. Jenkins '20           #
+# Summer 2017                                                                  #
+#                                                                              #
+# Generates environments with variables in their scope for a CSPy header file. #
+# The main function, generate_environments, relies on the                      #
+# environment-generating functions defined below it (all names prefixed with   #
+# a g_), each of which corresponds to an ast node such as a variable           #
+# declaration block, a function definition, or a class definition, which       #
+# involves identifiers.                                                        #
+#------------------------------------------------------------------------------#
+
+from cspy_data_struct import *
+from cspy_builtins import *
+
+#------------------------------------------------------------------------------#
+# generate_environments(node:ast)                                              #
+#   POST: the "env" attribute of all nodes in the abstract syntax tree which   #
+#         can hold an environment will be filled with the variable             #
+#         associations for thier scope                                         #
+#------------------------------------------------------------------------------#
+
+def generate_environments(node):
+    tree_pass(node, variables)
+
+#------------------------------------------------------------------------------#
+# tree_pass(node:ast, actions:dict of [string|proc])                           #
+#   Recursively traverses the abstract syntax tree and generates               #
+#   the environments for all nodes which can hold environments.                #
+#------------------------------------------------------------------------------#
+
+def tree_pass(node, actions):
+    if not isinstance(node, ast):
+        return
+
+    if node.label in actions:
+        actions[node.label](node)
+
+    for child in node.children:
+        tree_pass(child, actions)
+
+#------------------------------------------------------------------------------#
+#                       ENVIRONMENT GENERATING FUNCTIONS                       #
+#                                                                              #
+# The following functions define what action should be taken for each type     #
+# of abstract syntax tree node. These have the following naming format:        #
+# g_[a-z_]+                                                                    #
+#                                                                              #
+# Note: The name of the function is the lowercase version of the name of the   #
+# type of node it acts upon.                                                   #
+# Note: The first line of each function is a comment containing a list of the  #
+# indices of the node "n" and what they contain (this information is defined   #
+# in "parser_defs.py")                                                         #
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# g_declaration(n:ast)                                                         #
+#   Creates a new varialbe in the current scope of the given name and type.    #
+#------------------------------------------------------------------------------#
+
+def g_declaration(n):
+    # 0: identifier; 1: type
+    det_type(n[1])
+    try:
+        n.initiate_var(n[0], n[1].type)

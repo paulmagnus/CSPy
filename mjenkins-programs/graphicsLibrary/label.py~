@@ -1,0 +1,19 @@
+import Tkinter as tk
+
+class Label:
+    def __init__(self, master = None):
+        self.label = tk.Label(master)
+
+    def setBackground(color):
+        self.label.config(bg = color)
+
+    def setBorderWidth(bw):
+        self.label.config(borderwidth = bw)
+
+    def setWidth(w):
+        self.label.config(width = w)
+        
+    def setHeight(h):
+        self.label.config(height = h)
+
+    def

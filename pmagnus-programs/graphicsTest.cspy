@@ -1,0 +1,33 @@
+from cs110graphics pyimport *
+
+class DragArea extends EventHandler:
+    :: mouse_pressed : bool = False,
+    area : Rectangle,
+    tile : Rectangle ::
+
+    def DragArea(win : Window, dragTile : Rectangle):
+        EventHandler.EventHandler()
+        tile = dragTile
+        area = Rectangle(win, 200, 200)
+        area.add_handler(self)
+        win.add(area)
+
+    def handle_mouse_press(event : Event):
+        mouse_pressed = True
+
+    def handle_mouse_release(event : Event):
+        mouse_pressed = False
+
+    def handle_mouse_move(event : Event):
+        if mouse_pressed:
+            tile.move_to(event.get_mouse_location())
+
+def main(win : Window):
+    :: tile : Rectangle,
+    area : DragArea ::
+    tile = Rectangle(win, 20, 20)
+    win.add(tile)
+    area = DragArea(win, tile)
+
+StartGraphicsSystem(main)
+

@@ -1,0 +1,7 @@
+'''input.cspy'''
+
+:: name : string , a : int ::
+
+print("beginning program...")
+name = input("Enter name: ")
+print("Hello, " + name + "!")

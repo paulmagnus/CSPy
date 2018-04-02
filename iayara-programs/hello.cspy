@@ -1,0 +1,7 @@
+def hello(what : string):    
+    :: text : string ::
+    text = "Hello, " + what + "!"
+    print(text)
+    
+hello("world")
+     

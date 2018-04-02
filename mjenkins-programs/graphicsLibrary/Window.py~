@@ -1,0 +1,27 @@
+import Tkinter as tk
+
+class Window(tk.Frame):
+    def __init__(self, master = None):
+        tk.Frame.__init__(self, master)
+        self.pack()
+
+        self.width = 400
+        self.height = 400
+        self.background = "white"
+        self.name = None
+        self.quitButton = True
+        self.displayMessageBox = True
+        self.firstFunction = None
+    
+    def _Window(self, width = 400, height = 400, background = "white", name = None, quitButton = True, displayMessageBox = True, firstFunction = None):
+        self.width = width
+        self.height = height
+        self.background = background
+        self.name = name
+        self.quitButton = quitButton
+        self.displayMessageBox = displayMessageBox
+        self.firstFunction = firstFunction
+        self.Canvas = Canvas(self, bg=self.background, height=self.height, width=self.width)
+        self.Canvas.pack()
+
+    def add(self, graphic)

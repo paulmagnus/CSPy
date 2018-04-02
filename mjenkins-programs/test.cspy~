@@ -1,0 +1,12 @@
+class Circle:
+	:: center:tuple of (int * int), radius:int ::
+
+	def Circle(x:int, y:int, r:int):
+		center = (x, y)
+		radius = r
+
+def main():
+	::circ : Circle::
+	circ = Circle(0, 0, 10) 
+
+main()

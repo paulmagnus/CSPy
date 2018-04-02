@@ -1,0 +1,57 @@
+#------------------------------------------------------------------------------#
+# random.cspyh                                                                 #
+# Header file for the python random module                                     #
+#                                                                              #
+# Written by Paul Magnus '18, Ines Ayara '20, Matthew R. Jenkins '20           #
+# Summer 2017                                                                  #
+#                                                                              #
+# Explanations of functions are from                                           #
+# https://docs.python.org/2/library/random.html                                #
+#                                                                              #
+# Warning: The pseudo-random generators of this module should not be used for  #
+# security purposes.                                                           #
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# seed                                                                         #
+# Initialize internal state of the random number generator.                    #
+#                                                                              #
+# Note: unsure about the input type that should be used here as the python     #
+# module is quite flexible.                                                    #
+#------------------------------------------------------------------------------#
+def seed(a : int)
+
+#------------------------------------------------------------------------------#
+#                           INTEGER BASED FUNCTIONS                            #
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# randrange                                                                    #
+# Return a random integer in the range [0, stop).                              #
+#------------------------------------------------------------------------------#
+def randrange(stop:int) -> int
+
+#------------------------------------------------------------------------------#
+# randint                                                                      #
+# Return a random integer N such that a <= N <= b                              #
+#------------------------------------------------------------------------------#
+def randint(a : int, b : int) -> int
+
+#------------------------------------------------------------------------------#
+#                            FLOAT BASED FUNCTIONS                             #
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# random                                                                       #
+# Return the next random floating point number in the range [0.0, 1.0)         #
+#------------------------------------------------------------------------------#
+def random() -> float
+
+#------------------------------------------------------------------------------#
+# uniform                                                                      #
+# Return a random floating point number N such that a <= N <= b for a <= b     #
+# and b <= N <= a for b < a                                                    #
+#------------------------------------------------------------------------------#
+def uniform(a : float, b : float) -> float
+
+

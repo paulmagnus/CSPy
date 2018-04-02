@@ -1,0 +1,92 @@
+"""
+stack.cspy
+Paul Magnus
+Sudoku
+Summer 2017
+
+This file is the definition of the stack class and all of it's methods.
+This type of stack uses dynamically allocated memory.
+"""
+
+class Node:
+    :: data : int,
+    next : Node = None ::
+
+    def Node(v : int, n : Node):
+        data = v
+        next = n
+
+    def set_data(v : int):
+        data = v
+
+    def set_next(n : Node):
+        next = n
+
+    def get_data() -> int:
+        return data
+    
+    def get_next() -> Node:
+        return next
+
+class Stack:
+      :: head : Node = None ::
+
+      def Stack():
+          head = None
+
+      def Stack(orig : Stack):
+          '''
+          Copy constructor
+          Does Python even need this?
+          '''
+          :: current : Node,
+          next_node : Node ::
+          head.Node(orig.head.data,
+                        orig.head.next)
+          
+          current = head
+          while current != None:
+              next_node.Node(current.data, current.next)
+              current.next = next_node
+              current = next_node
+
+      def empty() -> bool:
+          return head == None
+
+      def push(e : int):
+          '''
+          Adds element e to the top of the stack in dynamic memory
+          '''
+          :: newnode : Node ::
+          newnode = Node(e, head)
+          head = newnode
+
+      def pop():
+          '''
+          Removes the top element from the stack in dynamic memory
+          Note: does not return the element
+          '''
+          :: n : Node ::
+          assert not empty(), "The stack was empty when pop was called"
+          
+          head = head.next
+
+      def top() -> int:
+          '''
+          Returns the top element from the stack but does not remove the 
+          element
+          '''
+          assert not empty(), "The stack was empty when top was called"
+
+          return head.data
+
+
+def main():
+        :: s : Stack ::
+        s.push(5)
+        s.push(2)
+        print(s.top())
+        s.pop()
+        print(s.top())
+
+main()

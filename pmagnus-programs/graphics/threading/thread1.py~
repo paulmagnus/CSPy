@@ -1,0 +1,5 @@
+import logging
+import time
+
+def fun():
+    logger = logging.getLogger("error_logger")

@@ -1,0 +1,2 @@
+:: d:tuple of (string * int) ::
+d = ("no", 6, 7.5)

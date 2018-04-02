@@ -1,0 +1,15 @@
+from Tkinter import *
+from ttk import*
+
+class Window:
+    def __init__(self, title, w, h):
+        self.root = Tk()
+        self.root.geometry("655x450")
+        self.root.title(title)
+        self.width = w
+        self.height = h
+        self.root.minsize(width=1, height=h)
+        self.root.maxsize(width=w, height=h*5)
+
+    def get_root(self):
+        return self.root

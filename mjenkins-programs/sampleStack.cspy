@@ -1,0 +1,28 @@
+class Node:
+    :: Val:int, Next:Node ::
+    def Node(val:int, next:Node = None):
+        Val = val
+        Next = next
+        
+class Stack:
+    :: Contents:list of Node, Size:int ::    
+    def Stack():
+        Contents = []
+        Size = 0
+
+    def push(item:Node):
+        Contents.append(item)
+        Size += 1
+
+    def peek() -> Node:
+        assert not empty()
+        return Contents[Size]
+
+    def empty() -> bool:
+        return Size == 0
+
+    def printstack():
+        for i in range(Size):
+            print(Contents[i].Val)
+
+

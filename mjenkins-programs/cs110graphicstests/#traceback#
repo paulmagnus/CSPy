@@ -1,0 +1,18 @@
+err ['Traceback (most recent call last):',
+'  File "/tmp/pmagnus/testDriver.py", line 3, in <module>',
+'    from graphicsLibrary import *',
+'  File "./graphicsLibrary.py", line 113',
+'    def keyReleaseWrapper(self, event):',
+'    ^',
+'IndentationError: expected an indented block']
+
+./testDriver.cspy
+
+trace_lines ['  File "/tmp/pmagnus/testDriver.py", line 3, in <module>',
+'    from graphicsLibrary import *',
+'  File "./graphicsLibrary.py", line 113',
+'    def keyReleaseWrapper(self, event):',
+'    ^']
+
+trace_lines ['  File "/tmp/pmagnus/testDriver.py", line 3, in <module>', '    from graphicsLibrary import *', '  File "./graphicsLibrary.py", line 113', '    def keyReleaseWrapper(self, event):', '    ^']
+trace_lines ['  File "/tmp/pmagnus/testDriver.py", line 3, in <module>', '    from graphicsLibrary import *', '  File "./graphicsLibrary.py", line 113', '    def keyReleaseWrapper(self, event):', '    ^']

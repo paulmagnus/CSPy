@@ -1,0 +1,34 @@
+#------------------------------------------------------------------------------#
+# interactive_frame.py                                                         #
+#                                                                              #
+#------------------------------------------------------------------------------#
+
+# PYTHON MODULES
+import Tkinter as tk
+import logging, threading, time, sys
+
+#------------------------------------------------------------------------------#
+#                         STREAM REDIRECTORS                                   #
+#                                                                              #
+# The redirectors InRedirector and OutRedirector take the stdin and stdout     #
+# streams and overwrite their usual functionality so that the streams interact #
+# with the custom-made terminal emulator.                                      #
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# InRedirector                                                                 #
+#------------------------------------------------------------------------------#
+
+class InRedirector:
+    def __init__(self, outRedirector):
+        self.outRedirector = outRedirector
+
+        # Redirect all standard input through this class
+        sys.stdin = self
+
+    def readline(self):
+        line = ""
+        while not line:
+            line = self.outRedirector.getInputLine()
+            time.sleep(0.1)
+        return line

@@ -1,0 +1,6 @@
+def f(n:int):
+	for i in 1..n:print((i%3==0)?((i%5==0)?"fizzbuzz":"fizz"):((i%5==0)?"buzz":tostring(i)))
+
+f(111)
+
+

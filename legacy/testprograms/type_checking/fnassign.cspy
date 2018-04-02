@@ -1,0 +1,6 @@
+def foo(x:int) -> string:
+    return "hello world"
+
+def main():
+    :: f:fn (int) -> int ::
+    f = foo

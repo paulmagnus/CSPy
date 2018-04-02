@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#------------------------------------------------------------------------------#
+# .submit                                                                      #
+#                                                                              #
+# This shell script runs the submission system. This should be used in a new   #
+# terminal window.                                                             #
+#                                                                              #
+# Written by Paul Magnus '18, Ines Ayara '20, Matthew R. Jenkins '20           #
+# Summer 2017                                                                  #
+#------------------------------------------------------------------------------#
+
+# Get directory of script, resolving links
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+"$DIR/submit" "$@"
+
+# keep the window open until the user presses a key
+printf "Press enter to exit\n"
+read -n 1 -s
+exit

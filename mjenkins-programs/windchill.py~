@@ -1,0 +1,6 @@
+def windChill():
+	print 'Welcome to the windchill calculator!'
+	temperature = input("What's the temperature?")
+	windspeed = input("What's the wind speed?")
+	windchill = 35.74 + (0.6215 * temperature) - ((35.75 * windspeed) ** 0.16) + ((0.4275 * temperature * velocity) ** 0.16)))
+	print 'At ' + temperature + 'with a wind speed of ' + windspeed + 'miles per hour, the windchill is: ' + windchill + 'degreesxs'

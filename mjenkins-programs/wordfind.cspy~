@@ -1,0 +1,8 @@
+def printGrid(grid:list of string):
+    rows = len(grid)
+    for row in range(rows):
+        print(grid(rows))
+
+def sandbox():
+    ::myGrid:[string]::
+    myGrid = [[]]

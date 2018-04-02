@@ -1,0 +1,6 @@
+def t():
+	::x:int::
+	x=input()
+	x==1?print(1) while True:print(0)
+
+t()

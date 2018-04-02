@@ -1,0 +1,2 @@
+#!/bin/sh
+python2.7 ~acampbel/CSPy-share/ulysses/cspy_master.py $1

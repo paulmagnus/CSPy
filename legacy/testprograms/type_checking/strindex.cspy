@@ -1,0 +1,2 @@
+:: s:string = "hello world" ::
+s = s["a"]

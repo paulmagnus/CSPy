@@ -1,0 +1,105 @@
+'''
+sudoku.cspy
+Paul Magnus
+Sudoku
+Summer 2017
+
+This file contains the methods to solve the sudoku puzzle by repeatedly
+finding the most constrained square, placing the first available number
+into that square and then adding the row, column, and numeral onto the
+stack. When there are no available squares to place numerals into, the
+top of the stack is popped off so that the program can continue using
+the next available numeral in the last used sqare.
+'''
+
+from board import *
+from stack import *
+
+def findMostConstrained(board : sudokuboard) -> tuple of (int * int):
+    '''
+    This returns the pair (r,c) of the position of the square with the 
+    least number of options.
+    '''
+    :: pos : tuple of (int * int) = (0, 0),
+    minOptions : int = 10 ::
+    
+    for i in 0..8:
+        for j in 0..8:
+            if board.options(i,j) != 0 and \
+               board.options(i,j) < minOptions:
+                
+                minOptions = board.options(i,j)
+                pos = (i,j)
+    return pos
+
+def solve(board : sudokuboard):
+    '''
+    This is the algorithm that solves the sudoku puzzle
+    '''
+    
+    :: st : Stack = Stack(),
+    pos : tuple of (int * int),
+    i : string = "1" ::
+
+    
+    pos = findMostConstrained(board)
+    
+    while not board.solved():
+        # INV: try to place character i at (r,c)
+        if i == "10":
+            # if no number can be placed in location (r,c) backtrack
+            i = tostring(st.top() + 1)
+            st.pop()
+            pos[1] = st.top()
+            st.pop()
+            pos[0] = st.top()
+            st.pop()
+
+            board.remove(pos[0], pos[1])
+
+        elif board.canPlace(pos[0], pos[1], i):
+            '''
+            if i can be placed at location (r,c), place it
+            then add r, c, and i to the stack for backtracking purposes
+            finish by finding the next most constrained square and
+            beginning again at i = that character 1
+            '''
+            board.place(pos[0],pos[1],i)
+            st.push(pos[0])
+            st.push(pos[1])
+            st.push(toint(i))
+            i = '1'
+            pos = findMostConstrained(board)
+        else:
+            '''
+            if i cannot be placed but there are more possible i values,
+            go the the next i value
+            '''
+            i = tostring(toint(i) + 1)
+
+    board.output()
+
+def main():
+    '''
+    main pulls in the board from nine lines of input
+    then it creates the board and calls the solve method
+    '''
+    :: strings : list of string,
+    board : sudokuboard ::
+
+    strings = []
+    print("Please enter the sudoku board below:\n")
+    for i in 0..8:
+        strings.append(input("> "))
+
+    board = sudokuboard(strings)
+    print("\nThis is the sudoku board that was given")
+    board.output()
+    print("")
+    solve(board)
+
+main()
+
+
+
+

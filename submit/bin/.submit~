@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#------------------------------------------------------------------------------#
+# submit_close                                                                 #
+#                                                                              #
+# 
+
+# Get directory of script, resolving links
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+"$DIR/submit" "$@"
+
+# keep the window open until the user presses a key
+printf "Press enter to exit\n"
+read -n 1 -s
+exit

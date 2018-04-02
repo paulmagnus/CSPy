@@ -1,0 +1,125 @@
+#!/bin/bash
+
+# -*- shell-script -*-
+
+#------------------------------------------------------------------------------#
+# csTemplate                                                                   #
+#                                                                              #
+# This is a template for a program to set the course environment for a student #
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# This is necessary for any course environment so that the COURSE variable     #
+# is set properly                                                              #
+#------------------------------------------------------------------------------#
+
+export COURSE=110
+printf "Setting CS$COURSE programming environment...\n"
+
+#------------------------------------------------------------------------------#
+# This is necessary for any course environment so that the PROFESSOR variable  #
+# is set properly                                                              #
+#------------------------------------------------------------------------------#
+
+export PROFESSOR=acampbel
+
+#------------------------------------------------------------------------------#
+# Only needed if the user's terminal prompt should change                      #
+#------------------------------------------------------------------------------#
+
+# printf "    Setting prompt\n"
+# PS1="CS$COURSE \u:\W-> "
+
+#------------------------------------------------------------------------------#
+# Typically not needed but this has been used in previous versions to set      #
+# special emacs settings for all students in a class                           #
+#------------------------------------------------------------------------------#
+
+# printf "    Setting editor to emacs\n"
+# export EDITOR=~acampbel/$COURSE/bin/emacs
+
+#------------------------------------------------------------------------------#
+# Directs printer output to the lab printer                                    #
+#------------------------------------------------------------------------------#
+
+printf "    Directing printer output to the lab printer\n"
+export PRINTER=labprinter
+
+#------------------------------------------------------------------------------#
+# This section adds the submit/bin directory to the student's path so that     #
+# the student can call the submit and timeleft scripts at any time. If this    #
+# file is no longer present in the same submit/bin directory, this section     #
+# must be changed so that the correct submit/bin directory is added to the     #
+# student's path.                                                              #
+#------------------------------------------------------------------------------#
+
+# Get directory of script, resolving links
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+printf "    Adding submission programs to environment\n"
+PATH="$DIR:$PATH"
+
+#------------------------------------------------------------------------------#
+# Change this for adding course programs to student environment                #
+#------------------------------------------------------------------------------#
+
+# printf "    Adding CS$COURSE programs to environment\n"
+# PATH=~acampbel/$COURSE/bin:$PATH
+
+#------------------------------------------------------------------------------#
+# Change this to control the student's default file permissions                #
+#------------------------------------------------------------------------------#
+
+printf "    Setting default file permissions\n"
+umask u=rwx
+
+#------------------------------------------------------------------------------#
+# This makes rm safer by requireing interactivity                              #
+#------------------------------------------------------------------------------#
+
+printf "    Setting rm to interactive mode\n"
+alias rm='/bin/rm -i'
+
+#------------------------------------------------------------------------------#
+# This makes ls ignore emacs temporary files                                   #
+#------------------------------------------------------------------------------#
+
+printf "    Setting ls to ignore emacs files\n"
+alias ls='/bin/ls -l --color=auto --ignore="*~" --ignore="\#\#"'
+
+#------------------------------------------------------------------------------#
+# Sets the shell to not exit on EOF                                            #
+#------------------------------------------------------------------------------#
+
+printf "    Setting shell to not exit on EOF\n"
+set -o ignoreeof
+
+#------------------------------------------------------------------------------#
+# Sets the Python version                                                      #
+#------------------------------------------------------------------------------#
+
+printf "    Setting Python to version 3\n"
+alias python="/usr/local/bin/python3"
+alias idle="/usr/local/bin/idle3"
+
+# printf "    Setting Python to version 2.7\n"
+# alias python="/usr/local/bin/python2.7"
+# alias idle="/usr/local/bin/idle2.7"
+
+#------------------------------------------------------------------------------#
+#
+#------------------------------------------------------------------------------#
+
+IN=$(date)
+function exit-log {
+    printf "In: $IN, Out:$(date), $DISPLAY\n" >> ~/.cs$COURSE-log
+}
+trap "exit-log" EXIT
+
+printf "...Done\n"

@@ -1,0 +1,16 @@
+"""error.cspy"""
+
+def b():
+    ''' hhhh '''
+
+    ::  x:int = 0  ::
+
+    while True:
+        print(x)
+        if x != 15:
+            x += 1
+            continue
+        else:
+            x = 4 / 0
+            break
+b()

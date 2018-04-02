@@ -1,0 +1,20 @@
+'''ass_overload.cspy'''
+
+# confirming assignment of overloaded functions works
+
+def add(x:int, y:int) -> int:
+    print(x + y)
+    return x + y
+
+def add(x:float, y:float) -> float:
+    print(x + y)
+    return x + y
+
+def doit():
+    :: f : fn(int, int)->int ::
+    f = add
+    add(3,1)
+
+doit()
+
+

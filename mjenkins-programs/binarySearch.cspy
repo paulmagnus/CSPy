@@ -1,0 +1,42 @@
+def binarySearch(array:list of int, pivot:int) -> bool:
+    ::middle:int::
+    middle = len(array) / 2
+    if len(array) == 0:
+        return False
+    elif array[middle] == pivot:
+        return True
+    elif array[middle] < pivot:
+        return binarySearch(array[middle + 1:], pivot)
+    else:
+        return binarySearch(array[0:middle], pivot)
+
+def bubbleSort(array:list of int):
+    ::temp:int, exchanges:bool, passes:int::
+    exchanges = True
+    passes = len(array) - 1
+    while passes > 0 and exchanges:
+        exchanges = False
+        for i in range(passes):     
+            if array[i] > array[i + 1]:
+                exchanges = True
+                temp = array[i]
+                array[i] = array[i + 1]
+                array[i + 1] = temp   
+        passes -= 1              
+
+def main():
+    ::array:list of int::
+    array = [39, 2, 4, 3412, 694, 485, 34815083, 38, 2347, 201, 2]
+    array = tolist(makeset(array))
+    bubbleSort(array)
+    print(array)
+    print(binarySearch(array, 1237))
+ 
+
+main()
+
+
+
+
+
+

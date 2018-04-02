@@ -1,0 +1,200 @@
+#!/bin/bash
+
+#------------------------------------------------------------------------------#
+# timeleft                                                                     #
+#                                                                              #
+# Usage: timeleft [OPTION]... PROJECT                                          #
+# Prints the time remaining on the current PROJECT for the user                #
+#                                                                              #
+# OPTIONS:                                                                     #
+#   -c, --course <number>         sets the current course number, if not set   #
+#                                 the default comes from the course environment#
+#   -h, --help                    print this help documentation                #
+#   -p, --professor <name>        sets the name of the student's professor     #
+#                                                                              #
+# Written by Paul Magnus '18, Ines Ayara '20, Matthew R. Jenkins '20           #
+# Summer 2017                                                                  #
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# verifyDirectory directoryName                                                #
+#   Determines if 'directoryName' exists and is a directory. If it is not, an  #
+#   error is printed and the program exits with an error code of 1.            #
+#------------------------------------------------------------------------------#
+
+verifyDirectory()
+{
+    if [ ! -d $1 ]; then
+        printf "timeleft error:\n"
+        printf "Directory '$1' could not be found\n"
+        exit 1
+    fi
+}
+
+#------------------------------------------------------------------------------#
+# print_help                                                                   #
+#   This prints the help documentation for the submit system.                  #
+#------------------------------------------------------------------------------#
+
+print_help()
+{
+    printf "Usage: timeleft [OPTION]... PROJECT\n"
+    printf "Prints the time remaining on the current PROJECT for the user\n"
+    printf "\n"
+    printf "OPTIONS:\n"
+    printf "  -c, --course <number>\t\tsets the current course number, if not set\n"
+    printf "\t\t\t\t\tthe default comes from the course environment\n"
+    printf "  -h, --help\t\t\tprint this help documentation\n"
+    printf "  -p, --professor <name>\tsets the name of the student's professor\n"
+    printf "\n"
+    printf "Written by Paul Magnus '18, Ines Ayara '20, Matthew R. Jenkins '20\n"
+    printf "Summer 2017\n"
+}
+
+#------------------------------------------------------------------------------#
+# time_left duedate                                                            #
+#   Prints the duedate for the user's reference. Then this computes the        #
+#   remaining time on the project which is printed as well.                    #
+#                                                                              #
+# Example output:                                                              #
+#                                                                              #
+# The project is due on Tuesday, July 11, 2017 at 12:00:00 AM                  #
+# You have 4 days, 13 hours, 40 minutes, and 57 seconds until the deadline     #
+#                                                                              #
+#------------------------------------------------------------------------------#
+
+time_left()
+{
+    MPHR=60
+    HPD=24
+
+    due_time=$1
+
+    due_day=$(date --date="$due_time" +%A,\ %B\ %d,\ %Y)
+
+    due_moment=$(date --date="$due_time" +%r)
+
+    printf "\nThe project is due on $due_day at $due_moment\n"
+
+    current_time=$(date +%Y-%m-%d\ %H:%M:%S)
+
+    t1=$(date --date="$due_time" +%s)
+    t2=$(date --date="$current_time" +%s)
+
+    diff=$(expr $t1 - $t2)
+
+    DAYS=$(expr $diff / $MPHR / $MPHR / $HPD )
+    chg_secs=$(expr $DAYS \* $MPHR \* $MPHR \* $HPD )
+    diff=$(expr $diff - $chg_secs )
+    
+    HOURS=$(expr $diff / $MPHR / $MPHR )
+    chg_secs=$(expr $HOURS \* $MPHR \* $MPHR )
+    diff=$(expr $diff - $chg_secs )
+    
+    MINUTES=$(expr $diff / $MPHR )
+    chg_secs=$(expr $MINUTES \* $MPHR )
+    SECONDS=$(expr $diff - $chg_secs )
+    
+    printf "You have $DAYS days, $HOURS hours, $MINUTES minutes, and $SECONDS seconds until the deadline\n\n"
+    exit
+}
+
+main ()
+{
+    # parse the arguments
+    while :; do
+        case $1 in
+            -h|--help) print_help
+                exit;;
+            -c|--course) shift
+                course=$1
+                shift;;
+            -p|--professor) shift
+                professor=$1
+                shift;;
+            *) break;
+        esac
+    done
+    
+    # verify that there is 1 argument left
+    if [ $# != 1 ]; then
+        printf "timeleft: missing operands\n"
+        printf "Try 'timeleft --help' for more information\n"
+        exit  1
+    fi
+    
+    project=$1
+    
+    # check for the course
+    if [ -z $course ]; then
+        if [ -z $COURSE ]; then
+            printf "timeleft: course could not be determined\n"
+            printf "Make sure that the course environment is set or give the course number as an argument\n"
+            printf "Try 'timeleft --course <number> PROJECT' to set the course number\n"
+            printf "Try 'timeleft --help' for more information\n"
+            exit 1
+        else
+            course=$COURSE
+        fi
+    fi
+    
+    # check for the professor
+    if [ -z $professor ]; then
+        if [ -z $PROFESSOR ]; then
+            printf "timeleft: professor could not be determined\n"
+            printf "Make sure that the course environment is set or give the professor as an argument\n"
+            printf "Try 'timeleft --professor <name> PROJECT' to set the professor name\n"
+            printf "Try 'timeleft --help' for more information\n"
+            exit 1
+        else
+            professor=$PROFESSOR
+        fi
+    fi
+    
+    # Get directory of script, resolving links
+    SOURCE="${BASH_SOURCE[0]}"
+    while [ -h "$SOURCE" ]; do
+        DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+        SOURCE="$(readlink "$SOURCE")"
+        [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+    done
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    
+    # currently in a submit/bin directory
+    if [ "${DIR##*/}" != 'bin' ]; then
+        printf "timeleft Error: timeleft script should be in directory 'submit/bin'\n"
+        printf "timeleft is currently in '$DIR'\n"
+        exit 1
+    fi
+    
+    dirname="${DIR%/*}"
+    if [ "${dirname##*/}" != 'submit' ]; then
+        printf "timeleft Error: timeleft script should be in directory 'submit/bin'\n"
+        printf "timeleft is currently in '$DIR'\n"
+        exit 1
+    fi
+
+    # verify required files and directories
+    verifyDirectory "$dirname/$professor"
+    verifyDirectory "$dirname/$professor/$course"
+    verifyDirectory "$dirname/$professor/$course/$project"
+    
+    student_duedate_file="$dirname/$professor/$course/$project/$USER-duedate"
+    duedate_file="$dirname/$professor/$course/$project/duedate"
+    
+    if [ ! -f $duedate_file ]; then
+        printf "No current duedate for this project\n"
+        exit 1
+    fi
+    
+    # use the student's duedate if available
+    if [ -f $student_duedate_file ]; then
+        IFS='' read -r line < $student_duedate_file
+        time_left $line
+    fi
+    
+    IFS='' read -ra line < $duedate_file
+    time_left "$line"
+}
+
+main "$@"

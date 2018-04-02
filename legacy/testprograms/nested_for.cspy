@@ -1,0 +1,13 @@
+'''test_nested_for.py'''
+:: the_list: list of int = [0,1,2,3,4,5] ,
+   opp_list: list of int = [5,4,3,2,1,0] ,
+   is_empty: bool = False ::
+
+if !is_empty:
+    for item in the_list:
+        for meti in opp_list:
+            if item == meti:
+                print("They're the same!" + str(item))
+            else:
+                print("Nope... " + str(meti) + " != " + str(item))
+        print("\n")

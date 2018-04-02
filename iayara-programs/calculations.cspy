@@ -1,0 +1,21 @@
+'''Calculations'''
+
+:: pl : int, pw : int, ad : int, wfr : float, time : string, totalsec : int, 
+h : int, minutes : int, sec : int ::
+
+pl = toint(input("Pool lenght (feet):"))
+pw = toint(input("Pool width (feet):"))
+ad = toint(input("Additional depth desired (inches):"))
+wfr = tofloat(input("Water fill rate (gal/min):"))
+
+totalsec = toint(((tofloat((pl * pw) * ad) * 7.48)/wfr) * tofloat(60))
+h = totalsec / 3600
+minutes = (totalsec - h * 3600) / 60
+sec = totalsec - h * 3600 - minutes * 60
+
+time = tostring(h) + ":" + tostring(minutes) + ":" + tostring(sec)
+print("Time:", time)
+
+
+
+

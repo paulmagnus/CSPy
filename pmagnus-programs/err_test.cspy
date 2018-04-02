@@ -1,0 +1,42 @@
+class Node:
+    :: val : int,
+    node : Node ::
+    
+    def Node(val : int, node : Node):
+        self.val = val
+        self.node = node
+
+class Stack:
+    :: front : Node ::
+    
+    def Stack():
+        front = None
+        
+    def push(val : int):
+        front = Node(val, front)
+        
+    def pop():
+        front = front.node
+        
+    def top() -> int:
+        return front.val
+    
+def main():
+    :: s : Stack = Stack(),
+    n : Node ::
+    s.push(4)
+    s.push(3)
+    s.push(2)
+    s.push(1)
+    
+    print(s.top())
+    
+    s.pop()
+    
+    print(s.top())
+    
+    print(s.front.val)
+    
+main()
+
+

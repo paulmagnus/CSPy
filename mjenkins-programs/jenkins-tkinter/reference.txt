@@ -1,0 +1,7 @@
+for tkinter reference
+http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/index.html
+
+ideas:
+http://pygments.org/ - for syntax highlighting
+http://stackoverflow.com/questions/16369470/tkinter-adding-line-number-to-text-widget/16375233#16375233 - adding line number
+http://stackoverflow.com/questions/3781670/how-to-highlight-text-in-a-tkinter-text-widget/3781773#3781773 - highlighting text

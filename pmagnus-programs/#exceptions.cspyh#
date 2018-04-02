@@ -1,0 +1,27 @@
+#------------------------------------------------------------------------------#
+# exceptions.cspyh                                                             #
+# Header file for python exceptions module                                     #
+#                                                                              #
+# Importing the file is not necessary unless the user wishes to extend the     #
+# base classes here or send a message with the exception when raising an       #
+# exception.                                                                   #
+#                                                                              #
+# Written by Paul Magnus '18, Ines Ayara '20, Matthew R. Jenkins '20           #
+# Summer 2017                                                                  #
+#                                                                              #
+# Explanations of classes are from                                             #
+# https://docs.python.org/2/library/exceptions.html                            #
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# exception BaseException                                                      #
+#                                                                              #
+# The base class for all built-in exceptions. It is not meant to be directly   #
+# inherited by user-defined classes (for that, use Exception). If str() is     #
+# called on an instance of this class, the representation of the argument(s)   #
+# to the instance are returned, or the empty string when there were no         #
+# arguments.                                                                   #
+#------------------------------------------------------------------------------#
+class BaseException extends object:
+    :: args : tuple of (string) ::
+

@@ -1,0 +1,4 @@
+class A:
+    :: mysum : int ::
+    def A(x : ?int, y : ?int)
+    def getSum() -> int

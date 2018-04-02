@@ -1,0 +1,442 @@
+from Tkinter import *
+from ttk import*
+from tkFileDialog import *
+from tkMessageBox import *
+import keyword, re
+from cspy_searchbox import *
+from cspy_texteditor import *
+
+
+filename = "Untitled"
+class Menubar(Menu):
+    def __init__(self, root, notebook):
+        Menu.__init__(self, root)
+        self.root = root
+        #self.window = window
+        self.notebook = notebook
+        self.config(font=("Corbert", 11))
+        
+        # File menu 
+        self.filemenu = Menu(self, tearoff=0)
+        self.filemenu.add_command(label = "New File...      Ctrl+N",
+                             command = self.newFile)
+        self.filemenu.add_command(label = "Open File...    Ctrl+O",
+                             command = self.openFile)
+        self.filemenu.add_command(label = "Save             Ctrl+S",
+                             command = self.saveFile)
+        self.filemenu.add_command(label = "Save as...",
+                             command = self.saveas)
+        self.filemenu.add_separator()
+        self.filemenu.add_command(label = "Exit               Ctrl+W",
+                             command = lambda: self.exit)
+        self.add_cascade(label = "File ", menu=self.filemenu)
+        self.filemenu.config(font=("Corbert", 11), bg="#FFFFFF")
+        
+        # Edit menu
+        self.editmenu = Menu(self, tearoff=0)
+        self.editmenu.add_command(label = "Copy            Ctrl+C",
+                             command = lambda: self.copy)
+        self.editmenu.add_command(label = "Cut               Ctrl+X",
+                             command = lambda: self.cut)
+        self.editmenu.add_command(label = "Paste            Ctrl+V", 
+                             command = lambda: self.paste)
+        self.filemenu.add_separator()
+        self.editmenu.add_command(label = "Undo            Ctrl+Z",
+                             command = lambda: self.undo)
+        self.editmenu.add_command(label = "Redo            Ctrl+Y",
+                             command = lambda: self.redo)
+        self.add_cascade(label = "Edit ", menu=self.editmenu)
+        self.editmenu.config(font=("Corbert", 11), bg="#FFFFFF")
+
+        # Selection menu
+        self.selectmenu = Menu(self, tearoff=0)
+        self.selectmenu.add_command(label = "Select All                         Ctrl+A",
+                                    command = lambda: self.key_control_a)
+        self.selectmenu.add_command(label = "Expand selection to line           Ctrl+L",
+                                    command = lambda: self.select_line)
+        self.selectmenu.add_command(label = "Expand selection to word          Ctrl+D",
+                                    command = lambda: self.select_word)
+        self.add_cascade(label = "Selection ", menu=self.selectmenu)
+        self.selectmenu.config(font=("Corbert", 11), bg="#FFFFFF")
+
+        # Find menu
+        self.findmenu = Menu(self, tearoff=0)
+        self.findmenu.add_command(label = "Find            Ctrl+F",
+                             command = lambda: SearchBox(self.get_textbox()))
+        self.findmenu.add_command(label = "Find next")
+        self.findmenu.add_command(label = "Find previous")
+        self.add_cascade(label = "Find ", menu=self.findmenu)
+        self.findmenu.config(font=("Corbert", 11), bg="#FFFFFF")
+    
+        # Project menu
+        self.projmenu = Menu(self, tearoff=0)
+        self.projmenu.add_command(label = "Run Code",
+                                  command = self.run)
+        self.projmenu.add_command(label = "Submit Code")
+        #self.projmenu.add_command(label = "")
+        self.add_cascade(label = "Project ", menu=self.projmenu)
+        self.projmenu.config(font=("Corbert", 11), bg="#FFFFFF")
+
+        # Preferences menu
+        self.prefmenu = Menu(self, tearoff=0)
+        self.prefmenu.add_command(label = "Font")
+        self.prefmenu.add_command(label = "Color scheme",
+                                  command = self.get_textbox().change_theme)
+        self.add_cascade(label = "Preferences ", menu=self.prefmenu)
+        self.prefmenu.config(font=("Corbert", 11), bg="#FFFFFF")
+
+        # Help menu
+        self.helpmenu = Menu(self, tearoff=0)
+        self.helpmenu.add_command(label = "Documentation")
+        self.helpmenu.add_command(label = "Ask a TA")
+        self.helpmenu.add_command(label = "About CSPy")
+        self.add_cascade(label = "Help? ", menu=self.helpmenu)
+        self.helpmenu.config(font=("Corbert", 11), bg="#FFFFFF")
+
+    def get_textbox(self):
+        current_frame = self.notebook.children[self.notebook.select().split('.')[2]]
+        for key, val in current_frame.children.iteritems():
+            if isinstance(val, Text):
+                textbox = val
+                
+        if textbox == None:
+            print("Something is wrong!")
+        return textbox
+
+    #COPY-CUT-PASTE
+    def copy(self):
+        self.get_textbox().clipboard_clear()
+        text = self.get_textbox().get("sel.first", "sel.last")
+        self.get_textbox().clipboard_append(text)
+    
+    def cut(self):
+        self.copy()
+        self.get_textbox().delete("sel.first", "sel.last")
+
+    def paste(self):
+        text = self.get_textbox().selection_get(selection='CLIPBOARD')
+        self.get_textbox().insert('insert', text)
+        cline = 1
+        while cline != int(self.get_textbox().index(END).split('.')[0]):
+            syn_highlight(self.get_textbox(), cline)
+            cline += 1
+
+    #UNDO-REDO
+    def undo(self):
+        self.get_textbox().edit_undo()
+    def redo(self):
+        self.get_textbox().edit_redo()
+
+    #EXIT
+    def exit(self):
+        self.root.destroy()
+
+    #SELECT ALL
+    def key_control_a(self):
+        self.get_textbox().tag_remove(SEL, "1.0", END)
+        self.get_textbox().tag_add(SEL, "1.0", END)
+        self.get_textbox().mark_set(INSERT, END)
+        self.get_textbox().see(INSERT)
+        return 'break'
+
+    def select_line(self):
+        cline = self.get_textbox().index(INSERT).split('.')[0] 
+        lastcol = 0
+        char = self.get_textbox().get('%s.%d'%(cline, lastcol))
+        while char != '\n':
+            lastcol += 1
+            char = self.get_textbox().get('%s.%d'%(cline, lastcol))
+        self.get_textbox().tag_remove(SEL, INSERT, '%s.%d'%(cline, lastcol))
+        self.get_textbox().tag_add(SEL, INSERT, '%s.%d'%(cline, lastcol))
+        self.get_textbox().mark_set(INSERT, '%s.%d'%(cline, lastcol))
+        self.get_textbox().see(INSERT)
+        return 'break'
+
+    def select_word(self):
+        cline = self.get_textbox().index(INSERT).split('.')[0]
+        lastcol = 0
+        char = self.get_textbox().get('%s.%d'%(cline, lastcol))
+        while char != " " :
+            lastcol += 1
+            char = self.get_textbox().get('%s.%d'%(cline, lastcol))
+        self.get_textbox().tag_remove(SEL, INSERT, '%s.%d'%(cline, lastcol))
+        self.get_textbox().tag_add(SEL, INSERT, '%s.%d'%(cline, lastcol))
+        self.get_textbox().mark_set(INSERT, '%s.%d'%(cline, lastcol))
+        self.get_textbox().see(INSERT)
+        return 'break'
+        
+    #def get_filename(self):
+    #    return self.filename
+    
+    def newFile(self):
+        global filename
+        filename = "Untitled"
+        
+        new_page = Frame(self.notebook)     
+        new_status_bar = StatusBar(new_page, self.notebook)   
+        new_scrollbar = Scrollbar(new_page)
+        new_scrollbar.pack(side=RIGHT, fill=BOTH)    
+        new_text_edit = Text_editor(self.root, new_page, self.notebook, new_status_bar)
+        new_scrollbar.config(command=new_text_edit.yview)
+        new_text_edit.config(yscrollcommand=new_scrollbar.set)
+        
+        self.notebook.add(child= new_page, text=filename + "      ")
+
+    def saveFile(self):
+        global filename
+        if filename == "Untitled":
+            print("here")
+            self.saveas
+        else: 
+            current_frame = self.notebook.children[self.notebook.select().split('.')[2]]
+            for key, val in current_frame.children.iteritems():
+                if isinstance(val, Text):
+                    text = val
+        
+            if text == None:
+                print("Something is wrong!")
+        
+            for key, val in current_frame.children.iteritems():
+                if isinstance(val, StatusBar):
+                    statusbar = val
+            
+            if statusbar == None:
+                print("Something is wrong!")
+
+            statusbar.set_text()
+            print("should work")
+            self.root.after(3000, statusbar.reset_text)
+    
+            t = text.get("0.0", END)
+            f = open(filename, 'w')
+            f.write(t)
+            f.close()
+
+
+    def saveas(self):
+        f = asksaveasfile(mode='w', defaultextension='.cspy')
+        if f == None:
+            return
+        global filename
+        filename = f.name
+        match = re.match('.*/(?P<name>[^/]+)$', filename)
+        str = match.group('name')
+        self.notebook.tab(self.notebook.select(), text = str+ "    ") 
+        current_frame = self.notebook.children[self.notebook.select().split('.')[2]]
+        for key, val in current_frame.children.iteritems():
+            if isinstance(val, Text):
+                text = val
+            
+        if text == None:
+            print("Something is wrong!")
+
+        t = text.get("0.0", END)
+
+        for key, val in current_frame.children.iteritems():
+            if isinstance(val, StatusBar):
+                statusbar = val
+            
+        if statusbar == None:
+            print("Something is wrong!")
+
+        statusbar.set_text()
+        self.root.after(3000, statusbar.reset_text)
+    
+        try:
+            f.write(t.rstrip())
+            filename = f.name
+        except:
+            showerror(title="Oops!", message="Unable to save file...")
+
+    def openFile(self):
+        f = askopenfile(parent=self.root, mode='rb', title="Select a file")
+        if f != None:
+            global filename
+            filename = f.name
+            match = re.match('.*/(?P<name>[^/]+)$', filename)
+            str = match.group('name')
+            
+            new_page = Frame(self.notebook)            
+            new_status_bar = StatusBar(new_page, self.notebook)   
+            new_scrollbar = Scrollbar(new_page)
+            new_scrollbar.pack(side=RIGHT, fill=BOTH)    
+            new_text_edit = Text_editor(self.window, new_page, self.notebook, new_status_bar)
+        
+            new_scrollbar.config(command=new_text_edit.yview)
+            new_text_edit.config(yscrollcommand=new_scrollbar.set)
+
+            self.notebook.add(child= new_page, text=str + "      ")
+            self.root.update()
+            #self.notebook.select(new_page)
+       
+            t = f.read()
+            new_text_edit.insert("1.0", t)
+            cline = 1
+            while cline != int(new_text_edit.index(END).split('.')[0]):
+                syn_highlight(new_text_edit, cline)
+                cline += 1
+            f.close()
+
+    def run(self):
+        self.saveFile()
+        filename = self.notebook.tab(self.notebook.select(), "text")
+        print(filename)
+        process = subprocess.Popen(["/home/acampbel/CSPy-shared/ulysses/bin/cspy_terminal.sh", 
+                                    "/home/acampbel/CSPy-shared/ulysses/iayara-programs/"+filename],
+                                   stdout = subprocess.PIPE)
+        out, err = process.communicate()
+        print "Error:", err
+        print "Out:", out
+
+
+    def syn_highlight(self, cline):
+        lastcol = 0
+        char = self.get_textbox().get('%s.%d'%(cline, lastcol))
+        while char != '\n':
+            lastcol += 1
+            char = self.get_textbox().get('%s.%d'%(cline, lastcol))
+
+        buffer = self.get_textbox().get('%s.%d'%(cline,0),'%s.%d'%(cline,lastcol))
+        tokenized = re.split("[^A-Za-z0-9_=><:*+-/]", buffer)
+        text.remove_tags('%s.%d'%(cline, 0), '%s.%d'%(cline, lastcol))
+        start, end = 0, 0 
+        for token in tokenized:
+            end = start + len(token)
+            if token == "import":
+                self.get_textbox().tag_add('import_kw', '%s.%d'%(cline, start), 
+                             '%s.%d'%(cline, end))
+            elif token in keyword.kwlist:
+                self.get_textbox().tag_add('kw', '%s.%d'%(cline, start), 
+                             '%s.%d'%(cline, end))
+            elif token in type_kw:
+                self.get_textbox().tag_add('type_kw', '%s.%d'%(cline, start),
+                             '%s.%d'%(cline, end))
+            elif token in other_kw:
+                self.get_textbox().tag_add('other_kw', '%s.%d'%(cline, start),
+                             '%s.%d'%(cline, end))
+            elif token in type_conv:
+                self.get_textbox().tag_add('type_conv', '%s.%d'%(cline, start),
+                             '%s.%d'%(cline, end))
+            elif token in spec_chars:
+                self.get_textbox().tag_add('spec_chars', '%s.%d'%(cline, start),
+                             '%s.%d'%(cline, end))
+            start += len(token)+1
+
+        # Comment highlighting
+        comment_start = buffer.find('#')
+        if comment_start != -1:
+            self.get_textbox().tag_add('line_comment', '%s.%d'%(cline, comment_start),
+                          '%s.%d'%(str(int(cline)+1), 0))
+        self.get_textbox().tag_remove('block_comment', 1.0, END)
+        self.get_textbox().tag_remove('declaration_block', 1.0, END)
+        self.get_textbox().tag_remove('string', 1.0, END)
+
+        # Docstring highlighting
+        start = "1.0"
+        while True:
+            start = self.get_textbox().search(r"(''')|(\"\"\")", 
+                                start, 
+                                stopindex=END,
+                                regexp=True)
+            if not start:
+                break
+            if self.get_textbox().get(start, start + "+3c") == "'''":
+                end = self.get_textbox().search(r"'''", 
+                                  start + "+3c", 
+                                  stopindex=END,
+                                  regexp=True)
+            else:
+                end = self.get_textbox().search(r'"""', 
+                                  start + "+3c", 
+                                  stopindex=END,
+                                  regexp=True)
+            if not end:
+                end = END
+            self.get_textbox().tag_add('block_comment', start, end + "+3c")
+            start = end + "+3c"
+
+        # Declaration highlighting
+        start = "1.0"
+        while True:
+            start = self.get_textbox().search(r"::", 
+                                start, 
+                                stopindex=END,
+                                regexp=True)
+            if not start:
+                break
+            end = self.get_textbox().search(r"::",
+                              start + "+2c", 
+                              stopindex=END,
+                              regexp=True)
+            if not end:
+                end = END
+            self.get_textbox().tag_add('declaration_block',
+                             start,
+                             end + "+2c")
+            start = end + "+2c"
+
+        # Function highlighting
+        start = "1.0"
+        while True:
+            start = self.get_textbox().search(r"def", 
+                                start, 
+                                stopindex=END, 
+                                regexp=True)
+            if not start:
+                break
+            end = self.get_textbox().search(r'\(',
+                              start + "+4c",
+                              stopindex=END,
+                              regexp= True)
+            if not end:
+                end = END
+            self.get_textbox().tag_add('function',
+                         start + "+4c",
+                         end)
+            start = end + "+1c"
+
+        # Class highlighting
+        start = "1.0"
+        while True:
+            start = self.get_textbox().search(r"class", 
+                                start,
+                                stopindex=END,
+                                regexp=True)
+            if not start:
+                break
+            end = self.get_textbox().search(r"(:)|(\()", 
+                              start + "+6c",
+                              stopindex=END,
+                              regexp=True)
+            if not end:
+                end = END
+            self.tag_add('class',
+                         start + "+6c",
+                         end)
+            start = end + "+1c"
+
+        # String highlighting
+        start = "1.0"
+        while True:
+            start = self.get_textbox().search(r"(')|(\")", 
+                                start, 
+                                stopindex=END,
+                                regexp=True)
+            if not start:
+                break
+            if self.get_textbox().get(start, start + "+1c") == "'":
+                end = self.get_textbox().search(r"'", 
+                                  start + "+1c", 
+                                  stopindex=END,
+                                  regexp=True)
+            else:
+                end = self.get_textbox().search(r'"', 
+                                  start + "+1c", 
+                                  stopindex=END,
+                                  regexp=True)
+
+            if not end:
+                end = END
+            self.get_textbox().tag_add('string', start, end + "+1c")
+            start = end + "+1c"
+            

@@ -1,0 +1,21 @@
+:: length : float, width : float, depth : float, fillRate : float , 
+seconds : int ::
+
+def toTimeString(sec:int) -> string:
+    :: seconds : int, minutes : int, hours : int ::
+    seconds = sec % 60
+    minutes = sec // 60
+    hours = minutes // 60
+    minutes = minutes % 60
+    return tostring(hours).rjust(2, "0") + ":" + tostring(minutes).rjust(2, "0") + \
+    	   ":" + tostring(seconds).rjust(2, "0")
+
+def main():
+    length = tofloat(input("Pool length (feet): "))
+    width = tofloat(input("Pool width (feet): "))
+    depth = tofloat(input("Additional depth desired (inches): "))
+    fillRate = tofloat(input("Water fill rate (gal/min): "))
+    seconds = toint(length * 12.0 * width * 12.0 * depth * 7.48052 / fillRate * 60.0)
+    print("Time: " + toTimeString(seconds))
+
+main()

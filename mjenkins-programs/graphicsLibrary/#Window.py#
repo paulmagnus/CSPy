@@ -1,0 +1,75 @@
+import Tkinter as tk
+
+def StartGraphicsEngine(app):
+    app.master.title(app.name)
+    app.mainloop()
+
+class Window(tk.Frame):
+    def __init__(self, master = None):
+        tk.Frame.__init__(self, master)
+        self.pack()
+
+        self.width = 400
+        self.height = 400
+        self.background = "white"
+        self.name = None
+        self.quitButton = True
+        self.displayMessageBox = True
+        self.firstFunction = None
+    
+    def Window(self, width = 400, height = 400, background = "white", name = None, quitButton = True, displayMessageBox = True, firstFunction = None):
+        self.width = width
+        self.height = height
+        self.background = background
+        self.name = name
+        self.quitButton = quitButton
+        self.displayMessageBox = displayMessageBox
+        self.firstFunction = firstFunction
+        self.Canvas = tk.Canvas(self, bg=self.background, height=self.height, width=self.width)
+        self.Canvas.pack()
+
+    def add(self, graphic):
+        assert isinstance(graphic, GraphicalObject) 
+        if isinstance(graphic, Oval):
+            pass
+        if isinstance(graphic, Circle): 
+            pass
+        if isinstance(graphic, Rectangle): 
+            pass
+        if isinstance(graphic, Square):
+            pass
+        if isinstance(graphic, Polygon):
+            pass
+
+    def close(self):
+        pass
+
+    def remove(self, graphic):
+        assert isinstance(graphic, GraphicalObject) 
+        if isinstance(graphic, Oval):
+            pass
+        if isinstance(graphic, Circle): 
+            pass
+        if isinstance(graphic, Rectangle): 
+            pass
+        if isinstance(graphic, Square):
+            pass
+        if isinstance(graphic, Polygon):
+            pass
+    
+    def setBackgroundColor(self, color):
+        pass
+
+    def setHeight(self, color):
+        self.h
+
+    def setMessageText(self, text):
+        self.displayMessageBox = text
+
+    def setTitle(self, name):
+        self.name = name
+
+    def setWidth(self, width):
+        self.width = width
+
+class GraphicalObject

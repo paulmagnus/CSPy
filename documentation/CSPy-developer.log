@@ -1,0 +1,720 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2017.6.13)  30 JUN 2017 14:36
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**./CSPy-developer.tex
+(./CSPy-developer.tex
+LaTeX2e <2017-04-15>
+Babel <3.10> and hyphenation patterns for 84 language(s) loaded.
+(c:/texlive/2017/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(c:/texlive/2017/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(c:/texlive/2017/texmf-dist/tex/latex/enumitem/enumitem.sty
+Package: enumitem 2011/09/28 v3.5.2 Customized lists
+\enitkv@toks@=\toks14
+\labelindent=\skip43
+\enit@outerparindent=\dimen103
+\enit@toks=\toks15
+\enit@inbox=\box26
+\enitdp@description=\count87
+)
+(c:/texlive/2017/texmf-dist/tex/latex/preprint/authblk.sty
+Package: authblk 2001/02/27 1.3 (PWD)
+\affilsep=\skip44
+\@affilsep=\skip45
+\c@Maxaffil=\count88
+\c@authors=\count89
+\c@affil=\count90
+)
+(c:/texlive/2017/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+
+(c:/texlive/2017/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+(c:/texlive/2017/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2017/06/01 v1.2a Standard LaTeX Graphics (DPC,SPQR)
+
+(c:/texlive/2017/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(c:/texlive/2017/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+
+(c:/texlive/2017/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2017/06/01 v1.0a Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen104
+\Gin@req@width=\dimen105
+)
+(c:/texlive/2017/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count91
+\float@exts=\toks17
+\float@box=\box27
+\@float@everytoks=\toks18
+\@floatcapt=\box28
+)
+(c:/texlive/2017/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
+
+(c:/texlive/2017/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 67.
+\captionmargin=\dimen106
+\captionmargin@=\dimen107
+\captionwidth=\dimen108
+\caption@tempdima=\dimen109
+\caption@indent=\dimen110
+\caption@parindent=\dimen111
+\caption@hangindent=\dimen112
+)
+\c@ContinuedFloat=\count92
+Package caption Info: float package is loaded.
+)
+(c:/texlive/2017/texmf-dist/tex/latex/graphics/rotating.sty
+Package: rotating 2016/08/11 v2.16d rotated objects in LaTeX
+
+(c:/texlive/2017/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\c@r@tfl@t=\count93
+\rotFPtop=\skip46
+\rotFPbot=\skip47
+\rot@float@box=\box29
+\rot@mess@toks=\toks19
+)
+(c:/texlive/2017/texmf-dist/tex/latex/preprint/fullpage.sty
+Package: fullpage 1999/02/23 1.1 (PWD)
+\FP@margin=\skip48
+)
+(c:/texlive/2017/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2008/02/07
+
+Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
+<2008/02/07> (tvz)
+\FV@CodeLineNo=\count94
+\FV@InFile=\read1
+\FV@TabBox=\box30
+\c@FancyVerbLine=\count95
+\FV@StepNumber=\count96
+\FV@OutFile=\write3
+) (./CSPy-developer.aux)
+\openout1 = `CSPy-developer.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+
+(c:/texlive/2017/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count97
+\scratchdimen=\dimen113
+\scratchbox=\box31
+\nofMPsegments=\count98
+\nofMParguments=\count99
+\everyMPshowfont=\toks20
+\MPscratchCnt=\count100
+\MPscratchDim=\dimen114
+\MPnumerator=\count101
+\makeMPintoPDFobject=\count102
+\everyMPtoPDFconversion=\toks21
+) (c:/texlive/2017/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+(c:/texlive/2017/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+)
+(c:/texlive/2017/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+
+(c:/texlive/2017/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+
+(c:/texlive/2017/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+)))
+(c:/texlive/2017/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+
+(c:/texlive/2017/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+
+(c:/texlive/2017/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+
+(c:/texlive/2017/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+(c:/texlive/2017/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(c:/texlive/2017/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2 ,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+
+(c:/texlive/2017/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: rotating package is loaded.
+Package caption Info: End \AtBeginDocument code.
+
+(./CSPy-developer.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 2.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 2.
+ [1
+
+{c:/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}])
+\tf@toc=\write4
+\openout4 = `CSPy-developer.toc'.
+
+ [2] [3] [4] [5]
+Overfull \hbox (1.45682pt too wide) in paragraph at lines 117--118
+\OT1/cmr/m/n/10 Additional at-tributes for a PLY lexer can be cre-ated af-ter a
+ lexer ob-ject has been cre-ated. In [][]\OT1/cmtt/m/n/10 cspy_master.py[]\OT1/
+cmr/m/n/10 ,
+ []
+
+[6] [7]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 161.
+
+ (c:/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 161.
+ [8]
+Underfull \hbox (badness 10000) in paragraph at lines 191--192
+
+ []
+
+[9] [10] [11] [12] [13] [14] [15] [16] [17] [18] [19]
+<CSPyTextEditorMainScreen.png, id=71, 560.8453pt x 406.51875pt>
+File: CSPyTextEditorMainScreen.png Graphic file (type png)
+<use CSPyTextEditorMainScreen.png>
+Package pdftex.def Info: CSPyTextEditorMainScreen.png  used on input line 547. 
+on input line 547.
+Package pdftex.def Info: Requested size: 469.75502pt x 340.49335pt on input lin
+e 547.
+ [20]
+<CSPyTextEditorOpenFile.png, id=76, 560.0925pt x 408.02437pt>
+File: CSPyTextEditorOpenFile.png Graphic file (type png)
+<use CSPyTextEditorOpenFile.png>
+Package pdftex.def Info: CSPyTextEditorOpenFile.png  used on input line 552. on
+ input line 552.
+Package pdftex.def Info: Requested size: 469.75502pt x 342.2276pt on input line
+ 552.
+ [21 <./CSPyTextEditorMainScreen.png>]
+<CSPyTextEditorSampleCode.png, id=83, 561.59813pt x 798.73407pt>
+File: CSPyTextEditorSampleCode.png Graphic file (type png)
+<use CSPyTextEditorSampleCode.png>
+Package pdftex.def Info: CSPyTextEditorSampleCode.png  used on input line 557. 
+on input line 557.
+Package pdftex.def Info: Requested size: 469.75502pt x 668.10452pt on input lin
+e 557.
+ [22 <./CSPyTextEditorOpenFile.png>]
+Overfull \vbox (68.67451pt too high) has occurred while \output is active []
+
+
+[23 <./CSPyTextEditorSampleCode.png>]
+<CSPyTextEditorSampleCodeWithOutput.png, id=92, 1266.98344pt x 794.2172pt>
+File: CSPyTextEditorSampleCodeWithOutput.png Graphic file (type png)
+<use CSPyTextEditorSampleCodeWithOutput.png>
+Package pdftex.def Info: CSPyTextEditorSampleCodeWithOutput.png  used on input 
+line 562. on input line 562.
+Package pdftex.def Info: Requested size: 469.75502pt x 294.4617pt on input line
+ 562.
+<CSPyTextEditorSampleCodeWithGraphics.png, id=93, 1251.17438pt x 824.32968pt>
+File: CSPyTextEditorSampleCodeWithGraphics.png Graphic file (type png)
+<use CSPyTextEditorSampleCodeWithGraphics.png>
+Package pdftex.def Info: CSPyTextEditorSampleCodeWithGraphics.png  used on inpu
+t line 568. on input line 568.
+Package pdftex.def Info: Requested size: 469.75502pt x 309.48764pt on input lin
+e 568.
+ [24 <./CSPyTextEditorSampleCodeWithOutput.png>] [25 <./CSPyTextEditorSampleCod
+eWithGraphics.png>]
+Overfull \hbox (4.25339pt too wide) in paragraph at lines 578--578
+[]\OT1/cmr/bx/n/12 How The Fron-tend Works (From CSPy Ulysses Doc-u-men-ta-tion
+ For Teacher
+ []
+
+<circle.png, id=103, 423.83344pt x 406.51875pt>
+File: circle.png Graphic file (type png)
+<use circle.png>
+Package pdftex.def Info: circle.png  used on input line 605. on input line 605.
+
+Package pdftex.def Info: Requested size: 234.8775pt x 225.2794pt on input line 
+605.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[26]
+<text.png, id=107, 344.78813pt x 364.36125pt>
+File: text.png Graphic file (type png)
+<use text.png>
+Package pdftex.def Info: text.png  used on input line 617. on input line 617.
+Package pdftex.def Info: Requested size: 234.8775pt x 248.21269pt on input line
+ 617.
+<image.png, id=108, 352.31625pt x 373.395pt>
+File: image.png Graphic file (type png)
+<use image.png>
+Package pdftex.def Info: image.png  used on input line 624. on input line 624.
+Package pdftex.def Info: Requested size: 234.8775pt x 248.93129pt on input line
+ 624.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[27 <./circle.png> <./text.png>]
+File: circle.png Graphic file (type png)
+<use circle.png>
+Package pdftex.def Info: circle.png  used on input line 632. on input line 632.
+
+Package pdftex.def Info: Requested size: 234.8775pt x 225.2794pt on input line 
+632.
+<oval.png, id=114, 358.33875pt x 370.38374pt>
+File: oval.png Graphic file (type png)
+<use oval.png>
+Package pdftex.def Info: oval.png  used on input line 639. on input line 639.
+Package pdftex.def Info: Requested size: 234.8775pt x 242.7755pt on input line 
+639.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[28 <./image.png>]
+<square.png, id=119, 349.305pt x 376.40625pt>
+File: square.png Graphic file (type png)
+<use square.png>
+Package pdftex.def Info: square.png  used on input line 648. on input line 648.
+
+Package pdftex.def Info: Requested size: 234.8775pt x 253.10408pt on input line
+ 648.
+<rectangle.png, id=120, 353.82187pt x 372.64218pt>
+File: rectangle.png Graphic file (type png)
+<use rectangle.png>
+Package pdftex.def Info: rectangle.png  used on input line 655. on input line 6
+55.
+Package pdftex.def Info: Requested size: 234.8775pt x 247.3718pt on input line 
+655.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[29 <./oval.png> <./square.png>]
+<polygon.png, id=126, 347.04657pt x 368.87813pt>
+File: polygon.png Graphic file (type png)
+<use polygon.png>
+Package pdftex.def Info: polygon.png  used on input line 663. on input line 663
+.
+Package pdftex.def Info: Requested size: 234.8775pt x 249.66304pt on input line
+ 663.
+ [30 <./rectangle.png> <./polygon.png>]
+<fillableAttributes.png, id=132, 336.50719pt x 353.06906pt>
+File: fillableAttributes.png Graphic file (type png)
+<use fillableAttributes.png>
+Package pdftex.def Info: fillableAttributes.png  used on input line 700. on inp
+ut line 700.
+Package pdftex.def Info: Requested size: 234.8775pt x 246.4409pt on input line 
+700.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<imageAttributes.png, id=133, 346.29375pt x 344.03531pt>
+File: imageAttributes.png Graphic file (type png)
+<use imageAttributes.png>
+Package pdftex.def Info: imageAttributes.png  used on input line 715. on input 
+line 715.
+Package pdftex.def Info: Requested size: 234.8775pt x 233.35297pt on input line
+ 715.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[31] [32 <./fillableAttributes.png>] [33 <./imageAttributes.png>] [34]
+Overfull \hbox (2.71646pt too wide) in paragraph at lines 871--872
+[]\OT1/cmr/m/n/10 When an ob-ject is made, it is cre-ated in its con-struc-tor 
+(us-ing TK-in-ter's [][]\OT1/cmtt/m/n/10 create_polygon []\OT1/cmr/m/n/10 or []
+[]\OT1/cmtt/m/n/10 create_image
+ []
+
+[35]
+<hierarchy.png, id=152, 963.6pt x 722.7pt>
+File: hierarchy.png Graphic file (type png)
+<use hierarchy.png>
+Package pdftex.def Info: hierarchy.png  used on input line 879. on input line 8
+79.
+Package pdftex.def Info: Requested size: 469.75502pt x 352.31758pt on input lin
+e 879.
+ [36 <./hierarchy.png>] [37]
+Overfull \hbox (23.74068pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 33    class_definition -> CLASS IDENTIFIER opt_extends 
+COLON NL INDENT class_suite DEDENT[] 
+ []
+
+
+Overfull \hbox (44.7405pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 41    function_definition -> DEF IDENTIFIER LPAREN argu
+mentlist RPAREN ARROW type COLON suite[] 
+ []
+
+[38] [39] [40]
+Overfull \hbox (39.49054pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 157   nonempty_default_typelist -> nonempty_default_typ
+elist COMMA nonempty_default_typelist[] 
+ []
+
+
+Overfull \hbox (7.99081pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 165   nonempty_tuple_typelist -> nonempty_tuple_typelis
+t TIMES nonempty_tuple_typelist[] 
+ []
+
+[41]
+Overfull \hbox (7.99081pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 216   nonempty_expressionlist -> nonempty_expressionlis
+t COMMA nonempty_expressionlist[] 
+ []
+
+
+Overfull \hbox (86.74013pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 230   function_literal -> LAMBDA LPAREN argumentlist RP
+AREN ARROW type COLON LPAREN expression RPAREN[] 
+ []
+
+
+Overfull \hbox (7.99081pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 243   nonempty_dictionarylist -> nonempty_dictionarylis
+t COMMA nonempty_dictionarylist[] 
+ []
+
+[42]
+Overfull \hbox (86.74013pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 254   class_definition -> CLASS IDENTIFIER opt_generic 
+opt_extends error NL INDENT class_suite DEDENT[] 
+ []
+
+
+Overfull \hbox (55.2404pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 255   class_definition -> CLASS IDENTIFIER opt_generic 
+opt_extends COLON NL INDENT error DEDENT[] 
+ []
+
+
+Overfull \hbox (18.49072pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 257   function_definition -> DEF error LPAREN argumentl
+ist RPAREN ARROW type COLON suite[] 
+ []
+
+
+Overfull \hbox (39.49054pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 258   function_definition -> DEF IDENTIFIER LPAREN argu
+mentlist error ARROW type COLON suite[] 
+ []
+
+
+Overfull \hbox (49.99045pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 259   function_definition -> DEF IDENTIFIER LPAREN argu
+mentlist RPAREN ARROW error COLON suite[] 
+ []
+
+
+Overfull \hbox (49.99045pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 286   function_literal -> LAMBDA LPAREN error RPAREN AR
+ROW type COLON LPAREN expression RPAREN[] 
+ []
+
+
+Overfull \hbox (91.99008pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 287   function_literal -> LAMBDA LPAREN argumentlist RP
+AREN ARROW error COLON LPAREN expression RPAREN[] 
+ []
+
+
+Overfull \hbox (60.49036pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 288   function_literal -> LAMBDA LPAREN argumentlist RP
+AREN ARROW type COLON LPAREN error RPAREN[] 
+ []
+
+
+Overfull \hbox (28.99063pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 289   procedure_literal -> LAMBDA LPAREN error RPAREN C
+OLON LPAREN statement_simple RPAREN[] 
+ []
+
+
+Overfull \hbox (65.74031pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 290   procedure_literal -> LAMBDA LPAREN argumentlist R
+PAREN error LPAREN statement_simple RPAREN[] 
+ []
+
+
+Overfull \hbox (7.99081pt too wide) in paragraph at lines 1193--1193
+[]\OT1/cmtt/m/n/10 Rule 291   procedure_literal -> LAMBDA LPAREN argumentlist R
+PAREN COLON LPAREN error RPAREN[] 
+ []
+
+[43]
+Overfull \hbox (23.74068pt too wide) in paragraph at lines 1289--1289
+[]\OT1/cmtt/m/n/10 Rule 25    class_definition -> CLASS IDENTIFIER opt_extends 
+COLON NL INDENT class_suite DEDENT[] 
+ []
+
+[44]
+Overfull \hbox (39.49054pt too wide) in paragraph at lines 1289--1289
+[]\OT1/cmtt/m/n/10 Rule 61    nonempty_default_typelist -> nonempty_default_typ
+elist COMMA nonempty_default_typelist[] 
+ []
+
+
+Overfull \hbox (7.99081pt too wide) in paragraph at lines 1289--1289
+[]\OT1/cmtt/m/n/10 Rule 69    nonempty_tuple_typelist -> nonempty_tuple_typelis
+t TIMES nonempty_tuple_typelist[] 
+ []
+
+
+Overfull \hbox (23.74068pt too wide) in paragraph at lines 1289--1289
+[]\OT1/cmtt/m/n/10 Rule 79    class_definition -> CLASS IDENTIFIER opt_extends 
+error NL INDENT class_suite DEDENT[] 
+ []
+
+[45] [46]
+Underfull \hbox (badness 10000) in paragraph at lines 1434--1435
+
+ []
+
+[47] [48]
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no œ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no  in font cmr10!
+ [49]
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+ [50] [51]
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no œ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no  in font cmr10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no œ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no œ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no œ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no  in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no œ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no  in font cmtt10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no œ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no  in font cmr10!
+ [52]
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no œ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no  in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no œ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no  in font cmtt10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no œ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no  in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no œ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no  in font cmr10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no œ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no œ in font cmtt10!
+ [53]
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no œ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no œ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no œ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no  in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no  in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no  in font cmtt10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no œ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no  in font cmr10!
+ [54]
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ˜ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ˜ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ˜ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ˜ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ˜ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ˜ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ˜ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+ [55]
+Overfull \hbox (0.32582pt too wide) in paragraph at lines 1918--1920
+[][][]\OT1/cmtt/m/n/10 union(s:set/frzset of elem_type) -> set/frzset of elem_t
+ype []\OT1/cmr/m/n/10 Re-turns a new set that is the union
+ []
+
+[56]
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+ [57] (./CSPy-developer.aux) ) 
+Here is how much of TeX's memory you used:
+ 3486 strings out of 492995
+ 55304 string characters out of 6136417
+ 119153 words of memory out of 5000000
+ 7002 multiletter control sequences out of 15000+600000
+ 6232 words of font info for 23 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 41i,7n,39p,1016b,420s stack positions out of 5000i,500n,10000p,200000b,80000s
+<c:/texlive/2017/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmbx10.pfb><c:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmbx12.pfb><c:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pf
+b><c:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/tex
+live/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2017/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2017/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2017/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2017/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr9.pfb><c:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmsy10.pfb><c:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pf
+b>
+Output written on CSPy-developer.pdf (57 pages, 2720778 bytes).
+PDF statistics:
+ 264 PDF objects out of 1000 (max. 8388607)
+ 162 compressed objects within 2 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 76 words of extra memory for PDF output out of 10000 (max. 10000000)
+

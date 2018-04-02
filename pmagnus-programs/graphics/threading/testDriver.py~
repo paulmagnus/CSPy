@@ -1,0 +1,12 @@
+import Tkinter as tk
+import interactive_frame
+
+root = tk.Tk()
+
+terminal = interactive_frame.InteractiveFrame(root)
+terminal.grid(row=0, column=0, sticky="nsew")
+
+button = tk.Button(root, text="Start program")
+button.grid(row=1, column=0, sticky="nsew")
+
+root.mainloop()

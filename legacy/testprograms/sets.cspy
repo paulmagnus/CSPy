@@ -1,0 +1,79 @@
+'''sets.cspy'''
+
+:: l:list of int = [1,2,3],
+   d:dict of [int|string] = { 1 : "a", 2 : "b"},
+   myset:set of int = {1, 2, 3, 4}, 
+   fset:frozenset of int = frzset([1,2,3,4,5]), 
+   str:string = "Hello World" ::
+
+# Iterable testing
+for i in l:
+    print(i)
+
+for e in d:
+    print(e)
+
+for m in myset:
+    print(m)
+
+for m in fset:
+    print(m)
+
+for c in str:
+    print(c)
+
+# Membership testing
+if 1 in l:
+    print("There is a 1 in ", l)
+
+if 2 in d:
+    print("Found a 2")
+
+if 3 in myset:
+    print("Found a 3")
+
+if 4 in fset:
+    print("Found a 4")
+
+if "c" in "abc":
+    print("Found a c")
+
+# Indexing, Slicing Testing
+
+# List
+print(l[0])
+print(l[1:])
+
+# String
+print(str[-1])
+print(str[1:])
+
+
+# Conversion Testing
+print(tolist("Hello World"))        # string to list
+print(tolist({ 1: "a", 2: "b"}))    # dictionary to list
+print(tolist({1,2,3,4,5}))          # set to list
+print(tolist(frzset([2,5,6,7,9])))  # frozenset to list
+print(tolist([1,2,3,4,5]))          # list to list
+
+print(totuple("Hello World"))       # string to tuple
+print(totuple(["a", "b", "c"]))     # list to tuple
+print(totuple({1,2,3,4,5,6}))       # set to tuple
+print(totuple({ 1: "a", 2: "b"}))   # dictionary to tuple
+print(totuple(frzset([2,5,6,7,9]))) # frozenset to tuple
+
+print(makeset("Hello World"))       # string to set
+print(makeset([1,2,3,4,5]))         # list to set
+print(makeset(totuple([1,2,3,4])))  # tuple to set
+print(makeset(frzset([1,2,3,4])))   # frozenset to set
+print(makeset({1 : "a", 2 : "b"}))  # dictionary to set
+
+print(todict([(1,"a"), (2,"b")]))
+
+# empty containers
+print(tolist(()))
+print(todict(()))
+print(totuple([]))
+print(makeset(()))
+print(frzset(()))
+

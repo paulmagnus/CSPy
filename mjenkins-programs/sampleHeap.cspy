@@ -1,0 +1,4 @@
+class Heap:
+      ::heap:list of int, capacity:int = 0::
+      def Heap(size:int):
+          capacity = size

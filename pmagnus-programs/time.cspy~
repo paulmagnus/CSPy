@@ -1,0 +1,15 @@
+def main():
+    :: intime : list of string ::
+    
+    intime = input("Enter the time of day in military time (HH:MM:SS): ").split(":")
+    if len(intime) != 3:
+       print("Error: please enter the time of day in military time (HH:MM:SS)")
+       exit()
+    for time in intime:
+       if len(time) != 2:
+          print("Error: please enter the time of day in military time (HH:MM:SS)")
+          exit()
+    days = (tofloat(intime[2]) * 60 + tofloat(intime[1])) * \
+    	 60 + tofloat(intime[0])
+
+main()

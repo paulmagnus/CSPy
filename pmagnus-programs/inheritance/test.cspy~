@@ -1,0 +1,10 @@
+class A:
+    :: a : int ::
+    def A():
+        a = 4
+
+class B extends A:
+    :: b : int ::
+    def B():
+        A()
+        b = 3

@@ -1,0 +1,7 @@
+def main():
+    stdDiameter = int(input("What is the diameter of a standard pie? "))
+    slices = int(input("How many slices are in a standard size pie? "))
+    stdSlices = int(input("How many standard size slices do you want? "))
+    diameter = int(input("What is the diameter of the pies you will buy? "))
+
+    numStdPies = float(slices) / float(stdSlices)
